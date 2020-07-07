@@ -5,15 +5,20 @@ using namespace std;
 #define ALL(n) begin(n),end(n)
 struct cww{cww(){ios::sync_with_stdio(false);cin.tie(0);}}star;
 const long long INF = numeric_limits<long long>::max();
-
-int n,k;
-const 
+string s;
+string t;
 int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    cin>>n>>k;
-
-
+    cin>>s;
+    cin>>t;
+    int ans=0;
+    for (int i=0; i<s.length(); i++){
+        if (s[i]!=t[i]){
+            ans++;
+        }
+    }
+    cout<<ans<<endl;
     return 0;
 }
