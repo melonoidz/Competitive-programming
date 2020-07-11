@@ -6,27 +6,19 @@ using namespace std;
 struct cww{cww(){ios::sync_with_stdio(false);cin.tie(0);}}star;
 const long long INF = numeric_limits<long long>::max();
 
-int h,w,k;
+int a,b,c,d;
 int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    
-    cin>>h>>w>>k;
-    char field[h][w];
-    for(int i=0; i<h; i++){
-        for (int j=0; j<w; j++){
-            char a; cin>>a;
-            field[i][j] = a;
-        }
+    cin>>a>>b>>c>>d;
+    if(a<b && c>d){
+        cout<<"YES"<<endl;
     }
-    int ans=0; 
-    for(int i=0; i<(1<<h); i++){
-        for(int j=0; j<(1<<w); j++){
-            
-        }
+    else{
+        cout<<"NO"<<endl;
     }
-    
-    
+
+ 
     return 0;
 }
