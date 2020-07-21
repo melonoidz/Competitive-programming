@@ -22,26 +22,21 @@ vector<P> edge[1100000];
 
 vector<Int> dijkstra(Int start)
 {
-    priority_queue<P, vector<P>, greater<P>> pq;
-    vector<Int> dist(V, LINF);
-    dist[start] = 0;
-    pq.push(P(dist[start], start));
-    while (!pq.empty())
-    {
-        auto p = pq.top();
-        pq.pop();
-        Int d = p.first;
-        int from = p.second;
-        if (dist[from] < d)
-            continue;
-        for (auto nxt : edge[from])
-        {
-            Int to = nxt.first;
-            Int c = nxt.second;
-            if (dist[from] + c < dist[to])
-            {
-                dist[to] = dist[from] + c;
-                pq.push(P(dist[to], to));
+    priority_queue<P,vector<P>, greater<P>> pq;
+    vector<Int> dist(V,LINF);
+    dist[start]=0;
+    pq.push(P(dist[start],start));
+    while(!pq.empty()){
+        auto p= pq.top(); pq.pop();
+        Int d=p.first;
+        Int from =p.second;
+        if(dist[from]<d) continue;
+        for(auto nxt: edge[from]){
+            Int to=nxt.first;
+            Int c=nxt.second;
+            if(dist[from]+c<dist[to]){
+                dist[to]=dist[from]+c;
+                pq.push(P(dist[to],to));
             }
         }
     }
