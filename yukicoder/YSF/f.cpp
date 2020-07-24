@@ -13,28 +13,25 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n,d; cin>>n>>d;
+    int n,k; cin>>n>>k;
     vector<int> a(n,0);
-    rep(i,n-1) cin>>a[i];
-    vector<Int> ans;
-    ans.emplace_back(0);
-    vector<Int> dist(n,0);
-    for(int i=0; i<n-1; i++){
-        dist[i+1]=dist[i]+a[i];
+    rep(i,n) cin>>a[i];
+    int q; cin>>q;
+    vector<Int> sum_a(n+1,0);
+    sum_a[0]=0;
+    for(int i=0; i<n; i++){
+        sum_a[i+1]=sum_a[i]+a[i];
     }
-    Int tmp=dist[0];
-    for(int i=1; i<n; i++){
-        if(dist[i]-tmp<d){
-            tmp+=d;
-        }
-        else {
-            tmp=dist[i];
-        }
-        ans.emplace_back(tmp);
+    vector<Int> S;
+    for(int i=1; i<=n-k+1; i++){
+        Int tmp=sum_a[i+k-1]-sum_a[i-1];
+        S.emplace_back(tmp);
     }
-    for(int i=0; i<ans.size(); i++){
-        cout<<ans[i]<<" ";
+    sort(S.begin(),S.end());    
+    rep(i,q){
+        Int x; cin>>x;
+        auto d= upper_bound(S.begin(),S.end(),x);
+        cout<<distance(S.begin(),d)<<endl;
     }
-    cout<<endl;
     return 0;
 }
