@@ -9,29 +9,23 @@ using namespace std;
 typedef long long Int;
 typedef pair<Int, Int> P;
 struct cww{cww(){ios::sync_with_stdio(false);cin.tie(0);}}star;
-
 int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n;cin>>n;
-    int i,j,k;
-    vector<int> v;
-    for(i=0;i<n;i++){
-        cin >> k;
-        v.push_back(k);
+    Int n; cin>>n;
+    vector<Int> R(n,0);
+    Int mm=LINF;
+    for(Int i=0; i<n; i++) 
+    {
+        cin>>R[i];
+        if(i<n-1) mm=min(mm,R[i]);
     }
-    for(j=0;j<n;j++) cout << v[j] << (j==n-1?'\n':' ');
-    for(i=1;i<n;i++){
-        for(j=0;j<i;j++){
-        if(v[j]>v[i]){
-        k=v[i];
-        v.erase(v.begin()+i);
-        v.insert(v.begin()+j,k);
-        break;
-        }
-        }
-        for(j=0;j<n;j++) cout << v[j] << (j==n-1?'\n':' ');
+    Int ma=0;
+    for(Int i=1; i<n; i++){
+        ma=max(ma,R[i]-mm);
     }
+    cout<<ma<<endl;
+
     return 0;
 }
