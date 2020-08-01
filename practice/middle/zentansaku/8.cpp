@@ -10,31 +10,25 @@ typedef long long Int;
 typedef pair<Int, Int> P;
 typedef pair<int, int> pint;
 struct cww{cww(){ios::sync_with_stdio(false);cin.tie(0);}}star;
-
-Int dist(pint a, pint b){
-    return (a.first-b.first)*(a.first-b.first)+(a.second-b.second)*(a.second-b.second);
-}
-
-pint kat(pint a, pint b){
-    int xx=b.first-a.first;
-    int yy=b.second-a.second;
-    return pint(xx,yy);
-}
-
 int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
     int n; cin>>n;
-    vector<pint> u;
+    Int ans=0;
+    vector<Int> a;
+    vector<Int> b;
     for(int i=0; i<n; i++){
-        int x,y; cin>>x>>y;
-        u.emplace_back(pint(x,y));
+        Int x,y; cin>>x>>y;
+        a.push_back(x);
+        b.push_back(y);
     }
-    for(int i=0; i<n-1; i++){
-        for(int j=i+1; j<n; j++){
-            
-        }
+    sort(a.begin(), a.end());
+    sort(b.begin(),b.end());
+    
+    if(n%2==1){
+        Int start=a[(n+1)/2];
+        Int goal=b[(n+1)/2];
     }
 
 
