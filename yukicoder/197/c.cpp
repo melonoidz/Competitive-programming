@@ -14,8 +14,20 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int x; cin>>x;
-    if(x>=30) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+    Int n,x; cin>>n>>x;
+    vector<Int> a(n,0);
+    for(Int i=0; i<n; i++){
+        cin>>a[i];
+    }
+    sort(a.begin(),a.end());
+    Int ans=0;
+    for(Int i=0; i<n; i++){
+        Int tmp=x-a[i];
+        auto af= upper_bound(a.begin(),a.end(), tmp);
+        auto bf= upper_bound(a.begin(),a.end(), tmp-1);
+        Int agg=distance(a.begin(),af)-distance(a.begin(),bf);
+        ans+=agg;
+    }
+    cout<<ans<<endl;
     return 0;
 }

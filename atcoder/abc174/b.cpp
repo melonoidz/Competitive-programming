@@ -14,8 +14,12 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int x; cin>>x;
-    if(x>=30) cout<<"Yes"<<endl;
-    else cout<<"No"<<endl;
+    Int n,d; cin>>n>>d;
+    Int ans=0;
+    for(int i=0; i<n; i++){
+        Int x,y; cin>>x>>y;
+        if(x*x+y*y<=d*d) ans++;
+    }
+    cout<<ans<<endl;
     return 0;
 }
