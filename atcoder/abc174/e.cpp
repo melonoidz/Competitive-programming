@@ -33,7 +33,7 @@ int main()
     rep(i,n) cin>>a[i];
     Int ok=1000000100;
     Int ng=-1;
-while(abs(ok-ng)>1){
+    while(abs(ok-ng)>1){
         Int mid=(ok+ng)/2;
         if(judge(mid,a,k)){
             ok=mid;
