@@ -16,6 +16,11 @@ int main()
     ios::sync_with_stdio(false);
     Int MOD=1000000007;
     int a,b,n; cin>>a>>b>>n;
-    
+    Int ans=0;
+
+    for(int i=a; i<=b; i++){
+        Int tmp=0;
+
+    }
     return 0;
 }
