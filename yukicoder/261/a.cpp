@@ -10,11 +10,25 @@ typedef long long Int;
 typedef pair<Int, Int> P;
 typedef pair<int, int> pint;
 struct cww{cww(){ios::sync_with_stdio(false);cin.tie(0);}}star;
+
+Int digit(Int a){
+    string s=to_string(a);
+    Int tmp=0;
+    for(int i=0; i<(int)s.size(); i++ ){
+        tmp+=s[i]-'0';
+    }
+    return tmp;
+}
+
 int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n,m; cin>>n>>m;
-    //vector<tuple<int,int,int>>
+    Int n; cin>>n;
+    Int ans=n;
+    for(int i=1; i<=100; i++){
+        ans=digit(ans);
+    }
+    cout<<ans<<endl;
     return 0;
 }

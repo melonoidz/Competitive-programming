@@ -14,7 +14,6 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n,m; cin>>n>>m;
-    //vector<tuple<int,int,int>>
+    
     return 0;
 }

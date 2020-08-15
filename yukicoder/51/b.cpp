@@ -14,7 +14,12 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n,m; cin>>n>>m;
-    //vector<tuple<int,int,int>>
+    Int a,b,n; cin>>a>>b>>n;
+    vector<Int> f(100,0);
+    f[0]=a;
+    f[1]=b;
+    f[2]=a^b;
+    n%=3;
+    cout<<f[n]<<endl;
     return 0;
 }
