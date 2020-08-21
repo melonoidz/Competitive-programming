@@ -15,6 +15,12 @@ int main()
     cin.tie(0);
     ios::sync_with_stdio(false);
     Int x,k,d; cin>>x>>k>>d;
-    
+    x=abs(x);
+    if(k<=x/d) {
+        cout<<x-k*d<<endl;
+        return 0;
+    }
+    if((k-(x/d))%2==0) cout<<x%d<<endl;
+    else cout<<abs(x%d-d)<<endl;
     return 0;
 }

@@ -14,15 +14,18 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    Int k ;cin>>k;
-    int ans=-1;
-    vector<Int> a(k+1,0);
-    a[0]=0;
-    for(int i=0 ;i<k; i++){
-        a[i+1]=(10*a[i]+7)%k;
-        if(a[i+1]<0) a[i+1]+=k;
-        if(a[i+1]==0) {ans=i+1;
-        break;
+    Int ans=0;
+    int a,b,c; cin>>a>>b>>c;
+    for(Int i=-100000; i<=100000; i++){
+        if(i==0) continue;
+        else{
+        if((b-i)%a==0){
+            Int r=(b-i)/a;
+            if(c==i+r*b){
+                ans=c*r+i;
+                break;
+            }
+        }
         }
     }
     cout<<ans<<endl;

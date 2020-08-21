@@ -14,17 +14,16 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    Int k ;cin>>k;
-    int ans=-1;
-    vector<Int> a(k+1,0);
-    a[0]=0;
-    for(int i=0 ;i<k; i++){
-        a[i+1]=(10*a[i]+7)%k;
-        if(a[i+1]<0) a[i+1]+=k;
-        if(a[i+1]==0) {ans=i+1;
-        break;
-        }
+    Int n; cin>>n;
+    string c; cin>>c;
+    Int ans=0;
+    Int r=0;
+    for(int i=0; i<n; i++){
+        if(c[i]=='R') r++;
     }
-    cout<<ans<<endl;
+    for(int i=0; i<r; i++){
+        if(c[i]!='R') ++ans;
+    }
+    cout<<min(ans,n-ans)<<endl;
     return 0;
 }
