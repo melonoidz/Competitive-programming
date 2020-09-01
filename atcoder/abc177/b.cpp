@@ -14,9 +14,16 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n; cin>>n;
-    vector<int> a(n,0);
-    rep(i,n) cin>>a[i];
-    
-       return 0;
+    string s; cin>>s;
+    string t; cin>>t;
+    Int ans=LINF;
+    for(int i=0; i<=(int)s.size()-(int)t.size(); i++){
+      Int tmp=0;
+      for(int j=0; j<(int)t.size(); j++){
+        if(s[i+j]!=t[j]) tmp++;
+      }
+      ans=min(ans,tmp);
+    }
+    cout<<ans<<endl;
+    return 0;
 }

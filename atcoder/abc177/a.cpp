@@ -14,9 +14,10 @@ int main()
 {
     cin.tie(0);
     ios::sync_with_stdio(false);
-    int n; cin>>n;
-    vector<int> a(n,0);
-    rep(i,n) cin>>a[i];
-    
-       return 0;
+    Int d,t,s; cin>>d>>t>>s;
+
+    if(d<=t*s) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
+ 
+    return 0;
 }

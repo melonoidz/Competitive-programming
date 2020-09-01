@@ -15,8 +15,22 @@ int main()
     cin.tie(0);
     ios::sync_with_stdio(false);
     int n; cin>>n;
-    vector<int> a(n,0);
+    vector<Int> a(n,0);
     rep(i,n) cin>>a[i];
-    
-       return 0;
+    Int mod=1000000007;
+    vector<Int> sa(n,0);
+    sa[0]=a[0];
+    for(int i=0; i<n-1; i++){
+      sa[i+1]=sa[i]+a[i+1];
+    }
+    Int ans=0;
+    for(int i=0; i<n; i++){
+      Int tmp=(sa[n-1]-sa[i])%mod;
+      tmp*=a[i]%mod;
+      ans+=tmp;
+      ans%=mod;
+      if(ans<0) ans+=mod;
+    }
+    cout<<ans<<endl;
+    return 0;
 }

@@ -18,5 +18,5 @@ int main()
     vector<int> a(n,0);
     rep(i,n) cin>>a[i];
     
-       return 0;
+    return 0;
 }
