@@ -139,6 +139,9 @@ signed main(){
   ios::sync_with_stdio(0);
   cout<<fixed<<setprecision(20);
   int n,k; cin>>n>>k;
+  vc<int> v(n,0);
+  rep(i,n) cin>>v[i];
+  
 
                                  
                                  
