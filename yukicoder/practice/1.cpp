@@ -140,7 +140,16 @@ signed main(){
   cout<<fixed<<setprecision(20);
   int p,k; cin>>p>>k;
   int mod=1000000007;
-              //1:dp 2:hatonosu           
+              //1:dp 2:hatonosu          
+              //p==7の時 1/p= 0.14285714…
+              //k<p
+              // 0<=Ai%p<p  これに1~(p-1)がかかる
+              // 0<=(Ai*j)%p<p
+              //dp[p][k]:=個数
+              //dp[7][1]=sigma(dp[])
+
+
+
                                  
 
 
