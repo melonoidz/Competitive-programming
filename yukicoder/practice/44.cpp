@@ -172,6 +172,15 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+
+int combination(int a, int b)
+{
+  if (a == b || b == 0)
+    return 1;
+  else
+    combination(a - 1, b - 1) + combination(a - 1, b);
+}
+
 signed main()
 {
   cin.tie(0);
@@ -179,19 +188,12 @@ signed main()
   cout << fixed << setprecision(20);
   int n;
   cin >> n;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  vvc<int> ans(n + 1, vc<int>(10, -1));
-  ans[0][0] = 0;
-  for (int i = 0; i < n; i++)
+  vc<int> ans(55, 0);
+  ans[0] = 1;
+  ans[1] = 1;
+  for (int i = 2; i < 55; i++)
   {
-    for (int j = 0; j < 10; j++)
-    {
-      if (ans[i][j] == -1)
-        continue;
-      ans[i + 1][(j + a[i]) % 10] = max(ans[i + 1][(j + a[i]) % 10], ans[i][j] + 1);
-      ans[i + 1][j] = max(ans[i + 1][j], ans[i][j]);
-    }
+    ans[i] = ans[i - 1] + ans[i - 2];
   }
-  cout << ans[n][0] << endl;
+  cout << ans[n] << endl;
 }

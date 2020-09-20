@@ -172,6 +172,22 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+
+int fact(int a)
+{
+  vc<int> fa;
+  for (int i = 1; i * i <= a; i++)
+  {
+    if (a % i == 0)
+    {
+      fa.emplace_back(i);
+      if (i != a / i)
+        fa.emplace_back(a / i);
+    }
+  }
+  return (int)fa.size();
+}
+
 signed main()
 {
   cin.tie(0);
@@ -179,19 +195,10 @@ signed main()
   cout << fixed << setprecision(20);
   int n;
   cin >> n;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  vvc<int> ans(n + 1, vc<int>(10, -1));
-  ans[0][0] = 0;
-  for (int i = 0; i < n; i++)
+  int ans = 0;
+  for (int i = 1; i < n; i++)
   {
-    for (int j = 0; j < 10; j++)
-    {
-      if (ans[i][j] == -1)
-        continue;
-      ans[i + 1][(j + a[i]) % 10] = max(ans[i + 1][(j + a[i]) % 10], ans[i][j] + 1);
-      ans[i + 1][j] = max(ans[i + 1][j], ans[i][j]);
-    }
+    ans += ((n - 1) / i);
   }
-  cout << ans[n][0] << endl;
+  cout << ans << endl;
 }
