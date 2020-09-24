@@ -140,7 +140,6 @@ signed main(){
   cout<<fixed<<setprecision(20);
   int n; cin>>n;
   int MOD=pow(10,9)+7;
-  int ans=0;
                                  
                                  
                                  
