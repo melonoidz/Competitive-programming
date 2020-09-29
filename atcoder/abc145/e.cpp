@@ -177,26 +177,29 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, k;
-  cin >> n >> k;
-  vector<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  int ans = 0;
-  vector<int> s(n, 0);
-  s[0] = a[0];
-  for (int i = 0; i < n - 1; i++)
+  int n, t;
+  cin >> n >> t;
+  vc<pi> menu(n);
+  rep(i, n)
   {
-    s[i + 1] = s[i] + a[i + 1];
+    int a, b;
+    cin >> a >> b;
+    menu[i] = pi(a, b);
   }
-  map<int, int> cnt;
-  for (int j = 0; j < n; j++)
+  vc<int> ans(5000, 0);
+  for (int i = 0; i < t; i++)
   {
-    ans += cnt[(s[j] - j) % k];
-    cnt[(s[j] - j) % k]++;
-    if (j - k > 0)
+    for (int j = 0; j < n; j++)
     {
-      cnt[(s[j - k] - (j - k)) % k]--;
+      int tmp = min(i + menu[j].first, t);
+      for (int k = i; k <= tmp; k++)
+      {
+        ans[k] = max(ans[k], ans[i] + menu[j].second);
+      }
     }
-  } // j-i<k をmapの探索範囲にて考慮すべき
-  cout << ans << endl;
+  }
+  rep(i, t + 1)
+  {
+    cout << i << " " << ans[i] << endl;
+  }
 }
