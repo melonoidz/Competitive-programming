@@ -186,18 +186,22 @@ signed main()
     a[i]--;
   }
   int ans = 0;
-  vector<int> s(n + 1, 0);
-  for (int i = 0; i < n; i++)
+  vector<int> s(n, 0);
+  s[0] = a[0];
+  for (int i = 0; i < n - 1; i++)
   {
-    s[i + 1] += (s[i] + a[i]) % k;
+    s[i + 1] = s[i] + a[i + 1];
   }
   map<int, int> cnt;
-  for (int j = 0; j <= n; j++)
+  for (int j = 0; j < n; j++)
   {
     if (j - k >= 0)
-      cnt[s[j - k]]--;
-    ans += cnt[s[j]];
-    cnt[s[j]]++;
+    {
+      cnt[(s[j - k] - (j - k)) % k]--;
+    }
+
+    ans += cnt[(s[j] - j) % k];
+    cnt[(s[j] - j) % k]++;
   } // j-i<k をmapの探索範囲にて考慮すべき
   cout << ans << endl;
 }
