@@ -1,10 +1,10 @@
 n = int(input())
 p = list(map(int, input().split()))
 num = 0
-tmp = []
+tmp = [0]*210000
 for a in p:
-    tmp.append(a)
+    tmp[a] += 1
     if a == num:
-        while num in tmp:
+        while tmp[num] != 0:
             num += 1
     print(num)
