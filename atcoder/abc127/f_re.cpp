@@ -172,36 +172,77 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-int n, k;
-int roop(int start)
-{
-  int INF = 1LL << 60;
-  int ans = -INF;
-  vector<bool> check(n, false);
-}
-
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-
-  cin >> n >> k;
-  vector<int> p(n, 0);
-  vector<int> c(n, 0);
-  rep(i, n)
+  int Q;
+  cin >> Q;
+  priority_queue<int> fi;
+  priority_queue<int, vector<int>, greater<int>> af;
+  int sum = 0;
+  int fsum = 0;
+  int asum = 0;
+  rep(i, Q)
   {
-    cin >> p[i];
-  }
-  rep(i, n)
-  {
-    cin >> c[i];
-  }
-  // ループする　各startから各endまでvectorをつくる
-  int INF = 1LL << 60;
-  int ans = -INF;
-  int res = 0;
-  for (int i = 0; i < n; i++)
-  {
+    int a;
+    cin >> a;
+    if (a == 1)
+    {
+      int b, c;
+      cin >> b >> c;
+      sum += c;
+      if (fi.size() > af.size())
+      {
+        int t = fi.top();
+        if (t <= b)
+        {
+          af.push(b);
+          asum += b;
+        }
+        else
+        {
+          fi.pop();
+          fsum -= t;
+          fi.push(b);
+          fsum += b;
+          af.push(t);
+          asum += t;
+        }
+      }
+      else
+      {
+        if (fi.empty())
+        {
+          fi.push(b);
+          fsum += b;
+        }
+        else
+        {
+          int t = af.top();
+          if (b <= t)
+          {
+            fi.push(b);
+            fsum += b;
+          }
+          else
+          {
+            af.pop();
+            asum -= t;
+            fi.push(t);
+            fsum += t;
+            af.push(b);
+            asum += b;
+          }
+        }
+      }
+    }
+    else
+    {
+      int x = fi.top();
+      int tmp = sum + (x * (int)fi.size() - fsum) + (asum - x * (int)af.size());
+      cout << x << " " << tmp << endl;
+    }
   }
 }

@@ -172,36 +172,12 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-int n, k;
-int roop(int start)
-{
-  int INF = 1LL << 60;
-  int ans = -INF;
-  vector<bool> check(n, false);
-}
-
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-
-  cin >> n >> k;
-  vector<int> p(n, 0);
-  vector<int> c(n, 0);
-  rep(i, n)
-  {
-    cin >> p[i];
-  }
-  rep(i, n)
-  {
-    cin >> c[i];
-  }
-  // ループする　各startから各endまでvectorをつくる
-  int INF = 1LL << 60;
-  int ans = -INF;
-  int res = 0;
-  for (int i = 0; i < n; i++)
-  {
-  }
+  int m, k;
+  cin >> m >> k;
+  
 }
