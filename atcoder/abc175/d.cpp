@@ -172,36 +172,92 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-int n, k;
-int roop(int start)
-{
-  int INF = 1LL << 60;
-  int ans = -INF;
-  vector<bool> check(n, false);
-}
 
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-
+  int INF = 1LL << 60;
+  int ans = -INF;
+  int n, k;
   cin >> n >> k;
   vector<int> p(n, 0);
   vector<int> c(n, 0);
   rep(i, n)
   {
-    cin >> p[i];
+    int o;
+    cin >> o;
+    p[i] = o - 1;
   }
   rep(i, n)
   {
     cin >> c[i];
   }
-  // ループする　各startから各endまでvectorをつくる
-  int INF = 1LL << 60;
-  int ans = -INF;
-  int res = 0;
+
+  vector<vector<int>> cost;
   for (int i = 0; i < n; i++)
   {
+    int start = i;
+    int tmp = 0;
+    vector<int> roop;
+    vector<bool> ch(n, false);
+    while (!ch[start])
+    {
+      ch[start] = true;
+      tmp += c[p[start]];
+      roop.emplace_back(tmp);
+      start = p[start];
+    }
+    cost.emplace_back(roop);
+  }
+  if (k <= n)
+  {
+    for (int i = 0; i < n; i++)
+    {
+      for (int j = 0; j < k; j++)
+      {
+        ans = max(ans, cost[i][j]);
+      }
+    }
+    cout << ans << endl;
+  }
+  else
+  {
+    vector<bool> mi(n, false);
+    rep(i, n)
+    {
+      if (cost[i][n - 1] <= 0)
+      {
+        mi[i] = true;
+      }
+      for (int i = 0; i < n; i++)
+      {
+        if (mi[i])
+        {
+          for (int j = 0; j < n; j++)
+          {
+            ans = max(ans, cost[i][j]);
+          }
+        }
+        else
+        {
+          int mm = 0;
+          int mcnt = 0;
+          for (int j = 0; j < n; j++)
+          {
+            if (cost[i][j] > mm)
+            {
+              mm = cost[i][j];
+              mcnt = j;
+            }
+          }
+          int rop = (k - mcnt - 1) / (int)cost[i].size();
+          int nans = rop * cost[i][n - 1] + mm;
+          ans = max(ans, nans);
+        }
+      }
+    }
+    cout << ans << endl;
   }
 }
