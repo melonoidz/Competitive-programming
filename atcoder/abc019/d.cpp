@@ -177,64 +177,41 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  vector<int> ww;
-  vector<int> hh;
-  int H, W, M;
-  cin >> H >> W >> M;
-  ww.resize(H, 0);
-  hh.resize(W, 0);
-  set<pi> B;
-  rep(i, M)
+  //任意の頂点から最遠の頂点を見つける．その頂点から最遠の頂点を見つけ，その距離が直径となる
+  int n;
+  cin >> n;
+  int s = 1;
+  int u, v;
+  int ma = 0;
+  for (int i = 1; i <= n; i++)
   {
-    int h, w;
-    cin >> h >> w;
-    h--;
-    w--;
-    ww[h]++;
-    hh[w]++;
-    B.emplace(h, w);
-  }
+    if (s != i)
+    {
+      int dist;
+      cout << "? " << s << " " << i << endl;
+      cin >> dist;
+      if (dist > ma)
+      {
+        ma = max(ma, dist);
+        u = i;
+      }
+    }
+  } //s(1)から最遠の頂点uとその距離を求めている
+
   int ans = 0;
-  int mw = 0;
-  int mh = 0;
-  rep(i, H)
+  for (int i = 1; i <= n; i++)
   {
-    mw = max(mw, ww[i]);
-  }
-  rep(i, W)
-  {
-    mh = max(mh, hh[i]);
-  }
-  vector<int> candh;
-  vector<int> candw;
-  rep(i, H)
-  {
-    if (mw == ww[i])
+    if (u != i)
     {
-      candw.emplace_back(i);
+      int dist;
+      cout << "? " << u << " " << i << endl;
+      cin >> dist;
+      if (dist > ans)
+      {
+        ans = max(ans, dist);
+      }
     }
   }
-  rep(i, W)
-  {
-    if (mh == hh[i])
-    {
-      candh.emplace_back(i);
-    }
-  }
-  if ((int)candw.size() * candh.size() > M)
-  {
-    cout << mh + mw << endl; //打ち切ってよいな…
-    return 0;
-  }
-  for (auto a : candw)
-  {
-    for (auto b : candh)
-    {
-      int tmp = ww[a] + hh[b];
-      if (B.count(pi(a, b)))
-        tmp--;
-      ans = max(ans, tmp);
-    }
-  }
-  cout << ans << endl;
-}
+  cout << "!"
+       << " " << ans << endl;
+} // n<=50で満点は質問回数<=2nなので，これでよい

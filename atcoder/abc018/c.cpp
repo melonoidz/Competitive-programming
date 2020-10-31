@@ -177,63 +177,91 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  vector<int> ww;
-  vector<int> hh;
-  int H, W, M;
-  cin >> H >> W >> M;
-  ww.resize(H, 0);
-  hh.resize(W, 0);
-  set<pi> B;
-  rep(i, M)
+  int r, c, k;
+  cin >> r >> c >> k;
+  vector<string> f;
+  rep(i, r)
   {
-    int h, w;
-    cin >> h >> w;
-    h--;
-    w--;
-    ww[h]++;
-    hh[w]++;
-    B.emplace(h, w);
+    string a;
+    cin >> a;
+    f.emplace_back(a);
+  }
+  vector<vector<int>> cntc;
+  vector<vector<int>> revc;
+  vector<vector<int>> cntr;
+  vector<vector<int>> revr;
+  rep(i, r)
+  {
+    vector<int> cc(c, 0);
+    vector<int> rc(c, 0);
+    for (int j = 0; j < c - 1; j++)
+    {
+      if (f[i][j] == 'o')
+      {
+        cc[j + 1] = cc[j] + 1;
+      }
+      else
+      {
+        cc[j] = 0;
+        cc[j + 1] = 0;
+      }
+    }
+    for (int j = c - 1; j > 0; j--)
+    {
+      if (f[i][j] == 'o')
+      {
+        rc[j - 1] = rc[j] + 1;
+      }
+      else
+      {
+        rc[j] = 0;
+        rc[j - 1] = 0;
+      }
+    }
+    cntc.emplace_back(cc);
+    revc.emplace_back(rc);
+  }
+  rep(i, c)
+  {
+    vector<int> cr(r, 0);
+    vector<int> rr(r, 0);
+    for (int j = 0; j < r - 1; j++)
+    {
+      if (f[j][i] == 'o')
+      {
+        cr[j + 1] = cr[j] + 1;
+      }
+      else
+      {
+        cr[j] = 0;
+        cr[j + 1] = 0;
+      }
+    }
+    for (int j = r - 1; j > 0; j--)
+    {
+      if (f[j][i] == 'o')
+      {
+        rr[j - 1] = rr[j] + 1;
+      }
+      else
+      {
+        rr[j] = 0;
+        rr[j - 1] = 0;
+      }
+    }
+    cntr.emplace_back(cr);
+    revr.emplace_back(rr);
   }
   int ans = 0;
-  int mw = 0;
-  int mh = 0;
-  rep(i, H)
+  //ひし形の定義が異なる
+  rep(i, r)
   {
-    mw = max(mw, ww[i]);
-  }
-  rep(i, W)
-  {
-    mh = max(mh, hh[i]);
-  }
-  vector<int> candh;
-  vector<int> candw;
-  rep(i, H)
-  {
-    if (mw == ww[i])
+    rep(j, c)
     {
-      candw.emplace_back(i);
-    }
-  }
-  rep(i, W)
-  {
-    if (mh == hh[i])
-    {
-      candh.emplace_back(i);
-    }
-  }
-  if ((int)candw.size() * candh.size() > M)
-  {
-    cout << mh + mw << endl; //打ち切ってよいな…
-    return 0;
-  }
-  for (auto a : candw)
-  {
-    for (auto b : candh)
-    {
-      int tmp = ww[a] + hh[b];
-      if (B.count(pi(a, b)))
-        tmp--;
-      ans = max(ans, tmp);
+      if ((min(cntc[i][j], revc[i][j]) >= k - 1) && (min(cntr[j][i], revr[j][i]) >= k - 1) && (f[i][j] == 'o'))
+      {
+        ans++;
+      }
     }
   }
   cout << ans << endl;
