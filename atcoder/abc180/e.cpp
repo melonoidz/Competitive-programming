@@ -172,36 +172,51 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int N;
+vc<tuple<int, int, int>> G;
+int dp[150000][20];
+int INF = 10e9;
+
+int dist(tuple<int, int, int> s, tuple<int, int, int> t)
+{
+  return abs(get<0>(t) - get<0>(s)) + abs(get<1>(t) - get<1>(s)) + max(0LL, get<2>(t) - get<2>(s));
+}
+
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, A;
-  cin >> n >> A;
-  vc<int> x(n, 0);
-  rep(i, n)
+  cin >> N;
+  rep(i, N)
   {
-    cin >> x[i];
-    x[i] -= A;
+    int x, y, z;
+    cin >> x >> y >> z;
+    G.emplace_back(x, y, z);
   }
-  sort(all(x));
-  vc<vc<int>> dp(n + 1, vc<int>(3000, 0));
-  for (int i = 0; i < n; i++)
+  rep(i, 150000)
   {
-    dp[1][x[i]]++;
-  }
-  for (int i = 2; i <= n; i++)
-  {
-    for (int j = 0; j < 3000; j++)
+    rep(j, 20)
     {
-      int tmp = i * A - j;
-      if (binary_search(x.begin(), x.end(), tmp))
+      dp[i][j] = INF;
+    }
+  }
+  dp[0][0] = 0;
+  for (int S = 0; S < (1 << N); S++)
+  {
+    for (int u = 0; u < N; u++)
+    {
+      for (int v = 0; v < N; v++)
       {
-        dp[i][A * i] += dp[i - 1][tmp];
+        if (S != 0 && !(S & (1 << u)))
+          continue;
+        if ((u != v) && !(S & (1 << v)))
+        {
+          dp[S | (1 << v)][v] = min(dp[S | (1 << v)][v], dp[S][u] + dist(G[u], G[v]));
+        }
       }
     }
   }
-
-  cout << dp[n][A * n] << endl;
+  int ans = dp[(1 << N) - 1][0];
+  cout << ans << endl;
 }

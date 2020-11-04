@@ -172,36 +172,60 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int conv(string s)
+{
+  int num = 0;
+  for (int i = 0; i < (int)s.size(); i++)
+  {
+    if (s[i] == 'Y')
+    {
+      num |= (1 << i);
+    }
+  }
+  return num;
+}
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, A;
-  cin >> n >> A;
-  vc<int> x(n, 0);
-  rep(i, n)
+  int N, M;
+  cin >> N >> M;
+  vector<pi> S;
+  rep(i, M)
   {
-    cin >> x[i];
-    x[i] -= A;
+    string a;
+    cin >> a;
+    int b;
+    cin >> b;
+    S.emplace_back(conv(a), b);
   }
-  sort(all(x));
-  vc<vc<int>> dp(n + 1, vc<int>(3000, 0));
-  for (int i = 0; i < n; i++)
+  int dp[50000];
+  int INF = 10e9;
+  rep(i, 50000)
   {
-    dp[1][x[i]]++;
+    dp[i] = INF;
   }
-  for (int i = 2; i <= n; i++)
+  dp[0] = 0;
+  int cnt = 0;
+  int al = 0;
+  rep(i, M)
   {
-    for (int j = 0; j < 3000; j++)
+    cnt |= S[i].first;
+  }
+  rep(i, N) al |= (1 << i);
+  if (cnt != al)
+  {
+    cout << -1 << endl;
+    return 0;
+  }
+  int cost = 0;
+  for (int i = 0; i < (1 << N); i++)
+  {
+    for (int j = 0; j < M; j++)
     {
-      int tmp = i * A - j;
-      if (binary_search(x.begin(), x.end(), tmp))
-      {
-        dp[i][A * i] += dp[i - 1][tmp];
-      }
+      dp[i | S[j].first] = min(dp[i | S[j].first], dp[i] + S[j].second);
     }
   }
-
-  cout << dp[n][A * n] << endl;
+  cout << dp[(1 << N) - 1] << endl;
 }

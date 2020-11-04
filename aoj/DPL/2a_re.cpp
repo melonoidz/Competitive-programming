@@ -172,36 +172,55 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int V, E;
+int G[20][20];
+int dp[50000][20];
+int INF = 10e9;
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, A;
-  cin >> n >> A;
-  vc<int> x(n, 0);
-  rep(i, n)
+  cin >> V >> E;
+  rep(i, 20)
   {
-    cin >> x[i];
-    x[i] -= A;
-  }
-  sort(all(x));
-  vc<vc<int>> dp(n + 1, vc<int>(3000, 0));
-  for (int i = 0; i < n; i++)
-  {
-    dp[1][x[i]]++;
-  }
-  for (int i = 2; i <= n; i++)
-  {
-    for (int j = 0; j < 3000; j++)
+    rep(j, 20)
     {
-      int tmp = i * A - j;
-      if (binary_search(x.begin(), x.end(), tmp))
+      G[i][j] = INF;
+    }
+  }
+  rep(i, E)
+  {
+    int s, t, d;
+    cin >> s >> t >> d;
+    G[s][t] = d;
+  }
+  rep(i, 50000)
+  {
+    rep(j, 20)
+    {
+      dp[i][j] = INF;
+    }
+  }
+  dp[0][0] = 0;
+  for (int S = 0; S < (1 << V); S++)
+  {
+    for (int start = 0; start < V; start++)
+    {
+      for (int end = 0; end < V; end++)
       {
-        dp[i][A * i] += dp[i - 1][tmp];
+        if ((!S & (1 << start)) && S != 0)
+          continue;
+        if (!(S & (1 << end)) && start != end)
+        {
+          dp[S | (1 << end)][end] = min(dp[S | (1 << end)][end], dp[S][start] + G[start][end]);
+        }
       }
     }
   }
-
-  cout << dp[n][A * n] << endl;
+  int ans = dp[(1 << V) - 1][0];
+  if (ans == INF)
+    cout << -1 << endl;
+  else
+    cout << ans << endl;
 }
