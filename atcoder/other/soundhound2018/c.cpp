@@ -172,49 +172,24 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-int R, C, K;
-vector<vector<int>> F(3030, vector<int>(3030, 0));
-vector<vector<vector<int>>> ans(3030, vector<vector<int>>(3030, vector<int>(5, 0)));
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-
-  cin >> R >> C >> K;
-  rep(i, K)
+  int n, m, d;
+  cin >> n >> m >> d;
+  double ans;
+  //間はm-1通り. 和の期待値は期待値の和
+  //d==0 (m-1)*n/n^2
+  //d!=0 (m-1)*(n-d)/n^2
+  if (d == 0)
   {
-    int r, c, v;
-    cin >> r >> c >> v;
-    F[r][c] = v;
+    ans = (m - 1.0) / n;
   }
-  int cnt = 0;
-  for (int h = 0; h <= R; h++)
+  else
   {
-    for (int w = 0; w <= C; w++)
-    {
-      for (int k = 0; k <= 3; k++)
-      {
-        if (h - 1 >= 0)
-        {
-          chmax(ans[h][w][0], ans[h - 1][w][k]);
-          chmax(ans[h][w][1], ans[h - 1][w][k] + F[h][w]);
-        }
-        if (w - 1 >= 0)
-        {
-          chmax(ans[h][w][k], ans[h][w - 1][k]);
-          if (k - 1 >= 0)
-          {
-            chmax(ans[h][w][k], ans[h][w - 1][k - 1] + F[h][w]);
-          }
-        }
-      }
-    }
+    ans = (m - 1.0) * 2.0 * (n - d) / n / n;
   }
-  int res = 0;
-  rep(k, 4)
-  {
-    chmax(res, ans[R][C][k]);
-  }
-  cout << res << endl;
+  cout << fixed << setprecision(20) << ans << endl;
 }

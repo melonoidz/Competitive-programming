@@ -172,49 +172,31 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-int R, C, K;
-vector<vector<int>> F(3030, vector<int>(3030, 0));
-vector<vector<vector<int>>> ans(3030, vector<vector<int>>(3030, vector<int>(5, 0)));
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-
-  cin >> R >> C >> K;
-  rep(i, K)
+  int a, b, c;
+  cin >> a >> b >> c;
+  int k;
+  cin >> k;
+  while (a >= b)
   {
-    int r, c, v;
-    cin >> r >> c >> v;
-    F[r][c] = v;
+    b *= 2;
+    k--;
   }
-  int cnt = 0;
-  for (int h = 0; h <= R; h++)
+  while (b >= c)
   {
-    for (int w = 0; w <= C; w++)
-    {
-      for (int k = 0; k <= 3; k++)
-      {
-        if (h - 1 >= 0)
-        {
-          chmax(ans[h][w][0], ans[h - 1][w][k]);
-          chmax(ans[h][w][1], ans[h - 1][w][k] + F[h][w]);
-        }
-        if (w - 1 >= 0)
-        {
-          chmax(ans[h][w][k], ans[h][w - 1][k]);
-          if (k - 1 >= 0)
-          {
-            chmax(ans[h][w][k], ans[h][w - 1][k - 1] + F[h][w]);
-          }
-        }
-      }
-    }
+    c *= 2;
+    k--;
   }
-  int res = 0;
-  rep(k, 4)
+  if (k < 0)
   {
-    chmax(res, ans[R][C][k]);
+    cout << "No" << endl;
   }
-  cout << res << endl;
+  else
+  {
+    cout << "Yes" << endl;
+  }
 }
