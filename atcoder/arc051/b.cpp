@@ -158,116 +158,19 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-
-struct UnionFind
-{
-  vector<int> par;
-
-  UnionFind(int n) : par(n, -1) {}
-  void init(int n) { par.assign(n, -1); }
-
-  int root(int x)
-  {
-    if (par[x] < 0)
-      return x;
-    else
-      return par[x] = root(par[x]);
-  }
-
-  bool issame(int x, int y)
-  {
-    return root(x) == root(y);
-  }
-
-  bool merge(int x, int y)
-  {
-    x = root(x);
-    y = root(y);
-    if (x == y)
-      return false;
-    if (par[x] > par[y])
-      swap(x, y); // merge technique
-    par[x] += par[y];
-    par[y] = x;
-    return true;
-  }
-
-  int size(int x)
-  {
-    return -par[root(x)];
-  }
-};
-
-const int mod = 998244353;
-// auto mod int
-// https://youtu.be/L8grWxBlIZ4?t=9858
-// https://youtu.be/ERZuLAxZffQ?t=4807 : optimize
-// https://youtu.be/8uowVvQ_-Mo?t=1329 : division
-//const int mod = 1000000007;
-struct mint
-{
-  int x;
-  mint(int x = 0) : x((x % mod + mod) % mod) {}
-  mint operator-() const { return mint(-x); }
-  mint &operator+=(const mint a)
-  {
-    if ((x += a.x) >= mod)
-      x -= mod;
-    return *this;
-  }
-  mint &operator-=(const mint a)
-  {
-    if ((x += mod - a.x) >= mod)
-      x -= mod;
-    return *this;
-  }
-  mint &operator*=(const mint a)
-  {
-    (x *= a.x) %= mod;
-    return *this;
-  }
-  mint operator+(const mint a) const { return mint(*this) += a; }
-  mint operator-(const mint a) const { return mint(*this) -= a; }
-  mint operator*(const mint a) const { return mint(*this) *= a; }
-  mint pow(int t) const
-  {
-    if (!t)
-      return 1;
-    mint a = pow(t >> 1);
-    a *= a;
-    if (t & 1)
-      a *= *this;
-    return a;
-  }
-  // for prime mod
-  mint inv() const { return pow(mod - 2); }
-  mint &operator/=(const mint a) { return *this *= a.inv(); }
-  mint operator/(const mint a) const { return mint(*this) /= a; }
-};
-istream &operator>>(istream &is, const mint &a) { return is >> a.x; }
-ostream &operator<<(ostream &os, const mint &a) { return os << a.x; }
-
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, k;
-  cin >> n >> k;
-  vvc<int> a = vvc<int>(n, vc<int>(n, 0));
-  rep(i, n)
+  int k;
+  cin >> k;
+  vc<bool> ch(45, false);
+  vc<int> a(45, 0);
+  a[0] = 1, a[1] = 1;
+  for (int i = 1; i < 44; i++)
   {
-    rep(j, n)
-    {
-      cin >> a[i][j];
-    }
+    a[i + 1] = a[i] + a[i - 1];
   }
-  mint w, h;
-  vc<bool> check(n,false);
-  vc<>
-  for(int i=0; i<n-1; i++){
-    for(int j=i+1; j<n;j++){
-
-    }
-  }
+  cout << a[k + 1] << " " << a[k] << endl;
 }
