@@ -149,20 +149,6 @@ void mkuni(vc<t> &v)
   sort(all(v));
   v.erase(unique(all(v)), v.ed);
 }
-ll rand_int(ll l, ll r)
-{ //[l, r]
-#ifdef LOCAL
-  static mt19937_64 gen;
-#else
-  static mt19937_64 gen(chrono::steady_clock::now().time_since_epoch().count());
-#endif
-  return uniform_int_distribution<ll>(l, r)(gen);
-}
-template <class t>
-void myshuffle(vc<t> &a)
-{
-  rep(i, si(a)) swap(a[i], a[rand_int(0, i)]);
-}
 template <class t>
 int lwb(const vc<t> &v, const t &a)
 {
@@ -177,22 +163,23 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n;
-  cin >> n;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  deque<int> ans;
-  for (int i = 0; i < n; i++)
+  int n, q;
+  cin >> n >> q;
+  multiset<int> mr;
+  vc<multiset<int>> y(200100);
+  vc<pi> infants;
+  rep(i, n)
   {
-    auto d = lower_bound(ans.begin(), ans.end(), a[i]) - ans.begin();
-    if (d == 0)
-    {
-      ans.emplace_front(a[i]);
-    }
-    else
-    {
-      ans[d - 1] = a[i];
-    }
+    int a, b;
+    cin >> a >> b;
+    infants.emplace_back(a, b);
+    y[b].insert(a);
   }
-  cout << ans.size() << endl;
+  for (int i=0; i<200100; i++){
+    if(!y[i].empty()) mr.insert(y[i].max_size());
+  }
+  rep(i,q){
+    int c,d; cin>>c>>d;
+
+  }
 }
