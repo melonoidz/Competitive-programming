@@ -163,130 +163,21 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int H, W, N, M;
-  cin >> H >> W >> N >> M;
-  vc<vc<int>> field(H, vc<int>(W, 0));
-  rep(i, N)
+  int n, m;
+  cin >> n >> m;
+  vc<int> a(m, 0);
+  vc<int> ans(n, 0);
+  rep(i, m) cin >> a[i];
+  for (int i = 0; i < m; i++)
   {
-    int a, b;
-    cin >> a >> b;
-    a--;
-    b--;
-    field[a][b] = 1;
-  }
-  rep(i, M)
-  {
-    int c, d;
-    cin >> c >> d;
-    c--;
-    d--;
-    field[c][d] = 2;
-  }
-  vc<vc<int>> left(H, vc<int>(W, 0));
-  vc<vc<int>> right(H, vc<int>(W, 0));
-  vc<vc<int>> up(H, vc<int>(W, 0));
-  vc<vc<int>> down(H, vc<int>(W, 0));
-  for (int i = 0; i < H; i++)
-  {
-    bool flag = false;
-    for (int j = 0; j < W; j++)
+    auto d = upper_bound(ans.begin(), ans.end(), -a[i]) - ans.begin();
+    if (d == n)
+      cout << -1 << endl;
+    else
     {
-      if (flag)
-      {
-        if (field[i][j] == 2)
-        {
-          flag = false;
-        }
-        else
-        {
-          left[i][j] = 1;
-        }
-      }
-      if (field[i][j] == 1)
-      {
-        flag = true;
-        left[i][j] = 1;
-      }
+      cout << d + 1 << endl;
+      ans[d] = -a[i];
     }
   }
-  for (int i = 0; i < H; i++)
-  {
-    bool flag = false;
-    for (int j = W - 1; j >= 0; j--)
-    {
-      if (flag)
-      {
-        if (field[i][j] == 2)
-        {
-          flag = false;
-        }
-        else
-        {
-          right[i][j] = 1;
-        }
-      }
-      if (field[i][j] == 1)
-      {
-        flag = true;
-        right[i][j] = 1;
-      }
-    }
-  }
-  for (int i = 0; i < W; i++)
-  {
-    bool flag = false;
-    for (int j = 0; j < H; j++)
-    {
-      if (flag)
-      {
-        if (field[j][i] == 2)
-        {
-          flag = false;
-        }
-        else
-        {
-          up[j][i] = 1;
-        }
-      }
-      if (field[j][i] == 1)
-      {
-        flag = true;
-        up[j][i] = 1;
-      }
-    }
-  }
-  for (int i = 0; i < W; i++)
-  {
-    bool flag = false;
-    for (int j = H - 1; j >= 0; j--)
-    {
-      if (flag)
-      {
-        if (field[j][i] == 2)
-        {
-          flag = false;
-        }
-        else
-        {
-          down[j][i] = 1;
-        }
-      }
-      if (field[j][i] == 1)
-      {
-        flag = true;
-        down[j][i] = 1;
-      }
-    }
-  }
-  int ans = 0;
-  for (int i = 0; i < H; i++)
-  {
-    for (int j = 0; j < W; j++)
-    {
-      if (left[i][j] == 1 || right[i][j] == 1 || up[i][j] == 1 | down[i][j] == 1)
-        ans++;
-    }
-  }
-  cout << ans << endl;
   return 0;
 }
