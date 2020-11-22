@@ -159,16 +159,18 @@ int lcm(int a, int b)
   return a / __gcd(a, b) * b;
 }
 
-vc<vc<int>> graph(100100, vc<int>(100100, 0));
-int dp(int x)
+vc<vc<int>> G;
+int dp[100100];
+int dist(int v)
 {
-  int ans = 0;
-  for (auto p : graph[x])
+  if (dp[v] != -1)
+    return dp[v];
+  int res = 0;
+  for (auto nv : G[v])
   {
-    int tmp = dp[p];
-    ans = max(ans, tmp);
+    chmax(res, dist(nv) + 1);
   }
-  return ans + 1;
+  return dp[v] = res;
 }
 
 signed main()
@@ -179,12 +181,19 @@ signed main()
   int n, m;
   cin >> n >> m;
   int ans = 0;
+  G.assign(n, vc<int>());
   rep(i, m)
   {
     int x, y;
     cin >> x >> y;
     x--;
     y--;
-    graph[x].emplace_back(y);
+    G[x].emplace_back(y);
   }
+  rep(i, n) dp[i] = -1;
+  rep(i, n)
+  {
+    ans = max(ans, dist(i));
+  }
+  cout << ans << endl;
 }
