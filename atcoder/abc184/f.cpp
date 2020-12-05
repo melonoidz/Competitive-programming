@@ -62,35 +62,11 @@ ostream &operator<<(ostream &os, const array<t, n> &a)
 {
   return os << vc<t>(all(a));
 }
-ll read()
-{
-  ll i;
-  cin >> i;
-  return i;
-}
-vi readvi(int n, int off = 0)
-{
-  vi v(n);
-  rep(i, n) v[i] = read() + off;
-  return v;
-}
-pi readpi(int off = 0)
-{
-  int a, b;
-  cin >> a >> b;
-  return pi(a + off, b + off);
-}
 template <class T>
 void print(const vector<T> &v, int suc = 1)
 {
   rep(i, v.size())
       print(v[i], i == int(v.size()) - 1 ? suc : 2);
-}
-string readString()
-{
-  string s;
-  cin >> s;
-  return s;
 }
 template <class T>
 T sq(const T &t)
@@ -139,16 +115,6 @@ ll mask(int i)
 {
   return (ll(1) << i) - 1;
 }
-bool inc(int a, int b, int c)
-{
-  return a <= b && b <= c;
-}
-template <class t>
-void mkuni(vc<t> &v)
-{
-  sort(all(v));
-  v.erase(unique(all(v)), v.ed);
-}
 template <class t>
 int lwb(const vc<t> &v, const t &a)
 {
@@ -158,48 +124,66 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
-
-const int MOD = 1000000007;
-int h, w;
-vc<vc<int>> a;
-vc<vc<int>> dp;
-
-int rec(int i, int j)
-{
-  if (dp[i][j] != -1)
-    return dp[i][j];
-  int res = 1;
-  if (i - 1 >= 0 && a[i][j] < a[i - 1][j])
-    res += rec(i - 1, j);
-  res %= MOD;
-  if (i + 1 < h && a[i][j] < a[i + 1][j])
-    res += rec(i + 1, j);
-  res %= MOD;
-  if (j - 1 >= 0 && a[i][j] < a[i][j - 1])
-    res += rec(i, j - 1);
-  res %= MOD;
-  if (j + 1 < w && a[i][j] < a[i][j + 1])
-    res += rec(i, j + 1);
-  res %= MOD;
-  return dp[i][j] = res;
-}
-
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  cin >> h >> w;
-  a.assign(h, vc<int>(w));
-  rep(i, h) rep(j, w) cin >> a[i][j];
-  dp.assign(1010, vc<int>(1010, -1));
-  int ans = 0;
-  rep(i, h)
+  int n, t;
+  cin >> n >> t;
+  vc<int> od;
+  vc<int> ev;
+  rep(i, n)
   {
-    rep(j, w)
+    int a;
+    cin >> a;
+    if (i % 2 == 0)
+      ev.push_back(a);
+    else
+      od.push_back(a);
+  }
+
+  set<int> te;
+  for (int i = 0; i < (1 << ev.size()); i++)
+  {
+    int cost = 0;
+    for (int j = 0; j < ev.size(); j++)
     {
-      ans += rec(i, j);
-      ans %= MOD;
+      if (i & (1 << j))
+      {
+        cost += ev[j];
+      }
+    }
+    te.insert(cost);
+  }
+  set<int> to;
+  for (int i = 0; i < (1 << od.size()); i++)
+  {
+    int cost = 0;
+    for (int j = 0; j < od.size(); j++)
+    {
+      if (i & (1 << j))
+      {
+        cost += od[j];
+      }
+    }
+    to.insert(cost);
+  }
+  vc<int> f(te.begin(), te.end());
+  sort(f.begin(), f.end());
+  vc<int> r(to.begin(), to.end());
+  sort(r.begin(), r.end());
+
+  int ans = 0;
+  for (int i = 0; i < f.size(); i++)
+  {
+    int tmp = t - f[i];
+    auto d = lower_bound(r.begin(), r.end(), tmp) - r.begin();
+    if (d == r.size())
+      d--;
+    if (f[i] + r[d] <= t)
+    {
+      ans = max(ans, f[i] + r[d]);
     }
   }
   cout << ans << endl;

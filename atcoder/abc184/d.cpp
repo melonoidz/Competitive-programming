@@ -62,35 +62,11 @@ ostream &operator<<(ostream &os, const array<t, n> &a)
 {
   return os << vc<t>(all(a));
 }
-ll read()
-{
-  ll i;
-  cin >> i;
-  return i;
-}
-vi readvi(int n, int off = 0)
-{
-  vi v(n);
-  rep(i, n) v[i] = read() + off;
-  return v;
-}
-pi readpi(int off = 0)
-{
-  int a, b;
-  cin >> a >> b;
-  return pi(a + off, b + off);
-}
 template <class T>
 void print(const vector<T> &v, int suc = 1)
 {
   rep(i, v.size())
       print(v[i], i == int(v.size()) - 1 ? suc : 2);
-}
-string readString()
-{
-  string s;
-  cin >> s;
-  return s;
 }
 template <class T>
 T sq(const T &t)
@@ -139,16 +115,6 @@ ll mask(int i)
 {
   return (ll(1) << i) - 1;
 }
-bool inc(int a, int b, int c)
-{
-  return a <= b && b <= c;
-}
-template <class t>
-void mkuni(vc<t> &v)
-{
-  sort(all(v));
-  v.erase(unique(all(v)), v.ed);
-}
 template <class t>
 int lwb(const vc<t> &v, const t &a)
 {
@@ -158,30 +124,20 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int a, b, c;
+double dp[110][110][110]; //dp[x][y][z]の時のans
 
-const int MOD = 1000000007;
-int h, w;
-vc<vc<int>> a;
-vc<vc<int>> dp;
-
-int rec(int i, int j)
+double rec(int i, int j, int k)
 {
-  if (dp[i][j] != -1)
-    return dp[i][j];
-  int res = 1;
-  if (i - 1 >= 0 && a[i][j] < a[i - 1][j])
-    res += rec(i - 1, j);
-  res %= MOD;
-  if (i + 1 < h && a[i][j] < a[i + 1][j])
-    res += rec(i + 1, j);
-  res %= MOD;
-  if (j - 1 >= 0 && a[i][j] < a[i][j - 1])
-    res += rec(i, j - 1);
-  res %= MOD;
-  if (j + 1 < w && a[i][j] < a[i][j + 1])
-    res += rec(i, j + 1);
-  res %= MOD;
-  return dp[i][j] = res;
+  if (i == 100 || j == 100 || k == 100)
+    return 0.0;
+  if (dp[i][j][k] >= 0)
+    return dp[i][j][k];
+  double res = 0.0;
+  double cnt = i + j + k;
+  res = (rec(i + 1, j, k) + 1) * i + (rec(i, j + 1, k) + 1) * j + (rec(i, j, k + 1) + 1) * k;
+  res /= cnt;
+  return dp[i][j][k] = res;
 }
 
 signed main()
@@ -189,18 +145,7 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  cin >> h >> w;
-  a.assign(h, vc<int>(w));
-  rep(i, h) rep(j, w) cin >> a[i][j];
-  dp.assign(1010, vc<int>(1010, -1));
-  int ans = 0;
-  rep(i, h)
-  {
-    rep(j, w)
-    {
-      ans += rec(i, j);
-      ans %= MOD;
-    }
-  }
-  cout << ans << endl;
+  cin >> a >> b >> c;
+  memset(dp, -1, sizeof(dp));
+  cout << fixed << setprecision(10) << rec(a, b, c) << endl;
 }
