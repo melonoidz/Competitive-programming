@@ -124,30 +124,47 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int n;
+int MOD = 1000000007;
+vc<vc<int>> G;
+vc<bool> check;
+vc<vc<int>> dp; //dp[i][color] 頂点iをcolorで塗った場合の数
+void rec(int i, int r)
+{
+
+  if (check[i])
+    return;
+  check[i] = true;
+  dp[i][0] = 1;
+  dp[i][1] = 1;
+  for (auto p : G[i])
+  {
+    if (p == r)
+      continue;
+    rec(p, i);
+    dp[i][0] *= (dp[p][0] + dp[p][1]) % MOD;
+    dp[i][1] *= dp[p][0] % MOD;
+  }
+}
+
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, k;
-  cin >> n >> k;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  const int MOD = 1000000007;
-  vc<vc<int>> dp(110, vc<int>(101010, 0));
-  dp[0][0] = 1;
-  for (int i = 0; i < n; i++)
+  cin >> n;
+  G.assign(100100, vc<int>(100100));
+  for (int i = 1; i < n; i++)
   {
-    int sum[101010] = {0};
-    for (int s = 0; s < 101000; s++)
-    {
-      sum[s + 1] = sum[s] + dp[i][s];
-      sum[s + 1] %= MOD;
-    }
-    for (int j = 0; j <= k; j++)
-    {
-      dp[i + 1][j] += (sum[j + 1] - sum[max(0LL, j - a[i])] + MOD) % MOD;
-    }
+    int x, y;
+    cin >> x >> y;
+    x--;
+    y--;
+    G[x].emplace_back(y);
+    G[y].emplace_back(x);
   }
-  cout << dp[n][k] << endl;
+  check.assign(n, false);
+  dp.assign(100100, vc<int>(2, -1));
+  rec(0, -1);
+  cout << (dp[0][0] + dp[0][1]) % MOD << endl;
 }

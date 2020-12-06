@@ -124,30 +124,40 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+string k;
+int D;
+const int MOD = 1000000007;
+
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, k;
-  cin >> n >> k;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  const int MOD = 1000000007;
-  vc<vc<int>> dp(110, vc<int>(101010, 0));
-  dp[0][0] = 1;
+  cin >> k;
+  cin >> D;
+  int n = k.size();
+  vc<vc<vc<int>>> dp(10010, vc<vc<int>>(110, vc<int>(2, 0)));
+  //dp[dig][d][isless] 上からdig桁目までみて条件d，isless(N)かどうか 1=確定
+  dp[0][0][0] = 1;
   for (int i = 0; i < n; i++)
   {
-    int sum[101010] = {0};
-    for (int s = 0; s < 101000; s++)
+    for (int d = 0; d < D; d++)
     {
-      sum[s + 1] = sum[s] + dp[i][s];
-      sum[s + 1] %= MOD;
-    }
-    for (int j = 0; j <= k; j++)
-    {
-      dp[i + 1][j] += (sum[j + 1] - sum[max(0LL, j - a[i])] + MOD) % MOD;
+      for (int j = 0; j < 10; j++) //1->1
+      {
+        dp[i + 1][(d + j) % D][1] += dp[i][d][1];
+        dp[i + 1][(d + j) % D][1] %= MOD;
+      }
+      for (int j = 0; j < (k[i] - '0'); j++) //0->1
+      {
+        dp[i + 1][(d + j) % D][1] += dp[i][d][0];
+        dp[i + 1][(d + j) % D][1] %= MOD;
+      }
+      //0->0
+      dp[i + 1][(d + (k[i] - '0')) % D][0] += dp[i][d][0];
+      dp[i + 1][(d + (k[i] - '0')) % D][0] %= MOD;
     }
   }
-  cout << dp[n][k] << endl;
+  auto ans = dp[n][0][0] + dp[n][0][1];
+  cout << (ans - 1 + MOD) % MOD << endl;
 }

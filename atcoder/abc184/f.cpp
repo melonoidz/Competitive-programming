@@ -172,15 +172,14 @@ signed main()
   vc<int> f(te.begin(), te.end());
   sort(f.begin(), f.end());
   vc<int> r(to.begin(), to.end());
+  r.push_back(1e18);
   sort(r.begin(), r.end());
-
   int ans = 0;
   for (int i = 0; i < f.size(); i++)
   {
     int tmp = t - f[i];
-    auto d = lower_bound(r.begin(), r.end(), tmp) - r.begin();
-    if (d == r.size())
-      d--;
+    auto d = upper_bound(r.begin(), r.end(), tmp) - r.begin();
+    d--;
     if (f[i] + r[d] <= t)
     {
       ans = max(ans, f[i] + r[d]);

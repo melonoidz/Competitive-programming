@@ -129,25 +129,34 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, k;
-  cin >> n >> k;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  const int MOD = 1000000007;
-  vc<vc<int>> dp(110, vc<int>(101010, 0));
-  dp[0][0] = 1;
-  for (int i = 0; i < n; i++)
+  string n;
+  cin >> n;
+  int k;
+  cin >> k;
+  int l = n.size();
+  vc<vc<vc<int>>> dp(110, vc<vc<int>>(2, vc<int>(5)));
+  dp[0][0][0] = 1;
+  for (int i = 0; i < l; i++)
   {
-    int sum[101010] = {0};
-    for (int s = 0; s < 101000; s++)
+    for (int cnt = 0; cnt < k + 1; cnt++)
     {
-      sum[s + 1] = sum[s] + dp[i][s];
-      sum[s + 1] %= MOD;
-    }
-    for (int j = 0; j <= k; j++)
-    {
-      dp[i + 1][j] += (sum[j + 1] - sum[max(0LL, j - a[i])] + MOD) % MOD;
+      dp[i + 1][1][cnt + 1] += dp[i][1][cnt] * 9;
+      dp[i + 1][1][cnt] += dp[i][1][cnt];
+      int now = n[i] - '0';
+      if (now > 0)
+      {
+        for (int j = 1; j < now; j++)
+        {
+          dp[i + 1][1][cnt + 1] += dp[i][0][cnt];
+        }
+        dp[i + 1][1][cnt] += dp[i][0][cnt];
+        dp[i + 1][0][cnt + 1] += dp[i][0][cnt];
+      }
+      else
+      {
+        dp[i + 1][0][cnt] += dp[i][0][cnt];
+      }
     }
   }
-  cout << dp[n][k] << endl;
+  cout << dp[l][1][k] + dp[l][0][k] << endl;
 }

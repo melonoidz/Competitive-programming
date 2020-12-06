@@ -124,30 +124,38 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int n;
+vc<vc<int>> dp;
+vc<int> a;
+vc<int> sa;
+int rec(int i, int j)
+{
+  if (j - i <= 1)
+    return 0;
+  if (dp[i][j] != -1)
+    return dp[i][j];
+  int res = 1e18;
+  for (int k = i + 1; k < j; k++)
+  {
+    int cost = rec(i, k) + rec(k, j);
+    res = min(res, cost);
+  }
+  return dp[i][j] = res + sa[j] - sa[i];
+}
+
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, k;
-  cin >> n >> k;
-  vc<int> a(n, 0);
+  cin >> n;
+  a.assign(n, 0);
   rep(i, n) cin >> a[i];
-  const int MOD = 1000000007;
-  vc<vc<int>> dp(110, vc<int>(101010, 0));
-  dp[0][0] = 1;
+  dp.assign(410, vc<int>(410, -1));
+  sa.assign(410, 0);
   for (int i = 0; i < n; i++)
   {
-    int sum[101010] = {0};
-    for (int s = 0; s < 101000; s++)
-    {
-      sum[s + 1] = sum[s] + dp[i][s];
-      sum[s + 1] %= MOD;
-    }
-    for (int j = 0; j <= k; j++)
-    {
-      dp[i + 1][j] += (sum[j + 1] - sum[max(0LL, j - a[i])] + MOD) % MOD;
-    }
+    sa[i + 1] = sa[i] + a[i];
   }
-  cout << dp[n][k] << endl;
+  cout << rec(0, n) << endl;
 }
