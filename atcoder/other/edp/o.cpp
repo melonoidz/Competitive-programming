@@ -124,15 +124,16 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+int n;
+int a[22][22];
+int dp[22][1 << 22];
+const int MOD = 1000000007;
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n;
   cin >> n;
-  const int MOD = 1000000007;
-  vc<vc<int>> a(25, vc<int>(25, 0));
   rep(i, n)
   {
     rep(j, n)
@@ -140,6 +141,26 @@ signed main()
       cin >> a[i][j];
     }
   }
-  int ans = 0;
-  
+
+  memset(dp, 0, sizeof(dp));
+  dp[0][0] = 1;
+  //dp[i][S] 男iまで見て女集合Sがマッチング済の時のans
+  for (int i = 0; i < n; i++)
+  {
+    for (int s = 0; s < (1 << n); s++)
+    {
+      if (__builtin_popcount(s) == i)
+      {
+        for (int j = 0; j < n; j++)
+        {
+          if (a[i][j] && !(s & (1 << j))) //a[i+1][j]でないのは入力の問題
+          {
+            dp[i + 1][s | (1 << j)] += dp[i][s];
+            dp[i + 1][s | (1 << j)] %= MOD;
+          }
+        }
+      }
+    }
+  }
+  cout << dp[n][(1 << n) - 1] % MOD << endl;
 }

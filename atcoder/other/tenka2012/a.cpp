@@ -62,35 +62,11 @@ ostream &operator<<(ostream &os, const array<t, n> &a)
 {
   return os << vc<t>(all(a));
 }
-ll read()
-{
-  ll i;
-  cin >> i;
-  return i;
-}
-vi readvi(int n, int off = 0)
-{
-  vi v(n);
-  rep(i, n) v[i] = read() + off;
-  return v;
-}
-pi readpi(int off = 0)
-{
-  int a, b;
-  cin >> a >> b;
-  return pi(a + off, b + off);
-}
 template <class T>
 void print(const vector<T> &v, int suc = 1)
 {
   rep(i, v.size())
       print(v[i], i == int(v.size()) - 1 ? suc : 2);
-}
-string readString()
-{
-  string s;
-  cin >> s;
-  return s;
 }
 template <class T>
 T sq(const T &t)
@@ -139,30 +115,6 @@ ll mask(int i)
 {
   return (ll(1) << i) - 1;
 }
-bool inc(int a, int b, int c)
-{
-  return a <= b && b <= c;
-}
-template <class t>
-void mkuni(vc<t> &v)
-{
-  sort(all(v));
-  v.erase(unique(all(v)), v.ed);
-}
-ll rand_int(ll l, ll r)
-{ //[l, r]
-#ifdef LOCAL
-  static mt19937_64 gen;
-#else
-  static mt19937_64 gen(chrono::steady_clock::now().time_since_epoch().count());
-#endif
-  return uniform_int_distribution<ll>(l, r)(gen);
-}
-template <class t>
-void myshuffle(vc<t> &a)
-{
-  rep(i, si(a)) swap(a[i], a[rand_int(0, i)]);
-}
 template <class t>
 int lwb(const vc<t> &v, const t &a)
 {
@@ -172,39 +124,28 @@ int lcm(int a, int b)
 {
   return a / __gcd(a, b) * b;
 }
+vc<int> fib(50, -1);
+int rec(int n)
+{
+  if (n == 1)
+    return fib[n] = 1;
+  if (n == 0)
+    return fib[n] = 1;
+  if (fib[n] != -1)
+    return fib[n];
+  int tmp = rec(n - 1) + rec(n - 2);
+  return fib[n] = tmp;
+}
+
 signed main()
 {
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n, t;
-  cin >> n >> t;
-  vc<pi> me;
-  rep(i, n)
-  {
-    int a, b;
-    cin >> a >> b;
-    me.emplace_back(a, b);
-  }
-  // dp[i][time][flag] i番目まで,time,1つ選択したかflag
-  vc<vc<vc<int>>> dp(n + 5, vc<vc<int>>(t + 5, vc<int>(2, 0)));
-  for (int i = 1; i <= n; i++)
-  {
-    for (int j = 0; j <= t; j++)
-    {
-      for (int k = 0; k < 2; k++)
-      {
-        dp[i][j][k] = max(dp[i][j][k], dp[i - 1][j][k]);
-        if (j - me[i - 1].first >= 0)
-        {
-          dp[i][j][k] = max(dp[i][j][k], dp[i - 1][j - me[i - 1].first][k] + me[i - 1].second);
-        }
-        if (k == 0)
-        {
-          dp[i][j][1] = max(dp[i][j][0], dp[i - 1][j][0] + me[i - 1].second);
-        }
-      }
-    }
-  }
-  cout << max(dp[n][t - 1][0], dp[n][t - 1][1]) << endl;
+  int n;
+  cin >> n;
+  int ans = 1;
+  for (int i = 0; i <= n - 2; i++)
+    ans += rec(i);
+  cout << ans << endl;
 }

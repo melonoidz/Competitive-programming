@@ -126,24 +126,22 @@ int lcm(int a, int b)
 }
 int n;
 int MOD = 1000000007;
-vc<vc<int>> G;
-vc<bool> check;
-vc<vc<int>> dp; //dp[i][color] 頂点iをcolorで塗った場合の数
-void rec(int i, int r)
-{
+vc<int> G[101010];
+vc<vc<int>> dp(101010, vc<int>(2, 0)); //dp[i][color] 頂点iをcolorで塗った場合の数
 
-  if (check[i])
-    return;
-  check[i] = true;
-  dp[i][0] = 1;
-  dp[i][1] = 1;
-  for (auto p : G[i])
+void rec(int x, int last = -1)
+{
+  dp[x][0] = 1;
+  dp[x][1] = 1;
+  for (auto p : G[x])
   {
-    if (p == r)
+    if (p == last)
       continue;
-    rec(p, i);
-    dp[i][0] *= (dp[p][0] + dp[p][1]) % MOD;
-    dp[i][1] *= dp[p][0] % MOD;
+    rec(p, x);
+    dp[x][0] *= ((dp[p][0] + dp[p][1]) % MOD) % MOD;
+    dp[x][1] *= dp[p][0] % MOD;
+    dp[x][0] %= MOD;
+    dp[x][1] %= MOD;
   }
 }
 
@@ -153,7 +151,6 @@ signed main()
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
   cin >> n;
-  G.assign(100100, vc<int>(100100));
   for (int i = 1; i < n; i++)
   {
     int x, y;
@@ -163,8 +160,6 @@ signed main()
     G[x].emplace_back(y);
     G[y].emplace_back(x);
   }
-  check.assign(n, false);
-  dp.assign(100100, vc<int>(2, -1));
-  rec(0, -1);
+  rec(0);
   cout << (dp[0][0] + dp[0][1]) % MOD << endl;
 }
