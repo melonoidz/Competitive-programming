@@ -188,13 +188,13 @@ signed main()
   {
     int o;
     cin >> o;
-    p[i] = o - 1;
+    o--;
+    p[i] = o;
   }
   rep(i, n)
   {
     cin >> c[i];
   }
-
   vector<vector<int>> cost;
   for (int i = 0; i < n; i++)
   {

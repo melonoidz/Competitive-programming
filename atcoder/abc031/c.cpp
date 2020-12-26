@@ -133,5 +133,32 @@ signed main()
     cin >> n;
     vc<int> a(n, 0);
     rep(i, n) cin >> a[i];
-    
+    int ans = -1e10;
+    for (int t = 0; t < n; t++)
+    {
+        int maxA = -1e9, maxT = -1e9;
+        for (int o = 0; o < n; o++)
+        {
+            if (t == o)
+                continue;
+            vc<int> v;
+            for (int k = min(t, o); k <= max(t, o); k++)
+            {
+                v.push_back(a[k]);
+            }
+            int size = v.size();
+            int sumA = 0, sumT = 0;
+            rep(k, size)
+            {
+                k % 2 == 0 ? sumT += v[k] : sumA += v[k];
+            }
+            if (sumA > maxA)
+            {
+                maxA = sumA;
+                maxT = sumT;
+            }
+        }
+        ans = max(ans, maxT);
+    }
+    cout << ans << endl;
 }
