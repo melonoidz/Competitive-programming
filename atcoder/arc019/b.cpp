@@ -129,37 +129,65 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n;
-  cin >> n;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  vc<int> plus, minus;
-  rep(i, n)
+  string a;
+  cin >> a;
+  int l = a.size();
+  int ans = 0;
+  if (l == 1)
   {
-    a[i] >= 0 ? plus.push_back(a[i]) : minus.push_back(a[i]);
+    cout << 0 << endl;
+    return 0;
   }
-  sort(plus.begin(), plus.end(), greater<int>());
-  sort(minus.begin(), minus.end());
-  if (minus.empty())
-    minus.push_back(plus.back()), plus.pop_back();
-  if (plus.empty())
-    plus.push_back(minus.back()), minus.pop_back();
-  //終端
-  vc<pi> res;
-  int cur = minus[0];
-  rep(i, plus.size() - 1)
+  if (l % 2 == 0)
   {
-    res.push_back({cur, plus[i]});
-    cur -= plus[i];
+    bool flag = true;
+    int start = l / 2;
+    for (int i = 0; i < start; i++)
+    {
+      if (flag)
+      {
+        if (a[start - 1 - i] != a[start + i])
+          ans += 24 * 2;
+        else
+          ans += 25 * 2;
+      }
+      else
+      {
+        ans += 25 * 2;
+      }
+      if (a[start - 1 - i] != a[start + i])
+        flag = false;
+    }
   }
-  res.push_back({plus.back(), cur});
-  cur = plus.back() - cur;
-  for (int i = 1; i < minus.size(); i++)
+  else
   {
-    res.push_back({cur, minus[i]});
-    cur -= minus[i];
+    bool flag = true;
+    int start = l / 2;
+    bool check = true;
+    for (int i = 1; i <= start; i++)
+    {
+      if (a[start - i] != a[start + i])
+      {
+        check = false;
+        break;
+      }
+    }
+    if (!check)
+      ans += 25;
+    for (int i = 1; i <= start; i++)
+    {
+      if (flag)
+      {
+        if (a[start - i] != a[start + i])
+          ans += 24 * 2;
+        else
+          ans += 25 * 2;
+      }
+      else
+        ans += 25 * 2;
+      if (a[start - i] != a[start + i])
+        flag = false;
+    }
   }
-  cout << cur << endl;
-  for (auto p : res)
-    cout << p.first << " " << p.second << endl;
+  cout << ans << endl;
 }

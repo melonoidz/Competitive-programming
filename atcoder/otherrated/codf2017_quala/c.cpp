@@ -129,37 +129,67 @@ signed main()
   cin.tie(0);
   ios::sync_with_stdio(0);
   cout << fixed << setprecision(20);
-  int n;
-  cin >> n;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  vc<int> plus, minus;
-  rep(i, n)
+  int h, w;
+  cin >> h >> w;
+  map<char, int> cnt;
+  rep(i, h) rep(j, w)
   {
-    a[i] >= 0 ? plus.push_back(a[i]) : minus.push_back(a[i]);
+    char a;
+    cin >> a;
+    cnt[a]++;
   }
-  sort(plus.begin(), plus.end(), greater<int>());
-  sort(minus.begin(), minus.end());
-  if (minus.empty())
-    minus.push_back(plus.back()), plus.pop_back();
-  if (plus.empty())
-    plus.push_back(minus.back()), minus.pop_back();
-  //終端
-  vc<pi> res;
-  int cur = minus[0];
-  rep(i, plus.size() - 1)
+  if (h % 2 == 0 && w % 2 == 0)
   {
-    res.push_back({cur, plus[i]});
-    cur -= plus[i];
+    for (int i = 0; i < cnt.size(); i++)
+    {
+      if (cnt[i] % 4 != 0)
+      {
+        cout << "No" << endl;
+        return 0;
+      }
+    }
+    cout << "Yes" << endl;
+    return 0;
   }
-  res.push_back({plus.back(), cur});
-  cur = plus.back() - cur;
-  for (int i = 1; i < minus.size(); i++)
+  if (h % 2 && w % 2)
   {
-    res.push_back({cur, minus[i]});
-    cur -= minus[i];
+    map<int, int> c;
+    rep(i, cnt.size())
+    {
+      c[cnt[i] % 4]++;
+    }
+    if (c[3])
+    {
+      cout << "No" << endl;
+      return 0;
+    }
+    if (c[1] != 1)
+    {
+      cout << "No" << endl;
+      return 0;
+    }
+    if (c[2] > (h - 1) / 2 + (w - 1) / 2)
+    {
+      cout << "No" << endl;
+      return 0;
+    }
+    cout << "Yes" << endl;
+    return 0;
   }
-  cout << cur << endl;
-  for (auto p : res)
-    cout << p.first << " " << p.second << endl;
+  if (w % 2)
+    swap(h, w);
+  map<int, int> c;
+  rep(i, cnt.size()) c[cnt[i] % 4]++;
+  if (c[1] || c[3])
+  {
+    cout << "No" << endl;
+    return 0;
+  }
+  if (c[2] > w / 2)
+  {
+    cout << "No" << endl;
+    return 0;
+  }
+  cout << "Yes" << endl;
+  return 0;
 }

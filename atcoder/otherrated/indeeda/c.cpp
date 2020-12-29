@@ -131,35 +131,31 @@ signed main()
   cout << fixed << setprecision(20);
   int n;
   cin >> n;
-  vc<int> a(n, 0);
-  rep(i, n) cin >> a[i];
-  vc<int> plus, minus;
+  vc<int> s;
   rep(i, n)
   {
-    a[i] >= 0 ? plus.push_back(a[i]) : minus.push_back(a[i]);
+    int y;
+    cin >> y;
+    if (y != 0)
+      s.push_back(y);
   }
-  sort(plus.begin(), plus.end(), greater<int>());
-  sort(minus.begin(), minus.end());
-  if (minus.empty())
-    minus.push_back(plus.back()), plus.pop_back();
-  if (plus.empty())
-    plus.push_back(minus.back()), minus.pop_back();
-  //終端
-  vc<pi> res;
-  int cur = minus[0];
-  rep(i, plus.size() - 1)
+  sort(s.begin(), s.end(), greater<int>());
+  int q;
+  cin >> q;
+  rep(i, q)
   {
-    res.push_back({cur, plus[i]});
-    cur -= plus[i];
+    int f;
+    cin >> f;
+    if (f >= s.size())
+    {
+      cout << 0 << endl;
+    }
+    else
+    {
+      int ans = s[f];
+      if (ans != 0)
+        ans++;
+      cout << ans << endl;
+    }
   }
-  res.push_back({plus.back(), cur});
-  cur = plus.back() - cur;
-  for (int i = 1; i < minus.size(); i++)
-  {
-    res.push_back({cur, minus[i]});
-    cur -= minus[i];
-  }
-  cout << cur << endl;
-  for (auto p : res)
-    cout << p.first << " " << p.second << endl;
 }
