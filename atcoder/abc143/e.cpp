@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
 using ll = long long;
 #define int ll
@@ -86,12 +87,7 @@ void print(const vector<T> &v, int suc = 1)
   rep(i, v.size())
       print(v[i], i == int(v.size()) - 1 ? suc : 2);
 }
-string readString()
-{
-  string s;
-  cin >> s;
-  return s;
-}
+
 template <class T>
 T sq(const T &t)
 {

@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "ostream": "cpp"
-    }
+        "ostream": "cpp",
+        "iomanip": "cpp"
+    },
+    "C_Cpp.dimInactiveRegions": false,
+    "C_Cpp.clang_format_path": "/usr/bin/clang-format-6.0",
+    "C_Cpp.clang_format_style": "file",
+    "editor.defaultFormatter": "xaver.clang-format",
+    "editor.formatOnSave": true
 }

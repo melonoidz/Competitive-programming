@@ -1,0 +1,31 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "C/C++: g++-9 compile file",
+			"command": "/usr/bin/g++-9",
+			"args": [
+				"-std=gnu++17",
+				"-I",
+				"/home/melonoidz/kyop/ac-library/",
+				"-Wall",
+				"-Wextra",
+				"-Wshadow",
+				"-Wconversion",
+				"-fsanitize=undefined",
+				"-ggdb",
+				"${file}",
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
