@@ -200,5 +200,38 @@
 			"};",
 		],
 		"description": "unionfind"
+	},"Print to console9": {
+		"prefix": "dijkstra_grid",
+		"body": [
+			"//int h, w;",
+			"//int dx[4] = {0, 0, 1, -1};",
+			"//int dy[4] = {1, -1, 0, 0};",
+			"//vc<vc<int>> g, dist;",
+			"// g=field",
+			"vc<vc<int>> dijkstra_grid(int sy, int sx) {",
+			"dist.assign(h, vc<int>(w, 10e10));",
+			"dist[sy][sx] = 0;",
+			"priority_queue<pair<int, pi>, vc<pair<int, pi>>, greater<pair<int, pi>>> pq;",
+			"pq.push(make_pair(0LL, make_pair(sy, sx)));",
+
+			"while (!pq.empty()) {",
+				"auto p = pq.top();",
+				"pq.pop();",
+				"int c = p.first;",
+				"int vy = p.second.first;",
+				"int vx = p.second.second;",
+				"rep(i, 4) {",
+				"int nx = vx + dx[i];",
+					"int ny = vy + dy[i];",
+					"if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;",
+					"if (dist[ny][nx] <= g[ny][nx] + c) continue;",
+					"dist[ny][nx] = g[ny][nx] + c;",
+					"pq.push(make_pair(dist[ny][nx], make_pair(ny, nx)));",
+				"}",
+					"}",
+					"return dist;",
+			"}",
+		],
+		"description": "dijkstra_grid"
 	},
 }
