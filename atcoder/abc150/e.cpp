@@ -61,61 +61,13 @@ struct mint {
 istream& operator>>(istream& is, const mint& a) { return is >> a.x; }
 ostream& operator<<(ostream& os, const mint& a) { return os << a.x; }
 
-pair<int, int> rev(pair<int, int> x) {
-    int a = -x.first;
-    int b = x.second;
-    if (a < 0) return make_pair(-b, -a);
-    return make_pair(b, a);
-}
-
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    vc<int> a(n), b(n);
-    rep(i, n) { cin >> a[i] >> b[i]; }
-    int z_z = 0;
-    int z_n = 0;  // a[i]=0
-    int n_z = 0;  // b[i]=0
-    map<pair<int, int>, int> cnt;
-    for (int i = 0; i < n; i++) {
-        if (a[i] == 0 && b[i] == 0)
-            z_z++;
-        else if (a[i] == 0)
-            z_n++;
-        else if (b[i] == 0)
-            n_z++;
-        else {
-            int gc = __gcd(abs(a[i]), abs(b[i]));
-            a[i] /= gc;
-            b[i] /= gc;
-            if (b[i] < 0) {
-                a[i] *= -1;
-                b[i] *= -1;
-            }
-            cnt[make_pair(a[i], b[i])]++;
-        }
-    }
-    mint ans =
-        (mint(2).pow(z_n)) + (mint(2).pow(n_z)) - mint(1);  //片方が0のパターン
-    set<pair<int, int>> used;
-    for (auto cn : cnt) {
-        if (!used.count(cn.first)) {
-            auto p = cn.first; //pair
-            auto pp = rev(p); //reverse
-            if (cnt.count(pp)) {
-              //あるなら
-                ans *= mint(2).pow(cnt[p]) + mint(2).pow(cnt[pp]) - mint(1);
-                used.insert(pp);
-            } else {
-              //ないなら
-                ans *= mint(2).pow(cnt[p]);
-            }
-        }
-    }
-    ans += z_z;
-    ans -= mint(1);
-    cout << ans << endl;
+    int n; cin>>n;
+    vc<int> c(n);
+    rep(i,n) cin>>c[i];
+    mint ans;
+    
 }

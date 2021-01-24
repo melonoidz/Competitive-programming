@@ -75,42 +75,37 @@ signed main() {
     int n;
     cin >> n;
     vc<int> a(n), b(n);
-    rep(i, n) { cin >> a[i] >> b[i]; }
-    int z_z = 0;
-    int z_n = 0;  // a[i]=0
-    int n_z = 0;  // b[i]=0
+    int a_z = 0, b_z = 0, z_z = 0;
     map<pair<int, int>, int> cnt;
-    for (int i = 0; i < n; i++) {
+    rep(i, n) { cin >> a[i] >> b[i]; }
+    rep(i, n) {
         if (a[i] == 0 && b[i] == 0)
             z_z++;
         else if (a[i] == 0)
-            z_n++;
+            a_z++;
         else if (b[i] == 0)
-            n_z++;
+            b_z++;
         else {
-            int gc = __gcd(abs(a[i]), abs(b[i]));
-            a[i] /= gc;
-            b[i] /= gc;
+            int g = __gcd(abs(a[i]), abs(b[i]));
+            a[i] /= g;
+            b[i] /= g;
             if (b[i] < 0) {
                 a[i] *= -1;
-                b[i] *= -1;
+                b[i] *= -1;  //分母を正にする
             }
             cnt[make_pair(a[i], b[i])]++;
         }
     }
-    mint ans =
-        (mint(2).pow(z_n)) + (mint(2).pow(n_z)) - mint(1);  //片方が0のパターン
+    mint ans = mint(2).pow(a_z) + mint(2).pow(b_z) - mint(1);
     set<pair<int, int>> used;
-    for (auto cn : cnt) {
+    for (const auto& cn : cnt) {
         if (!used.count(cn.first)) {
-            auto p = cn.first; //pair
-            auto pp = rev(p); //reverse
+            auto p = cn.first;
+            auto pp = rev(p);
             if (cnt.count(pp)) {
-              //あるなら
                 ans *= mint(2).pow(cnt[p]) + mint(2).pow(cnt[pp]) - mint(1);
                 used.insert(pp);
             } else {
-              //ないなら
                 ans *= mint(2).pow(cnt[p]);
             }
         }
