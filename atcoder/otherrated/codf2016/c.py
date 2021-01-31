@@ -1,19 +1,18 @@
 s = input()
 k = int(input())
 al = "abcdefghijklmnopqrstuvwxyz"
-ans = ""
 for i in range(len(s)):
-    cnt = al.find(s[i])
-    if cnt == 0 and i != len(s)-1:
-        ans += "a"
-    elif k >= 26-cnt:
-        ans += "a"
-        k -= (26-cnt)
-    else:
-        k %= 26
-        if i == len(s)-1:
-            now = al.find(s[i])
-            ans += al[(now+k) % 26]
-        else:
-            ans += s[i]
-print(ans)
+    if s[i]!="a" and 27-al.find(s[i])<=k:
+        cnt=al.find(s[i])
+        s[i].replace(s[i], "a")
+        k-=(27-cnt)
+    if i==len(s)-1:
+        k%=26
+        cz=al.find(s[i])
+        if 27-cz<k:
+            s[i].replace(s[i], al[k-(27-cz)])
+        else :
+            s[i].replace(s[i], al[cz+k])
+
+print(s)
+
