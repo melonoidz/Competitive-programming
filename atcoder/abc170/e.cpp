@@ -18,22 +18,14 @@ using ll = long long;
 #else
 #define dmp(x) void(0)
 #endif
-template <class t, class u>
-void chmax(t &a, u b)
-{
-  if (a < b)
-    a = b;
+template <class t, class u> void chmax(t& a, u b) {
+    if (a < b) a = b;
 }
-template <class t, class u>
-void chmin(t &a, u b)
-{
-  if (b < a)
-    a = b;
+template <class t, class u> void chmin(t& a, u b) {
+    if (b < a) a = b;
 }
-template <class t>
-using vc = vector<t>;
-template <class t>
-using vvc = vc<vc<t>>;
+template <class t> using vc = vector<t>;
+template <class t> using vvc = vc<vc<t>>;
 using pi = pair<int, int>;
 using vi = vc<int>;
 #define mp make_pair
@@ -41,15 +33,11 @@ using vi = vc<int>;
 #define one(x) memset(x, -1, sizeof(x))
 #define zero(x) memset(x, 0, sizeof(x))
 #ifdef LOCAL
-void dmpr(ostream &os)
-{
-  os << endl;
-}
+void dmpr(ostream& os) { os << endl; }
 template <class T, class... Args>
-void dmpr(ostream &os, const T &t, const Args &... args)
-{
-  os << t << ;
-  dmpr(os, args...);
+void dmpr(ostream& os, const T& t, const Args&... args) {
+    os << t << ;
+    dmpr(os, args...);
 }
 #define dmp2(...) dmpr(cerr, __LINE__, ##__VA_ARGS__)
 #else
@@ -58,128 +46,106 @@ void dmpr(ostream &os, const T &t, const Args &... args)
 using uint = unsigned;
 using ull = unsigned long long;
 template <class t, size_t n>
-ostream &operator<<(ostream &os, const array<t, n> &a)
-{
-  return os << vc<t>(all(a));
+ostream& operator<<(ostream& os, const array<t, n>& a) {
+    return os << vc<t>(all(a));
 }
-ll read()
-{
-  ll i;
-  cin >> i;
-  return i;
+ll read() {
+    ll i;
+    cin >> i;
+    return i;
 }
-vi readvi(int n, int off = 0)
-{
-  vi v(n);
-  rep(i, n) v[i] = read() + off;
-  return v;
+vi readvi(int n, int off = 0) {
+    vi v(n);
+    rep(i, n) v[i] = read() + off;
+    return v;
 }
-pi readpi(int off = 0)
-{
-  int a, b;
-  cin >> a >> b;
-  return pi(a + off, b + off);
+pi readpi(int off = 0) {
+    int a, b;
+    cin >> a >> b;
+    return pi(a + off, b + off);
 }
-template <class T>
-void print(const vector<T> &v, int suc = 1)
-{
-  rep(i, v.size())
-      print(v[i], i == int(v.size()) - 1 ? suc : 2);
+template <class T> void print(const vector<T>& v, int suc = 1) {
+    rep(i, v.size()) print(v[i], i == int(v.size()) - 1 ? suc : 2);
 }
-string readString()
-{
-  string s;
-  cin >> s;
-  return s;
+string readString() {
+    string s;
+    cin >> s;
+    return s;
 }
-template <class T>
-T sq(const T &t)
-{
-  return t * t;
-}
-constexpr ll ten(int n)
-{
-  return n == 0 ? 1 : ten(n - 1) * 10;
-}
+template <class T> T sq(const T& t) { return t * t; }
+constexpr ll ten(int n) { return n == 0 ? 1 : ten(n - 1) * 10; }
 const ll infLL = LLONG_MAX / 3;
 #ifdef int
 const int inf = infLL;
 #else
 const int inf = INT_MAX / 2 - 100;
 #endif
-int topbit(signed t)
-{
-  return t == 0 ? -1 : 31 - __builtin_clz(t);
+int topbit(signed t) { return t == 0 ? -1 : 31 - __builtin_clz(t); }
+int topbit(ll t) { return t == 0 ? -1 : 63 - __builtin_clzll(t); }
+int botbit(signed a) { return a == 0 ? 32 : __builtin_ctz(a); }
+int botbit(ll a) { return a == 0 ? 64 : __builtin_ctzll(a); }
+int popcount(signed t) { return __builtin_popcount(t); }
+int popcount(ll t) { return __builtin_popcountll(t); }
+bool ispow2(int i) { return i && (i & -i) == i; }
+ll mask(int i) { return (ll(1) << i) - 1; }
+bool inc(int a, int b, int c) { return a <= b && b <= c; }
+template <class t> void mkuni(vc<t>& v) {
+    sort(all(v));
+    v.erase(unique(all(v)), v.ed);
 }
-int topbit(ll t)
-{
-  return t == 0 ? -1 : 63 - __builtin_clzll(t);
+template <class t> int lwb(const vc<t>& v, const t& a) {
+    return lower_bound(all(v), a) - v.bg;
 }
-int botbit(signed a)
-{
-  return a == 0 ? 32 : __builtin_ctz(a);
-}
-int botbit(ll a)
-{
-  return a == 0 ? 64 : __builtin_ctzll(a);
-}
-int popcount(signed t)
-{
-  return __builtin_popcount(t);
-}
-int popcount(ll t)
-{
-  return __builtin_popcountll(t);
-}
-bool ispow2(int i)
-{
-  return i && (i & -i) == i;
-}
-ll mask(int i)
-{
-  return (ll(1) << i) - 1;
-}
-bool inc(int a, int b, int c)
-{
-  return a <= b && b <= c;
-}
-template <class t>
-void mkuni(vc<t> &v)
-{
-  sort(all(v));
-  v.erase(unique(all(v)), v.ed);
-}
-template <class t>
-int lwb(const vc<t> &v, const t &a)
-{
-  return lower_bound(all(v), a) - v.bg;
-}
-int lcm(int a, int b)
-{
-  return a / __gcd(a, b) * b;
-}
-signed main()
-{
-  cin.tie(0);
-  ios::sync_with_stdio(0);
-  cout << fixed << setprecision(20);
-  int n, q;
-  cin >> n >> q;
-  multiset<int> mr;
-  vc<multiset<int>> y(200100);
-  vc<pi> infants;
-  rep(i, n)
-  {
-    int a, b;
-    cin >> a >> b;
-    infants.emplace_back(a, b);
-    y[b].insert(a);
-  }
-  for (int i=0; i<200100; i++){
-    if(!y[i].empty()) mr.insert(y[i].max_size());
-  }
-  rep(i,q){
-    int c,d; cin>>c>>d;
-
-  }
+int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+signed main() {
+    cin.tie(0);
+    ios::sync_with_stdio(0);
+    cout << fixed << setprecision(20);
+    int N, Q;
+    cin >> N >> Q;
+    vc<int> A(N), B(N);
+    rep(i, N) {
+        cin >> A[i] >> B[i];
+        B[i]--;
+    }
+    vc<multiset<int>> st(200000);
+    multiset<int> maxes;
+    rep(i, N) st[B[i]].insert(A[i]);
+    rep(i, 200000) {
+        if (st[i].size()) {
+            maxes.insert(*st[i].rbegin());
+        }
+    }
+    //各種処理
+    //各幼稚園における園児のレート
+    //全体のMaxレート園児たち
+    auto del_max = [&](int i) {
+        if (st[i].size()) maxes.erase(maxes.find(*st[i].rbegin()));
+    };
+    auto add_max = [&](int i) {
+        if (st[i].size()) maxes.insert(*st[i].rbegin());
+    };
+    // del(その幼稚園から消してmaxesを更新)
+    auto del = [&](int i, int a) {
+        del_max(i);
+        st[i].erase(st[i].find(a));
+        add_max(i);
+    };
+    // add(aft幼稚園に追加してmaxesを更新)
+    auto add = [&](int i, int a) {
+        del_max(i);
+        st[i].insert(a);
+        add_max(i);
+    };
+    while (Q--) {
+        int i, aft;
+        cin >> i >> aft;
+        i--, aft--;
+        int bef = B[i];
+        B[i] = aft;
+        del(bef, A[i]);
+        add(aft, A[i]);
+        cout << *maxes.begin() << endl;
+    }
+    return 0;
 }
