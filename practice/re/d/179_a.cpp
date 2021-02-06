@@ -22,49 +22,32 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int ans = 0;
-bool is_tree = true;
-vc<bool> check(400010, false);
-int N;
-vc<vc<int>> G;
-void dfs(int v, int u, bool& flag) {
-    if (flag) {
-        check[v] = true;
-        for (auto p : G[v]) {
-            if (check[p]) is_tree = false;
-            if (p != u) {
-                dfs(p, v, is_tree);
-            }
-        }
-    }
-}
-
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    cin >> N;
-    atcoder::dsu uf(400000);
-    G.resize(N + 1);
-    rep(i, N) {
-        int a, b;
-        cin >> a >> b;
-        uf.merge(a, b);
-        G[a].push_back(b);
-        G[b].push_back(a);
+    int n, k;
+    const int MOD = 998244353;
+    cin >> n >> k;
+    vc<pi> D;
+    rep(i, k) {
+        int l, r;
+        cin >> l >> r;
+        D.emplace_back(l, r);
     }
-    auto pairs = uf.groups();
-    int ans = 0;
-    rep(i, pairs.size()) {
-        is_tree = true;
-        dfs(pairs[i][0], 0, is_tree);
-        if (is_tree) {
-            ans += pairs[i].size() - 1;
-        } else {
-            ans += pairs[i].size();
+    vc<int> dp(n, 0), sdp(n + 1, 0);
+    dp[0] = 1, sdp[1] = 1;
+    for (int i = 1; i < n; i++) {
+        for (int j = 0; j < k; j++) {
+            int left = max(0LL, i - D[j].second);
+            int right = max(0LL, i - D[j].first + 1);
+            dp[i] += sdp[right] - sdp[left];
+            dp[i] %= MOD;
         }
+        sdp[i + 1] = sdp[i] + dp[i];
+        sdp[i + 1] %= MOD;
     }
-    cout << ans << endl;
-    // dfsとUFの相性は悪い
+    if (dp[n - 1] < 0) dp[n - 1] += MOD;
+    cout << dp[n - 1] << endl;
     return 0;
 }
