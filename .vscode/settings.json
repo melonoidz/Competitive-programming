@@ -3,7 +3,8 @@
         "ostream": "cpp",
         "iomanip": "cpp",
         "*.tcc": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "iosfwd": "cpp"
     },
     "C_Cpp.dimInactiveRegions": false,
     "C_Cpp.clang_format_path": "/usr/bin/clang-format-6.0",
