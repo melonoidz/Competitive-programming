@@ -89,12 +89,10 @@ signed main() {
         f.push_back(g);
         rep(j, w) {
             if (g[j] == 'S') {
-                sx = j;
-                sy = i;
+                sx = j, sy = i;
             }
             if (g[j] == 'G') {
-                tx = j;
-                ty = i;
+                tx = j, ty = i;
             }
         }
     }
