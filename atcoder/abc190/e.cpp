@@ -26,14 +26,34 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    int ans = 0;
-    // m(2a+m-1)/2=n
-    for (int m = 1; m * m <= 2 * n; m++) {
-        if ((2 * n) % m == 0) {
-            if (((2 * n / m) - m + 1) % 2 == 0) ans++;
-        }
+    // edge, vertex(=stone)
+    // bitDP?
+    vc<vc<int>> G;
+    int n, m;
+    cin >> n >> m;
+    rep(i, m) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        G[a].push_back(b);
+        G[b].push_back(a);
     }
-    cout << ans * 2 << endl;
+    int k;
+    cin >> k;
+    vc<int> c(k, 0);
+    rep(i, k) cin >> c[i];
+    vc<vc<int>> dp(1 << k, vc<int>(20, 1e9));
+    dp[0][0] = 1e9;
+    for(int bit=0; bit<1<<k; bit++){
+      for(int i=0; i<k; i++){
+        for(int j=0; j<k; j++){
+            if(i!=j) {
+              if(){
+                dp[bit|(1<<i)][j]=min(dp[bit|(1<<i)][j])
+              }
+            }
+        }
+      }
+    }
+    return 0;
 }

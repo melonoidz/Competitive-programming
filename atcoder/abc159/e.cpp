@@ -26,14 +26,28 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    int ans = 0;
-    // m(2a+m-1)/2=n
-    for (int m = 1; m * m <= 2 * n; m++) {
-        if ((2 * n) % m == 0) {
-            if (((2 * n / m) - m + 1) % 2 == 0) ans++;
+    int h, w, k;
+    cin >> h >> w >> k;
+    vc<string> S;
+    rep(i, h) {
+        string a;
+        cin >> a;
+        S.push_back(a);
+    }
+    int ans = 1e9;
+    //縦切りを忘れずに足す
+    for (int i = 0; i < (1 << (h - 1)); i++) {
+        vc<int> to(h);
+        int start = 0;
+        for (int j = 0; j < h - 1; j++) {
+            if (i & (1 << j)) start++;
+            to[j] = start;
+        }
+        vc<int> cnt(start + 1, 0);
+        for (int l = 0; l < w; l++) {
+            vc<int> now = cnt;
+            bool ok = true;
+            for (int m = 0; m < h; m++) {
+            }
         }
     }
-    cout << ans * 2 << endl;
-}
