@@ -22,8 +22,56 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int N, C;
+vc<pair<int, pi>> S;
+// https://blog.hamayanhamayan.com/entry/2018/04/21/225805
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    cin >> N >> C;
+    rep(i, N) {
+        int x, v;
+        cin >> x >> v;
+        pair<int, pi> s;
+        s.first = i;
+        s.second = pi(x, v);
+        S.push_back(s);
+    }
+    vc<pi> l, r;
+    for (auto s : S) {
+        if (s.first < N / 2) {
+            l.push_back(s.second);
+        } else {
+            r.push_back(s.second);
+        }
+    }
+    vc<int> sl(l.size() + 1), sr(r.size() + 1);
+    for (int i = 0; i < l.size(); i++) {
+        sl[i + 1] = sl[i] + l[i].second;
+    }
+    for (int i = 0; i < r.size(); i++) {
+        sr[i + 1] = sr[i] + r[i].second;
+    }
+    vc<int> suml(l.size()), sumr(r.size());
+    for (int i = 0; i < l.size(); i++) {
+        suml[i] = sl[i + 1] - l[i].first;
+    }
+    for (int i = 0; i < r.size(); i++) {
+        sumr[i] = sr[i + 1] - r[i].first;
+    }
+
+    int ans = 0;
+    for (int i = 0; i < r.size(); i++) {
+        int cost =
+            sr[i + 1] - 2 * r[i].first + *max_element(suml.begin(), suml.end());
+        ans = max(ans, cost);
+    }
+    for (int i = 0; i < l.size(); i++) {
+        int cost =
+            sl[i + 1] - 2 * l[i].first + *max_element(sumr.begin(), sumr.end());
+        ans = max(ans, cost);
+    }
+    cout << max(0LL, ans) << endl;
+    return 0;
 }
