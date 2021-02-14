@@ -26,25 +26,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int H, W;
-    cin >> H >> W;
-    vc<string> S;
-    rep(i, H) {
-        string s;
-        cin >> s;
-        S.push_back(s);
-    }
-    int ans = 0;
-    for (int i = 0; i < H - 1; i++) {
-        for (int j = 0; j < W - 1; j++) {
-            int cnt = 0;
-            if (S[i][j] == '#') cnt++;
-            if (S[i + 1][j] == '#') cnt++;
-            if (S[i + 1][j + 1] == '#') cnt++;
-            if (S[i][j + 1] == '#') cnt++;
-            if (cnt == 3 || cnt == 1) ans++;
+    int n;
+    cin >> n;
+    int ok = 0;
+    int ng = 2e9;
+    while (abs(ok - ng) > 1) {
+        int mid = (ok + ng) / 2;
+        if (mid * (mid + 1) / 2 <= n + 1) {
+            ok = mid;
+        } else {
+            ng = mid;
         }
     }
-    cout << ans << endl;
-    return 0;
+    // n+1の丸太でできる限り作る
+    cout << n - ok + 1 << endl;
 }

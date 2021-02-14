@@ -26,25 +26,15 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int H, W;
-    cin >> H >> W;
-    vc<string> S;
-    rep(i, H) {
-        string s;
-        cin >> s;
-        S.push_back(s);
+    int a, b, x, y;
+    cin >> a >> b >> x >> y;
+    if (a > b) {
+        cout << min({(a - b) * y + x, x + (a - b - 1) * 2 * x,
+                     x + (a - b - 1) * y})
+             << endl;
+    } else if (a < b) {
+        cout << min(x + (b - a) * y, 2 * x * (b - a) + x) << endl;
+    } else {
+        cout << x << endl;
     }
-    int ans = 0;
-    for (int i = 0; i < H - 1; i++) {
-        for (int j = 0; j < W - 1; j++) {
-            int cnt = 0;
-            if (S[i][j] == '#') cnt++;
-            if (S[i + 1][j] == '#') cnt++;
-            if (S[i + 1][j + 1] == '#') cnt++;
-            if (S[i][j + 1] == '#') cnt++;
-            if (cnt == 3 || cnt == 1) ans++;
-        }
-    }
-    cout << ans << endl;
-    return 0;
 }

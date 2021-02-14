@@ -26,25 +26,28 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int H, W;
-    cin >> H >> W;
-    vc<string> S;
-    rep(i, H) {
-        string s;
-        cin >> s;
-        S.push_back(s);
+    int N;
+    cin >> N;
+    vc<pi> rec;
+    rep(i, N) {
+        int x, y;
+        cin >> x >> y;
+        rec.emplace_back(x, y);
     }
     int ans = 0;
-    for (int i = 0; i < H - 1; i++) {
-        for (int j = 0; j < W - 1; j++) {
-            int cnt = 0;
-            if (S[i][j] == '#') cnt++;
-            if (S[i + 1][j] == '#') cnt++;
-            if (S[i + 1][j + 1] == '#') cnt++;
-            if (S[i][j + 1] == '#') cnt++;
-            if (cnt == 3 || cnt == 1) ans++;
+    for (int i = 0; i < rec.size(); i++) {
+        for (int j = i; j < rec.size(); j++) {
+            for (int k = j; k < rec.size(); k++) {
+                if (j == k || i == j || i == k) continue;
+                int ax, ay, bx, by;
+                ax = rec[k].first - rec[i].first;
+                ay = rec[k].second - rec[i].second;
+                bx = rec[j].first - rec[i].first;
+                by = rec[j].second - rec[i].second;
+                if ((ax * by - ay * bx) % 2 == 0 && (ax * by - ay * bx) != 0)
+                    ans++;
+            }
         }
     }
     cout << ans << endl;
-    return 0;
 }

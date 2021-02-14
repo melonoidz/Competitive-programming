@@ -26,25 +26,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int H, W;
-    cin >> H >> W;
-    vc<string> S;
-    rep(i, H) {
-        string s;
-        cin >> s;
-        S.push_back(s);
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int cnt[3] = {0};
+    for (auto li : s) {
+        if (li == 'R') {
+            cnt[0]++;
+        } else if (li == 'G') {
+            cnt[1]++;
+        } else
+            cnt[2]++;
     }
-    int ans = 0;
-    for (int i = 0; i < H - 1; i++) {
-        for (int j = 0; j < W - 1; j++) {
-            int cnt = 0;
-            if (S[i][j] == '#') cnt++;
-            if (S[i + 1][j] == '#') cnt++;
-            if (S[i + 1][j + 1] == '#') cnt++;
-            if (S[i][j + 1] == '#') cnt++;
-            if (cnt == 3 || cnt == 1) ans++;
-        }
-    }
-    cout << ans << endl;
+    int tmp = 0;
+    for (auto c : cnt)
+        if (c % 2 == 1) tmp++;
+    if (tmp == 0)
+        cout << 0 << endl;
+    else if (tmp == 1)
+        cout << 1 << endl;
+    else if (tmp == 2)
+        cout << 2 << endl;
+    else
+        cout << 3 << endl;
     return 0;
 }

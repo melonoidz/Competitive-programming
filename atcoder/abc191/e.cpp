@@ -22,47 +22,52 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int N, M;
-vc<vc<pi>> G(2100);
-vc<vc<int>> goal(2100);
-int bfs(int start) {
-    queue<pi> que;
-    vc<vc<int>> cost(2100, vc<int>(2100, 1e9));
-    vc<bool> check(2100, false);
-    check[start] = true;
-    que.push(make_pair(start, 0));
-    while (!que.empty()) {
-        auto p = que.front();
-        que.pop();
-        int now = p.first;
-        int time = p.second;
-        for (auto np : G[now]) {
-            int nx = np.first;
-            int nc = np.second;
-            if (!check[nx]) {
-                check[nx] = true;
-                if (nx != now) {
-                    int ntime = time + nc;
-                    if (cost[now][nx] > ntime) {
-                        cost[now][nx] = ntime;
-                        que.push(make_pair(nx, ntime));
-                    }
-                }
+int N, M, A, B, C;
+vc<pi> edge[2010];
+vc<pi> revedge[2010];
+
+vc<int> dijk(int start) {
+    vc<int> dist(N, 1e9);
+    dist[start] = 0;
+    priority_queue<pi, vc<pi>, greater<pi>> pq;
+    pq.push({0, start});
+    while (!pq.empty()) {
+        auto tmp = pq.top();
+        pq.pop();
+        int from = tmp.second;
+        if (dist[from] < tmp.first) continue;
+        for (auto e : edge[from]) {
+            auto to = e.first;
+            auto cost = e.second;
+            if (dist[to] > dist[from] + cost) {
+                dist[to] = dist[from] + cost;
+                pq.push({dist[to], to});
             }
         }
     }
-    int res = 1e9;
-    for (auto g : goal[start]) {
-        for (auto ps : G[g]) {
-            if (ps.first == start) {
-                if (cost[start][g] != 1e9) {
-                    int tmp = cost[start][g] + ps.second;
-                    res = min(res, tmp);
-                }
+    return dist;
+}
+
+vc<int> revdijk(int start) {
+    vc<int> dist(N, 1e9);
+    dist[start] = 0;
+    priority_queue<pi, vc<pi>, greater<pi>> pq;
+    pq.push({0, start});
+    while (!pq.empty()) {
+        auto tmp = pq.top();
+        pq.pop();
+        int from = tmp.second;
+        if (dist[from] < tmp.first) continue;
+        for (auto e : revedge[from]) {
+            auto to = e.first;
+            auto cost = e.second;
+            if (dist[to] > dist[from] + cost) {
+                dist[to] = dist[from] + cost;
+                pq.push({dist[to], to});
             }
         }
     }
-    return res;
+    return dist;
 }
 
 signed main() {
@@ -71,30 +76,30 @@ signed main() {
     cout << fixed << setprecision(20);
     cin >> N >> M;
     rep(i, M) {
-        int a, b, c;
-        cin >> a >> b >> c;
-        a--, b--;
-        bool is = false;
-        for (auto v : G[a]) {
-            if (v.first == b) {
-                v.second = min(v.second, c);
-                is = true;
-            }
-        }
-        if (!is) G[a].push_back(make_pair(b, c));
-        goal[b].push_back(a);
+        cin >> A >> B >> C;
+        A--, B--;
+        edge[A].push_back({B, C});
+        revedge[B].push_back({A, C});
     }
     for (int i = 0; i < N; i++) {
-        int ans = bfs(i);
-        for (auto yu : G[i]) {
-            if (yu.first == i) {
-                ans = min(ans, yu.second);
+        auto d = dijk(i);
+        auto revd = revdijk(i);
+        int res = 1e10;
+        for (int j = 0; j < N; j++) {
+            if (i == j) continue;
+            int tmp = d[j] + revd[j];
+            // cout << tmp << endl;
+            res = min(res, tmp);
+        }
+        for (auto e : edge[i]) {
+            if (e.first == i) {
+                res = min(res, e.second);
             }
         }
-        if (ans == 1e9) {
+        if (res >= 1e9)
             cout << -1 << endl;
-        } else {
-            cout << ans << endl;
-        }
+        else
+            cout << res << endl;
     }
+    return 0;
 }
