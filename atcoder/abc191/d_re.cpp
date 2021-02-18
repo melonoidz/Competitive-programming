@@ -28,23 +28,12 @@ signed main() {
     cout << fixed << setprecision(20);
     long double x, y, r;
     cin >> x >> y >> r;
-    r += 1e-14;
-    int left = ceil(x - r);
-    int right = floor(x + r);
-    int ans = 0;
-    for (int i = left; i <= right; i++) {
-        long double y_p, y_n;
-        long double tmp1, tmp2;
-        long double sq = ((long double)i - x) * ((long double)i - x);
-
-        tmp1 = (long double)y + sqrtl(r * r - sq);
-        y_p = floor(tmp1);
-
-        tmp2 = (long double)y - sqrtl(r * r - sq);
-        y_n = ceil(tmp2);
-
-        ans += (y_p - y_n) + 1;
-    }
-    cout << ans << endl;
-    return 0;
+    int X, Y, R;
+    const int acu = 10000;
+    X = round(x * acu);
+    Y = round(y * acu);
+    R = round(r * acu);
+    X %= acu;
+    Y %= acu;
+    cout << X << " " << Y << " " << R << endl;
 }

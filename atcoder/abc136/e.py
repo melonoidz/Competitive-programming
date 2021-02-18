@@ -1,20 +1,30 @@
 n,k=map(int,input().split())
-A=list(map(int,input().split()))
-g=sum(A)
+a=list(map(int,input().split()))
 
-div=[]
-i=1
-while i*i<=g:
-    if g%i==0:
-        div.append(i)
-        if not (i==g//i):
-            div.append(g//i)
-    i+=1
+#約数列挙
+def make_divisors(n):
+    divisors = []
+    for i in range(1, int(n**0.5)+1):
+        if n % i == 0:
+            divisors.append(i)
+            if i != n // i:
+                divisors.append(n//i)
+    divisors.sort()
+    return divisors
 
-div.sort()
+tmp=make_divisors(sum(a))[::-1]
+for c in tmp:
+    cnt=0
+    for ca in a:
+        if ca<c:
+            cnt+=ca
+        else:
+            ca%=c
+            if ca<c-ca:
+                cnt+=ca
+            else:
+                cnt-=(c-ca)
 
-for x in div:
-    res=0
-    for a in A:
-        res+=a-x
-    
+    if cnt%c==0 and 0<=cnt<=2*k:
+        print(c)
+        exit()
