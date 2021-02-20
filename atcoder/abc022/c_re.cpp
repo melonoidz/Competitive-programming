@@ -30,32 +30,42 @@ signed main() {
     // 0->u->v->0
     // 0に結合しているedgeを除去しておく
     cin >> N >> M;
-    vc<pi> zero;
-    vc<vc<int>> dist(N, vc<int>(N, 1e9));
+    vc<vc<pi>> G(310);
+    vc<vc<pi>> GW(310);
     rep(i, M) {
         int u, v, l;
         cin >> u >> v >> l;
         u--, v--;
-        if (u == 0) {
-            zero.emplace_back(v, l);
-            continue;
+        G[u].push_back(pi(v, l));
+        G[v].push_back(pi(u, l));
+        if (u != 0) {
+            GW[u].push_back(pi(v, l));
+            GW[v].push_back(pi(u, l));
         }
-        dist[u][v] = l;
-        dist[v][u] = l;
     }
-    for (int k = 0; k < N; k++) {
-        for (int i = 0; i < N; i++) {
+    vc<vc<int>> dist(N, vc<int>(N, 1e9));
+    for (int i = 0; i < GW.size(); i++) {
+        for (int j = 0; j < GW[i].size(); j++) {
+            dist[i][GW[i][j].first] = GW[i][j].second;
+            dist[GW[i][j].first][i] = GW[i][j].second;
+        }
+    }
+    for (int i = 0; i < N; i++) {
+        for (int k = 0; k < N; k++) {
             for (int j = 0; j < N; j++) {
+                if (i == j) continue;
                 dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
             }
         }
     }
     int ans = 1e9;
-    for (auto st : zero) {
-        for (auto gl : zero) {
-            if (st.first == gl.first) continue;
-            int d = dist[st.first][gl.first] + st.second + gl.second;
-            ans = min(ans, d);
+    auto start = G[0];
+    for (int i = 0; i < start.size(); i++) {
+        for (int j = 0; j < start.size(); j++) {
+            if (start[i].first == start[j].first || i == j) continue;
+            int tmp = start[i].second + start[j].second +
+                      dist[start[i].first][start[j].first];
+            ans = min(ans, tmp);
         }
     }
     if (ans == 1e9) {
@@ -63,5 +73,6 @@ signed main() {
     } else {
         cout << ans << endl;
     }
+
     return 0;
 }
