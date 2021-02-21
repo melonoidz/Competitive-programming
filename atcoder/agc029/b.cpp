@@ -43,21 +43,22 @@ signed main() {
     }
     map<int, int> cnt;
     for (int i = 0; i < n; i++) {
-        cnt[a[i]] = 0;
+        cnt[a[i]]++;
     }
     for (int i = 0; i < n; i++) {
         int tmp = 0;
         for (int j = 0; j < 29; j++) {
-            if (bek[j] >= b[i]) {
+            if (bek[j] > b[i]) {
                 tmp = j;
                 break;
             }
         }
         // cout << bek[tmp] << "## " << tmp << " = tmp" << endl;
         int now = bek[tmp];
-        if (binary_search(a.begin(), a.end(), now - b[i])) {
-            if (cnt[now - b[i]] > 0) continue;
-            cnt[now - b[i]]++;
+        if (binary_search(a.begin(), a.end(), now - b[i]) &&
+            now - b[i] != b[i]) {
+            if (cnt[now - b[i]] <= 0) continue;
+            cnt[now - b[i]]--;
             ans++;
         }
     }

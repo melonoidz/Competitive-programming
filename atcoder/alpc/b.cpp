@@ -26,44 +26,19 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, k, l;
-    cin >> n >> k >> l;
-    atcoder::dsu uf1(n + 1);
-    atcoder::dsu uf2(n + 1);
-    rep(i, k) {
-        int p, q;
-        cin >> p >> q;
-        uf1.merge(p, q);
-    }
-    rep(i, l) {
-        int r, s;
-        cin >> r >> s;
-        uf2.merge(r, s);
-    }
-    vc<int> cnt1(n + 1), cnt2(n + 1);
-    int tmp = 0;
-    for (auto g : uf1.groups()) {
-        tmp++;
-        for (auto u : g) {
-            cnt1[u] = tmp;
+    int N, Q;
+    cin >> N >> Q;
+    vc<int> A(N);
+    rep(i, N) cin >> A[i];
+    atcoder::fenwick_tree<int> BIT(N);
+    rep(i, N) { BIT.add(i, A[i]); }
+    rep(i, Q) {
+        int x, y, z;
+        cin >> x >> y >> z;
+        if (x == 0) {
+            BIT.add(y, z);
+        } else {
+            cout << BIT.sum(y, z) << endl;
         }
     }
-    tmp = 0;
-    for (auto g : uf2.groups()) {
-        tmp++;
-        for (auto u : g) {
-            cnt2[u] = tmp;
-        }
-    }
-    map<pair<int, int>, int> res;
-    for (int i = 1; i <= n; i++) {
-        pi p;
-        p.first = cnt1[i];
-        p.second = cnt2[i];
-        res[p]++;
-    }
-    for (int i = 1; i <= n; i++) {
-        cout << res[pi(cnt1[i], cnt2[i])] << " ";
-    }
-    cout << endl;
 }
