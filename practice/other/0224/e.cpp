@@ -70,12 +70,12 @@ signed main() {
     rep(i, n) cin >> t[i];
     rep(i, n) cin >> a[i];
     mint ans = 1;
-    if (t[n - 1] != a[0]) {
+    if (a[0] != t[n - 1]) {
         cout << 0 << endl;
         return 0;
     }
     bool ok = true;
-    for (int i = 0; i < n - 1; i++) {
+    rep(i, n - 1) {
         if (t[i] > t[i + 1]) ok = false;
     }
     for (int i = n - 1; i > 0; i--) {
@@ -88,20 +88,26 @@ signed main() {
     for (int i = 0; i < n; i++) {
         if (i == 0 || i == n - 1) continue;
         if (t[i - 1] < t[i]) {
-            if (t[i] > a[i])
-                ans *= 0;
-            else {
-                if (a[i] > a[i + 1] && t[i] != a[i]) ans *= 0;
+            if (t[i] > a[i]) ans *= 0;
+            if (a[i] > a[i + 1]) {
+                if (t[i] != a[i]) {
+                    ans *= 0;
+                } else {
+                    ans *= 1;
+                }
             }
         }
         if (a[i] > a[i + 1]) {
-            if (a[i] > t[i])
-                ans *= 0;
-            else {
-                if (t[i - 1] < t[i] && t[i] != a[i]) ans *= 0;
+            if (a[i] > t[i]) ans *= 0;
+            if (t[i - 1] < t[i]) {
+                if (a[i] != t[i]) {
+                    ans *= 0;
+                } else
+                    ans *= 1;
             }
+        } else if (!(a[i] > a[i + 1]) && !(t[i - 1] < t[i])) {
+            ans *= min(t[i], a[i]);
         }
-        if (!(t[i - 1] < t[i] || a[i] > a[i + 1])) ans *= min(t[i], a[i]);
     }
     cout << ans << endl;
 }

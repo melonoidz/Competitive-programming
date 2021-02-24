@@ -22,70 +22,64 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-using Edge = pair<int, pi>;
-using Graph = vc<vc<Edge>>;
-int n, m, x, y;
-int a, b, t, k;
-Graph g;
-int INF = 1e9;
-void solve() {
-    vc<vc<int>> dp(n, vc<int>(100100, INF));
-    priority_queue<pair<int, pi>, vector<pair<int, pi>>, greater<pair<int, pi>>>
-        que;
-    dp[0][S] = 0;
-    que.push(make_pair(0, pi(0, S)));
-    while (!que.empty()) {
-        auto p = que.top();
-        que.pop();
-        int time = p.first;
-        int v = p.second.first;
-        int s = p.second.second;
-        if (time > dp[v][s]) continue;
-
-        // 補充
-        if (s + C[v] <= MAX) {
-            int ns = s + C[v];
-            int ntime = time + D[v];
-            if (dp[v][ns] > ntime) {
-                chmin(dp[v][ns], ntime);
-                que.push(make_pair(ntime, pi(v, ns)));
+int N, M, X, Y;
+int A, B, T, K;
+struct Edge {
+    int to;
+    int cost;
+    int k;
+};
+vector<Edge> edge[1100000];
+vector<int> dijkstra(int start) {
+    priority_queue<pi, vector<pi>, greater<pi>> pq;
+    vector<int> dist(N, 1e18);
+    dist[start] = 0;
+    pq.push(pi(0, start));
+    while (!pq.empty()) {
+        auto p = pq.top();
+        pq.pop();
+        int d = p.first;
+        int from = p.second;
+        if (dist[from] < d) continue;
+        for (auto nxt : edge[from]) {
+            int to = nxt.to;
+            int c = nxt.cost;
+            int k = nxt.k;
+            int nt;
+            if (dist[from] % k == 0) {
+                nt = dist[from] + c;
+            } else {
+                nt = (dist[from] / k + 1) * k + c;
             }
-        }
-        // 辺を通る
-        for (auto e : G[v]) {
-            if (s < e.second.first) continue;
-            int nv = e.first;
-            int ns = s - e.second.first;
-            int ntime = time + e.second.second;
-            if (dp[nv][ns] > ntime) {
-                chmin(dp[nv][ns], ntime);
-                que.push(make_pair(ntime, pi(nv, ns)));
+            if (dist[to] > nt) {
+                dist[to] = nt;
+                pq.push(pi(dist[to], to));
             }
         }
     }
-    for (int v = 1; v < N; ++v) {
-        int res = INF;
-        for (int s = 0; s <= MAX; ++s) {
-            chmin(res, dp[v][s]);
-        }
-        cout << res << endl;
-    }
+    return dist;
 }
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    cin >> n >> m >> x >> y;
-    if (m == 0) {
+    cin >> N >> M >> X >> Y;
+    X--, Y--;
+    if (M == 0) {
         cout << -1 << endl;
         return 0;
     }
-    g.assign(n, vector<Edge>());
-    rep(i, m) {
-        cin >> a >> b >> t >> k;
-        a--, b--;
-        g[a].push_back(Edge(b, pi(t, k)));
-        g[b].push_back(Edge(a, pi(t, k)));
+    rep(i, M) {
+        cin >> A >> B >> T >> K;
+        A--, B--;
+        edge[A].push_back({B, T, K});
+        edge[B].push_back({A, T, K});
     }
-    solve();
+    auto res = dijkstra(X);
+    auto ans = res[Y];
+    if (ans == 1e18) {
+        cout << -1 << endl;
+    } else {
+        cout << ans << endl;
+    }
 }

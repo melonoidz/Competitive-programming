@@ -29,22 +29,22 @@ signed main() {
     cout << fixed << setprecision(20);
     int b, c;
     cin >> b >> c;
-    if (c == 1) {
-        if (b == 0) {
-            cout << 1 << endl;
-        } else {
-            cout << 2 << endl;
-        }
-        return 0;
-    }
     if (c == 2) {
         cout << 3 << endl;
         return 0;
-    } else {
-        if (c % 2 == 1) {
-            cout << c + abs(b) * 2 - 1 << endl;
+    }
+
+    if (b <= 0) {
+        if (c % 2 == 0) {
+            cout << 1 + (-b + (c - 2) / 2) - (b - c / 2) << endl;
         } else {
-            cout << c + abs(b) * 2 << endl;
+            cout << 1 + (-b + c / 2) - (b - c / 2) << endl;
+        }
+    } else {
+        if (c % 2 == 0) {
+            cout << 1 + (b + (c - 2) / 2) - (-b + (c - 2) / 2) << endl;
+        } else {
+            cout << 1 + (b + (c - 1) / 2) - (-b - (c-1) / 2) << endl;
         }
     }
 }
