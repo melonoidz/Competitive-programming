@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
 #include <atcoder/all>
+#pragma GCC target("avx2")
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 using namespace std;
 using ll = long long;
 #define int ll
@@ -61,17 +64,17 @@ signed main() {
         sumr[i] = sr[i + 1] - r[i].first;
     }
 
-    int ans = 0;
-    for (int i = 0; i < r.size(); i++) {
+    int ans = 0LL;
+    for (int i = 0; i < r.size() - 1; i++) {
         int cost =
             sr[i + 1] - 2 * r[i].first + *max_element(suml.begin(), suml.end());
         ans = max(ans, cost);
     }
-    for (int i = 0; i < l.size(); i++) {
+    for (int i = 0; i < l.size() - 1; i++) {
         int cost =
             sl[i + 1] - 2 * l[i].first + *max_element(sumr.begin(), sumr.end());
         ans = max(ans, cost);
     }
-    cout << max(0LL, ans) << endl;
+    cout << max(0LL, ans) << "\n";
     return 0;
 }
