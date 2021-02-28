@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -22,32 +23,30 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int n, x;
-int calc(int k, vc<int>& a, int x) {
-    vc<vc<int>> dp(n + 1, vc<int>(k + 1, -10e18));
-    dp[0][0] = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < k; j++) {
-            dp[i + 1][j] = max(dp[i + 1][j], dp[i][(j - a[i] + k) % k] + a[i]);
-        }
-    }
-    if (dp[k][x % k] < 0) {
-        return 1e20;
-    }
-    return;
-}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    cin >> n >> x;
+    int n;
+    cin >> n;
     vc<int> a(n);
-    rep(i, n) cin >> a[i];
-    // k個選んだ時にres%k == x%k となるtime=min{(x-res)%k}を求める
-    // sum(A)<=XなのでOK
-    int ans = 10e10;
-    for (int i = 1; i <= n; i++) {
-        ans = min(ans, calc(i, a, x));
+    int ms = 0;
+    rep(i, n) {
+        cin >> a[i];
+        if (a[i] < 0) ms++;
+    }
+    int ans = 0;
+    if (ms % 2 == 0) {
+        for (auto v : a) {
+            ans += abs(v);
+        }
+    } else {
+        int tmp = 1e18;
+        for (auto v : a) {
+            tmp = min(tmp, abs(v));
+            ans += abs(v);
+        }
+        ans -= tmp * 2;
     }
     cout << ans << endl;
 }
