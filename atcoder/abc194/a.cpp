@@ -27,8 +27,19 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    // www...wwwww
-    //{w}+{s}から変形される
-    //再帰的に解けそうな感じ {ssw}+{wws}...みたいな
-    
+    int c, b;
+    cin >> c >> b;
+    int a=b+c;
+    if (a >= 15 && b >= 8) {
+        cout << 1 << endl;
+
+    } else {
+        if (a >= 10 && b >= 3) {
+            cout << 2 << endl;
+        } else if (a>= 3) {
+            cout << 3 << endl;
+        } else {
+            cout << 4 << endl;
+        }
+    }
 }

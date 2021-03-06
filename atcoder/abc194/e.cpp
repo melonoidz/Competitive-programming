@@ -27,8 +27,9 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    // www...wwwww
-    //{w}+{s}から変形される
-    //再帰的に解けそうな感じ {ssw}+{wws}...みたいな
+    int n, m;
+    cin >> n >> m;
+    vc<int> a(n, 0);
+    rep(i, n) cin >> a[i];
     
 }

@@ -27,8 +27,23 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    // www...wwwww
-    //{w}+{s}から変形される
-    //再帰的に解けそうな感じ {ssw}+{wws}...みたいな
-    
+    int n;
+    cin >> n;
+    vc<pi> C;
+    int ans = 1e9;
+    rep(i, n) {
+        int a, b;
+        cin >> a >> b;
+        C.emplace_back(a, b);
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == j) {
+                ans = min(ans, C[i].first + C[i].second);
+            } else {
+                ans = min(ans, max(C[i].first, C[j].second));
+            }
+        }
+    }
+    cout << ans << endl;
 }

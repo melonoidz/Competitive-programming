@@ -27,8 +27,19 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    // www...wwwww
-    //{w}+{s}から変形される
-    //再帰的に解けそうな感じ {ssw}+{wws}...みたいな
-    
+    int s, t;
+    cin >> s >> t;
+    int gs, gt;
+    cin >> gs >> gt;
+    if (s == gs && t == gt) {
+        cout << 0 << endl;
+        return 0;
+    }
+    if (s + gs == t + gt || s - gs == t - gt ||
+        abs(s - gs) + abs(t - gt) <= 3) {
+        cout << 1 << endl;
+        return 0;
+    } else {
+    }
+    return 0;
 }

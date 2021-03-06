@@ -22,7 +22,7 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-
+// https://betrue12.hateblo.jp/entry/2021/02/18/221855
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
@@ -44,7 +44,7 @@ signed main() {
         if (c % 2 == 0) {
             cout << 1 + (b + (c - 2) / 2) - (-b + (c - 2) / 2) << endl;
         } else {
-            cout << 1 + (b + (c - 1) / 2) - (-b - (c-1) / 2) << endl;
+            cout << 1 + (b + (c - 1) / 2) - (-b - (c - 1) / 2) << endl;
         }
     }
 }

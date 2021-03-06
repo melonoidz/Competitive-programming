@@ -27,8 +27,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    // www...wwwww
-    //{w}+{s}から変形される
-    //再帰的に解けそうな感じ {ssw}+{wws}...みたいな
-    
+    int n, b, tmp;
+    b = 0, tmp = 0;
+    cin >> n;
+    vc<int> a(n);
+    bool ok = true;
+    rep(i, n) {
+        cin >> tmp;
+        if (tmp > i || tmp - b > 1) {
+            ok = false;
+        }
+        b = tmp;
+        a[i] = b;
+    }
+    if (!ok) {
+        cout << -1 << endl;
+        return 0;
+    }
+    int res = 0;
+    a.push_back(0);
+    for (int i = 0; i < n; i++) {
+        if (a[i] >= a[i + 1]) {
+            res += a[i];
+        }
+    }
+    cout << res << endl;
 }

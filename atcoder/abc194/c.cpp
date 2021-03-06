@@ -27,8 +27,20 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    // www...wwwww
-    //{w}+{s}から変形される
-    //再帰的に解けそうな感じ {ssw}+{wws}...みたいな
-    
+    int n;
+    cin >> n;
+    vc<int> a(n + 2, 0);
+    vc<int> aj2(n + 2, 0), aj(n + 2, 0);
+    int tmp = 0;
+    rep(i, n) {
+        cin >> a[i + 1];
+        aj[i + 1] = a[i + 1] + aj[i];
+        aj2[i + 1] = aj2[i] + a[i + 1] * a[i + 1];
+    }
+    int ans = 0;
+    for (int i = 2; i <= n; i++) {
+        ans += (i - 1) * a[i] * a[i] - 2 * a[i] * aj[i - 1] + aj2[i - 1];
+    }
+
+    cout << ans << endl;
 }
