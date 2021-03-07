@@ -24,30 +24,27 @@ bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
 int n, m;
-vector<int> a(2002000);
+vc<int> a(2002000);
 bool check(int limit) {
-    vc<int> cnt(2002000);
-    int exist = 0;
-    rep(i, n) cnt[i] = 0;
+    vc<int> cnt(n + 1, 0);
+    int used = 0;
     for (int i = 0; i < m; i++) {
         if (cnt[a[i]] == 0 && a[i] <= limit) {
-            exist++;
+            used++;
         }
         cnt[a[i]]++;
     }
-    // exist4個，limit-index=4(==5)
-    if (exist <= limit) return true;
-    //区間を動かす
+    if (used <= limit) return true;
     for (int i = m; i < n; i++) {
-        //左端の扱い
-        if (cnt[a[i - m]] == 1 && a[i - m] <= limit) exist--;
+        if (cnt[a[i - m]] == 1 && a[i - m] <= limit) {
+            used--;
+        }
         cnt[a[i - m]]--;
-        //右端の扱い
         if (cnt[a[i]] == 0 && a[i] <= limit) {
-            exist++;
+            used++;
         }
         cnt[a[i]]++;
-        if (exist <= limit) return true;
+        if (used <= limit) return true;
     }
     return false;
 }
@@ -56,10 +53,10 @@ signed main() {
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
     cin >> n >> m;
-    for (int i = 0; i < n; i++) cin >> a[i];
-    int ng = -1, ok = n + 1;
-    // limit以下で使われている数を数える． used<=limitならlimit以下のmexがある
-    while (abs(ng - ok) > 1) {
+    rep(i, n) cin >> a[i];
+    int ng = -1;
+    int ok = n + 1;
+    while (abs(ok - ng) > 1) {
         int mid = (ok + ng) / 2;
         if (check(mid)) {
             ok = mid;
