@@ -23,21 +23,41 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+
+int g1(int x) {
+    string tmp = to_string(x);
+    sort(ALL(tmp));
+    int res = 0;
+    int tt = 1;
+    for (int i = 0; i < tmp.size(); i++) {
+        res += (tmp[i] - '0') * tt;
+        tt *= 10;
+    }
+    return res;
+}
+
+int g2(int x) {
+    string tmp = to_string(x);
+    sort(ALL(tmp));
+    reverse(ALL(tmp));
+    int res = 0;
+    int tt = 1;
+    for (int i = 0; i < tmp.size(); i++) {
+        res += (tmp[i] - '0') * tt;
+        tt *= 10;
+    }
+    return res;
+}
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int s, t;
-    cin >> s >> t;
-    int gs, gt;
-    cin >> gs >> gt;
-    int ss= gs-s;
-    int tt=gt-t;
-    int ans=3;
-    if(!ss &&! tt) ans=0;
-    else if(ss==tt || ss==-tt || abs(ss)+abs(tt)<=3) ans=1;
-    else if ((ss^tt^1)&1 || abs(ss+tt)<=3 || abs(ss-tt)<=3 || abs(ss)+abs(tt)<=6) ans=2;
-    cout<<ans<<endl;
-
-    return 0;
+    int n, k;
+    cin >> n >> k;
+    int a = n;
+    for (int i = 1; i <= k; i++) {
+        a = g1(a) - g2(a);
+    }
+    cout << a << endl;
 }

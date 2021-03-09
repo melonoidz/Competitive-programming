@@ -27,17 +27,42 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int s, t;
-    cin >> s >> t;
-    int gs, gt;
-    cin >> gs >> gt;
-    int ss= gs-s;
-    int tt=gt-t;
-    int ans=3;
-    if(!ss &&! tt) ans=0;
-    else if(ss==tt || ss==-tt || abs(ss)+abs(tt)<=3) ans=1;
-    else if ((ss^tt^1)&1 || abs(ss+tt)<=3 || abs(ss-tt)<=3 || abs(ss)+abs(tt)<=6) ans=2;
-    cout<<ans<<endl;
-
-    return 0;
+    int n;
+    cin >> n;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    vc<int> odd = a, even = a;
+    int co = 0, ce = 0;
+    int cnto = 0, cnte = 0;
+    for (int i = 0; i < n; i++) {
+        co += a[i];
+        if (i % 2 == 0) {
+            if (co <= 0) {
+                cnto += 1 - co;
+                co = 1;
+            }
+        }
+        if (i % 2 == 1) {
+            if (co >= 0) {
+                cnto += co + 1;
+                co = -1;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        ce += a[i];
+        if (i % 2 == 0) {
+            if (ce >= 0) {
+                cnte += ce + 1;
+                ce = -1;
+            }
+        }
+        if (i % 2 == 1) {
+            if (ce <= 0) {
+                cnte += 1 - ce;
+                ce = 1;
+            }
+        }
+    }
+    cout << min(cnto, cnte) << endl;
 }

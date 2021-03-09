@@ -23,21 +23,39 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+
+int dist(tuple<int, int, int> a, tuple<int, int, int> b) {
+    return abs(get<0>(a) - get<0>(b)) + abs(get<1>(a) - get<1>(b)) +
+           max(0LL, get<2>(b) - get<2>(a));
+}
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int s, t;
-    cin >> s >> t;
-    int gs, gt;
-    cin >> gs >> gt;
-    int ss= gs-s;
-    int tt=gt-t;
-    int ans=3;
-    if(!ss &&! tt) ans=0;
-    else if(ss==tt || ss==-tt || abs(ss)+abs(tt)<=3) ans=1;
-    else if ((ss^tt^1)&1 || abs(ss+tt)<=3 || abs(ss-tt)<=3 || abs(ss)+abs(tt)<=6) ans=2;
-    cout<<ans<<endl;
-
-    return 0;
+    int n;
+    cin >> n;
+    vc<tuple<int, int, int>> city;
+    rep(i, n) {
+        int x, y, z;
+        cin >> x >> y >> z;
+        city.emplace_back(x, y, z);
+    }
+    int INF = 1e18;
+    vc<vc<int>> dp(150000, vc<int>(20, INF));
+    dp[0][0] = 0;
+    for (int s = 0; s < (1 << n); s++) {
+        for (int u = 0; u < n; u++) {
+            for (int v = 0; v < n; v++) {
+                if (s != 0 && !(s & (1 << u))) continue;
+                if (u != v && !(s & (1 << v))) {
+                    dp[s | (1 << v)][v] = min(
+                        dp[s | (1 << v)][v], dp[s][u] + dist(city[u], city[v]));
+                }
+            }
+        }
+    }
+    int ans = dp[(1 << n) - 1][0];
+    if (ans == INF) ans = -1;
+    cout << ans << endl;
 }

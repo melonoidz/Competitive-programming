@@ -27,17 +27,22 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int s, t;
-    cin >> s >> t;
-    int gs, gt;
-    cin >> gs >> gt;
-    int ss= gs-s;
-    int tt=gt-t;
-    int ans=3;
-    if(!ss &&! tt) ans=0;
-    else if(ss==tt || ss==-tt || abs(ss)+abs(tt)<=3) ans=1;
-    else if ((ss^tt^1)&1 || abs(ss+tt)<=3 || abs(ss-tt)<=3 || abs(ss)+abs(tt)<=6) ans=2;
-    cout<<ans<<endl;
-
-    return 0;
+    int n;
+    cin >> n;
+    vc<pi> robots;
+    int ans = 0;
+    rep(i, n) {
+        int x, l;
+        cin >> x >> l;
+        robots.emplace_back(x + l, x - l);
+    }
+    sort(ALL(robots));
+    int now = -2e18;
+    for (int i = 0; i < n; i++) {
+        if (now <= robots[i].second) {
+            ans++;
+            now = robots[i].first;
+        }
+    }
+    cout << ans << endl;
 }
