@@ -22,7 +22,19 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int dp[8100][16180] = {0};
+vc<int> dx(32180, 0);
+vc<int> dy(32180, 0);
+
+void solve(vc<int>& d, vc<int> c, int now, int cnt, bool isX) {
+    if (!d[now]) {
+        d[now] = 1;
+        if (c.size() > cnt) {
+            solve(d, c, now + c[cnt], cnt + 1, isX);
+            if (cnt != 0 || !isX) solve(d, c, now - c[cnt], cnt + 1, isX);
+        }
+    }
+}
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
@@ -37,7 +49,7 @@ signed main() {
     bool f = true;
     int cnt = 0;
     for (int i = 0; i < s.size(); i++) {
-        if (s[i] == 'T' && i == 0) {
+        if (s[0] == 'T') {
             X.push_back(0);
             f = false;
         } else {
@@ -56,50 +68,9 @@ signed main() {
             }
         }
     }
-    bool alz_x = true, alz_y = true;
-    for (auto x : X) {
-        if (x != 0) alz_x = false;
-    }
-    for (auto y : Y) {
-        if (y != 0) alz_y = false;
-    }
-    bool isX = false, isY = false;
-    dp[0][8100] = 1;
-    if (!X.empty() && !alz_x) {
-        if (s[0] == 'F')
-            dp[1][8100 + X[0]] = 1;
-        else
-            dp[1][8100 - X[0]] = 1, dp[1][8100 + X[0]] = 1;
-
-        for (int i = 2; i <= X.size(); i++) {
-            for (int d = 0; d <= 16100; d++) {
-                if (dp[i - 1][d] == 1) {
-                    if (d - X[i - 1] >= 0) dp[i][d - X[i - 1]] = 1;
-                    if (d + X[i - 1] <= 16100) dp[i][d + X[i - 1]] = 1;
-                }
-            }
-        }
-    } else if (alz_x) {
-        dp[X.size()][8100] = 1;
-    }
-    if (dp[X.size()][x + 8100]) isX = true;
-    memset(dp, sizeof(dp), 0);
-    dp[0][8100] = 1;
-    if (!Y.empty() && !alz_y) {
-        dp[1][8100 - Y[0]] = 1, dp[1][8100 + Y[0]] = 1;
-        for (int i = 2; i <= Y.size(); i++) {
-            for (int d = 0; d <= 16100; d++) {
-                if (dp[i - 1][d] == 1) {
-                    if (d - Y[i - 1] >= 0) dp[i][d - Y[i - 1]] = 1;
-                    if (d + Y[i - 1] <= 16100) dp[i][d + Y[i - 1]] = 1;
-                }
-            }
-        }
-    } else {
-        dp[Y.size()][8100] = 1;
-    }
-    if (dp[Y.size()][y + 8100] == 1) isY = true;
-    if (isX && isY) {
+    solve(dx, X, 16100, 0, true);
+    solve(dy, Y, 16100, 0, false);
+    if (dx[x + 8100] && dy[y + 8100]) {
         cout << "Yes" << endl;
     } else {
         cout << "No" << endl;
