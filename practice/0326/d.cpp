@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -26,19 +27,36 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int N;
-    cin >> N;
     string S;
     cin >> S;
-    int ans = 0;
-    for (int i = 0; i < N; i++) {
-        string T = S.substr(i);
-        auto tmp = atcoder::z_algorithm(T);
-        for (int j = 0; j < T.size(); j++) {
-            // 1ペア目はjのほうが影響される
-            int l = min((int)tmp[j], j);
-            ans = max(ans, l);
+    int ans = S.size() / 2;
+    vc<vc<int>> cnt(26);
+    for (int i = 0; i < S.size(); i++) {
+        int now = S[i] - 'a';
+        cnt[now].push_back(i + 1);
+    }
+    vc<int> num;
+    int d = 0;
+    rep(i, 26) {
+        if (!cnt[i].empty()) {
+            if (d == cnt[i].size()) {
+                num.push_back(i);
+            }
+            if (d < cnt[i].size()) {
+                d = cnt[i].size();
+                vc<int> y;
+                y.push_back(i);
+                num = y;
+            }
         }
+    }
+    int tmp = 1e9;
+    for (int i = 0; i < num.size(); i++) {
+        int dist = 0;
+        for (int j = 0; j < cnt[num[i]].size() - 1; i++) {
+            dist = max(dist, cnt[num[i]][j + 1] - cnt[num[i]][j]);
+        }
+        ans = dist;
     }
     cout << ans << endl;
 }

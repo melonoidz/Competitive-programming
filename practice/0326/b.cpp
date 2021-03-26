@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -26,19 +27,20 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int N;
-    cin >> N;
-    string S;
-    cin >> S;
-    int ans = 0;
-    for (int i = 0; i < N; i++) {
-        string T = S.substr(i);
-        auto tmp = atcoder::z_algorithm(T);
-        for (int j = 0; j < T.size(); j++) {
-            // 1ペア目はjのほうが影響される
-            int l = min((int)tmp[j], j);
-            ans = max(ans, l);
+    string s, t;
+    cin >> s >> t;
+    string tmp = s + s;
+    for (int i = 0; i < tmp.size(); i++) {
+        if (tmp[i] == t[0]) {
+            bool ok = true;
+            for (int j = 0; j < t.size(); j++) {
+                if (tmp[i + j] != t[j]) ok = false;
+            }
+            if (ok) {
+                cout << "Yes" << endl;
+                return 0;
+            }
         }
     }
-    cout << ans << endl;
+    cout << "No" << endl;
 }

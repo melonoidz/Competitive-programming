@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -26,19 +27,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int N;
-    cin >> N;
-    string S;
-    cin >> S;
-    int ans = 0;
-    for (int i = 0; i < N; i++) {
-        string T = S.substr(i);
-        auto tmp = atcoder::z_algorithm(T);
-        for (int j = 0; j < T.size(); j++) {
-            // 1ペア目はjのほうが影響される
-            int l = min((int)tmp[j], j);
-            ans = max(ans, l);
+    const int MOD = 998244353;
+    int n;
+    cin >> n;
+    vc<int> f(n);
+    rep(i, n) cin >> f[i];
+    int ans = 1;
+    map<int, int> cnt;
+    int tmp = 0;
+    vc<int> mx(n + 1, 0);
+    for (int i = 1; i <= n; i++) {
+        if (i < f[i - 1]) {
+            tmp++;
         }
+        cnt[f[i - 1]]++;
+        if (cnt[f[i - 1]] > 1) {
+            ans = pow(2L, (i - cnt[f[i - 1]] - tmp)) * cnt[f[i - 1]];
+            ans %= MOD;
+        } else {
+            ans *= 2;
+            ans %= MOD;
+        }
+        ans %= MOD;
+        if (ans < 0) ans += MOD;
     }
-    cout << ans << endl;
+    cout << ans - 1 << endl;
 }
