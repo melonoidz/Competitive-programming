@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -26,17 +27,22 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    string a;
-    cin >> a;
-    int l = a.length();
-    int ans = l * (l - 1) / 2;
-    //回文の可能性と同文字は同じこと
-    map<char, int> cnt;
-    for (auto u : a) {
-        cnt[u]++;
+    string s;
+    cin >> s;
+    int ans = s.size();
+    for (char i = 'a'; i <= 'z'; i++) {
+        int cnt = 0;
+        int res = 0;
+        for (int j = 0; j < s.size(); j++) {
+            if (s[j] != i) {
+                cnt++;
+            } else {
+                res = max(res, cnt);
+                cnt = 0;
+            }
+        }
+        res = max(res, cnt);
+        ans = min(ans, res);
     }
-    for (auto res : cnt) {
-        ans -= res.second * (res.second - 1) / 2;
-    }
-    cout << ans + 1 << endl;
+    cout << ans << endl;
 }
