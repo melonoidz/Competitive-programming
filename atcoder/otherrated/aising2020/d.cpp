@@ -11,7 +11,9 @@ int main()
     ios::sync_with_stdio(false);
     int n; cin>>n;
     string x; cin>>x;
-    
+    //builtinpopcntで数える
+    //2回目以降x<=2*10**5
+    //あらかじめ計算しておいて(メモか再帰？)　x+=1で調整
 
     return 0;
 }
