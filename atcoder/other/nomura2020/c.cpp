@@ -23,31 +23,30 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-
-vc<int> res(200020, -1);
-int calc(int a) {
-    if (a == 0) return 0;
-    if (a == 1) return 1;
-    if (res[a] != -1) return res[a];
-    int cnt = popcount(a);
-    int rec = a % cnt;
-    res[a] = calc(rec) + 1;
-    return res[a];
-}
-
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    string x;
-    cin >> x;
-    int cnt = 0;
-    for (auto c : x) cnt += c - '0';
-    for (int i = 0; i < 200; i++) {
-        res[i] = calc(i);
-        cout<<res[i]<<endl;
+    vc<int> a(n + 1), l(n + 1), r(n + 1);
+    rep(i, n + 1) cin >> a[i];
+    l[n] = r[n] = a[n];
+    for (int i = n - 1; i >= 0; i--) {
+        l[i] = a[i] + (l[i + 1] + 1) / 2;
+        r[i] = a[i] + r[i + 1];
     }
-
+    if (l[0] != 1) {
+        cout << -1 << endl;
+        return 0;
+    }
+    int cur = 1;
+    int ret = 0;
+    rep(i, n + 1) {
+        ret += cur;
+        cur -= a[i];
+        cur = min(cur * 2, r[i + 1]);
+    }
+    cout << ret << endl;
+    return 0;
 }

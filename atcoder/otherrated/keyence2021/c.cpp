@@ -68,59 +68,32 @@ signed main() {
     int H, W, k;
     cin >> H >> W >> k;
     H--, W--;
-    vc<vc<string>> f(5010, vc<string>(5010));
+    vc<vc<char>> f(5010, vc<char>(5010));
     rep(i, k) {
         int h, w;
         cin >> h >> w;
-        string g;
+        char g;
         cin >> g;
         h--, w--;
         f[h][w] = g;
     }
-    vc<vc<vc<mint>>> dp(5010, vc<vc<mint>>(5010, vc<mint>(3, 0)));
-    if (f[0][0] == "X") {
-        dp[0][0][0] = 1;
-    } else if (f[0][0] == "R") {
-        dp[0][0][1] = 1;
-    } else if (f[0][0] == "D") {
-        dp[0][0][2] = 1;
-    } else {
-        rep(i, 3) dp[0][0][i] = 1;
-    }
-    for (int i = 0; i <= H; i++) {
-        for (int j = 0; j <= W; j++) {
-            if (f[i][j] == "X") {
-                dp[i + 1][j][0] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i][j + 1][0] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i + 1][j][1] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i][j + 1][1] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i + 1][j][2] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i][j + 1][2] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-            } else if (f[i][j] == "R") {
-                dp[i + 1][j][0] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i + 1][j][1] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i + 1][j][2] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-            } else if (f[i][j] == "D") {
-                dp[i][j + 1][0] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i][j + 1][1] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
-                dp[i][j + 1][2] += dp[i][j][0] + dp[i][j][1] + dp[i][j][2];
+    vc<vc<mint>> dp(5010, vc<mint>(5010, 0));
+    dp[0][0] = 1;
+    for (int i = 0; i < H; i++) {
+        for (int j = 0; j < W; j++) {
+            if (f[i][j] == 'R') {
+                dp[i][j + 1] += dp[i][j];
+            } else if (f[i][j] == 'D') {
+                dp[i + 1][j] += dp[i][j];
+            } else if (f[i][j] == 'X') {
+                dp[i + 1][j] += dp[i][j];
+                dp[i][j + 1] += dp[i][j];
             } else {
-                dp[i + 1][j][0] +=
-                    mint(2) * (dp[i][j][0] + dp[i][j][1] + dp[i][j][2]);
-                dp[i][j + 1][0] +=
-                    mint(2) * (dp[i][j][0] + dp[i][j][1] + dp[i][j][2]);
-                dp[i + 1][j][1] +=
-                    mint(2) * (dp[i][j][0] + dp[i][j][1] + dp[i][j][2]);
-                dp[i][j + 1][1] +=
-                    mint(2) * (dp[i][j][0] + dp[i][j][1] + dp[i][j][2]);
-                dp[i + 1][j][2] +=
-                    mint(2) * (dp[i][j][0] + dp[i][j][1] + dp[i][j][2]);
-                dp[i][j + 1][2] +=
-                    mint(2) * (dp[i][j][0] + dp[i][j][1] + dp[i][j][2]);
+                dp[i + 1][j] += dp[i][j] * 2 / 3;
+                dp[i][j + 1] += dp[i][j] * 2 / 3;
             }
         }
     }
-    mint ans = dp[H][W][0] + dp[H][W][1] + dp[H][W][2];
-    cout << ans << endl;
+    cout << dp[H][W] << endl;
     return 0;
 }

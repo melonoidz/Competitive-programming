@@ -28,52 +28,57 @@ signed main() {
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
+    const int cal = 1000000000LL;
     map<pair<int, int>, int> cnt;
     rep(i, n) {
-        string a;
-        cin >> a;
-        int tmp = 0;
-        for (int i = 0; i < a.size(); i++) {
-            if (a[i] == '.') tmp = i;
-        }
-        if (tmp == 0) {
-            // zero count
-            int zcnt = 0;
-            for (int i = a.size() - 1; i >= 0; i--) {
-                if (a[i] == '0') {
-                    zcnt++;
-                } else
-                    break;
+        string s;
+        cin >> s;
+        string g;  // 小数点以下を取り出したもの
+        if (count(s.begin(), s.end(), '.') != 0) {
+            while (s.back() != '.') {
+                g.push_back(s.back());
+                s.pop_back();
             }
-            if (zcnt != 0) {
-                pair<int, int> res;
-                res.first = zcnt;
-                res.second = zcnt;
-                if (a.size() - zcnt - 1 >= 0) {
-                    char ll = a[a.size() - zcnt - 1];
-                    if (ll == '2') {
-                        res.first++;
-                    } else if (ll == '4') {
-                        res.first += 2;
-                    } else if (ll == '5') {
-                        res.second++;
-                    } else if (ll == '6') {
-                        res.first++;
-                    } else if (ll == '8') {
-                        res.first += 3;
+            s.pop_back();
+            std::reverse(g.begin(), g.end());
+        }
+        while ((int)g.length() < 9) g.push_back('0');
+
+        // 整数に変換
+        int x = std::stoi(s) * cal + std::stoi(g);
+
+        int nt = (int)x;
+        int nf = (int)x;
+        int tw = 0;
+        int fv = 0;
+        while (nt % 2 == 0) {
+            nt /= 2;
+            tw++;
+        }
+        while (nf % 5 == 0) {
+            nf /= 5;
+            fv++;
+        }
+        tw = min(18LL, tw);
+        fv = min(18LL, fv);
+        cnt[pi(tw, fv)]++;
+    }
+    int ans = 0;
+    for (int i = 0; i <= 18; i++) {
+        for (int j = 0; j <= 18; j++) {
+            for (int k = 0; k <= 18; k++) {
+                for (int l = 0; l <= 18; l++) {
+                    if (i + k >= 18 && j + l >= 18) {
+                        if (i == k && j == l) {
+                            ans += cnt[pi(i, j)] * (cnt[pi(k, l)] - 1);
+                        } else {
+                            ans += cnt[pi(i, j)] * cnt[pi(k, l)];
+                        }
                     }
-                }
-                cnt[res]++;
-            } else {
-                char last = a[a.size() - 1];
-                if (last == '2') {
-                    cnt[pi(1, 0)]++;
-                } else if (last == '4') {
-                    //...
                 }
             }
         }
     }
-
+    cout << ans / 2 << endl;
     return 0;
 }

@@ -117,5 +117,33 @@ signed main() {
     cin >> n;
     vector<int> a(n, 0);
     rep(i, n) cin >> a[i];
-    
+    int ans = 1000;
+    a.push_back(-1);
+    vc<int> up;
+    int now = a[0];
+    int tmp = now;
+    bool u = false;
+    for (int i = 0; i <= n; i++) {
+        if (now <= a[i]) {
+            if (tmp == 0) tmp = now;
+            now = a[i];
+            u = true;
+        } else {
+            if (u) {
+                up.push_back(tmp);
+                up.push_back(now);
+                tmp = 0;
+            }
+            now = a[i];
+            u = false;
+        }
+    }
+    int add = 0;
+    for (int i = 0; i < up.size(); i += 2) {
+        add = ans % up[i];
+        int now = ans / up[i] * up[i + 1];
+        ans = now + add;
+        add = 0;
+    }
+    cout << ans << endl;
 }

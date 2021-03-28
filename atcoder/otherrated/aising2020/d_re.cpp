@@ -24,6 +24,17 @@ bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
 
+int modpow(ll a, ll n, ll mod) {
+    if (mod <= 0) return 0;
+    ll res = 1;
+    while (n > 0) {
+        if (n & 1) res = res * a % mod;
+        a = a * a % mod;
+        n >>= 1;
+    }
+    return res;
+}
+
 vc<int> res(200020, -1);
 int calc(int a) {
     if (a == 0) return 0;
@@ -43,11 +54,37 @@ signed main() {
     cin >> n;
     string x;
     cin >> x;
-    int cnt = 0;
-    for (auto c : x) cnt += c - '0';
-    for (int i = 0; i < 200; i++) {
+    int p = 0;
+    for (auto u : x) p += u - '0';
+    for (int i = 0; i < 200020; i++) {
         res[i] = calc(i);
-        cout<<res[i]<<endl;
     }
-
+    int a1 = 0, a2 = 0;
+    // xにおけるmod(p-1),mod(p+1)の結果を求める
+    for (int i = 0; i < n; i++) {
+        if (x[i] == '1') {
+            if (p == 1) {
+                a1 = 0;
+            } else {
+                a1 = (a1 + modpow(2, n - i - 1, p - 1)) % (p - 1);
+            }
+            a2 = (a2 + modpow(2, n - i - 1, p + 1)) % (p + 1);
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        if (x[i] == '1') {
+            // mod(p-1)
+            if (p == 1) {
+                cout << 0 << endl;
+            } else {
+                int ans =
+                    1 + calc((a1 - modpow(2, n - i - 1, p - 1) + (p - 1)) %
+                             (p - 1));
+                cout << ans << endl;
+            }
+        } else {
+            int ans = 1 + calc((a2 + modpow(2, n - i - 1, p + 1)) % (p + 1));
+            cout << ans << endl;
+        }
+    }
 }

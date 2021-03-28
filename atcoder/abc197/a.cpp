@@ -23,31 +23,11 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-
-vc<int> res(200020, -1);
-int calc(int a) {
-    if (a == 0) return 0;
-    if (a == 1) return 1;
-    if (res[a] != -1) return res[a];
-    int cnt = popcount(a);
-    int rec = a % cnt;
-    res[a] = calc(rec) + 1;
-    return res[a];
-}
-
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    string x;
-    cin >> x;
-    int cnt = 0;
-    for (auto c : x) cnt += c - '0';
-    for (int i = 0; i < 200; i++) {
-        res[i] = calc(i);
-        cout<<res[i]<<endl;
-    }
-
+    string s;
+    cin >> s;
+    cout << s[1] << s[2] << s[0] << endl;
 }
