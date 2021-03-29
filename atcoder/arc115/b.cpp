@@ -29,20 +29,42 @@ signed main() {
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    int x, y;
-    cin >> x >> y;
-    int a, b;
-    cin >> a >> b;
-    double s, t;
-    s = (x + a) / 2.0;
-    t = (y + b) / 2.0;
-    pair<double, double> oa;
-    oa.first = (double)(x)-s;
-    oa.second = (double)(y)-t;
-    double rx, ry;
-    rx = cos(2.0 * M_PI / (double)n) * oa.first -
-         oa.second * sin(2.0 * M_PI / (double)n) + s;
-    ry = sin(2.0 * M_PI / (double)n) * oa.first +
-         oa.second * cos(2.0 * M_PI / (double)n) + t;
-    cout << rx << " " << ry << endl;
+    vc<vc<int>> C(n, vc<int>(n, 0));
+    vc<int> mi;
+    rep(i, n) { rep(j, n) cin >> C[i][j]; }
+    int m = 1e18;
+    int to = 0;
+    for (int i = 0; i < n; i++) {
+        if (C[i][0] < m) {
+            m = C[i][0];
+            to = i;
+        }
+    }
+    mi = C[to];
+    bool ok = true;
+    for (int i = 0; i < n - 1; i++) {
+        int dif = C[i + 1][0] - C[i][0];
+        for (int j = 0; j < n; j++) {
+            if ((C[i + 1][j] - C[i][j]) != dif) ok = false;
+        }
+        if (!ok) break;
+    }
+    if (!ok) {
+        cout << "No" << endl;
+    } else {
+        vc<int> a(n), b(n);
+        b = mi;
+        for (int i = 0; i < n; i++) {
+            if (i == to) {
+                a[i] = 0;
+            } else {
+                a[i] = C[i][0] - mi[0];
+            }
+        }
+        cout << "Yes" << endl;
+        rep(i, n) cout << a[i] << " ";
+        cout << endl;
+        rep(i, n) cout << b[i] << " ";
+        cout << endl;
+    }
 }

@@ -29,20 +29,16 @@ signed main() {
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    int x, y;
-    cin >> x >> y;
-    int a, b;
-    cin >> a >> b;
-    double s, t;
-    s = (x + a) / 2.0;
-    t = (y + b) / 2.0;
-    pair<double, double> oa;
-    oa.first = (double)(x)-s;
-    oa.second = (double)(y)-t;
-    double rx, ry;
-    rx = cos(2.0 * M_PI / (double)n) * oa.first -
-         oa.second * sin(2.0 * M_PI / (double)n) + s;
-    ry = sin(2.0 * M_PI / (double)n) * oa.first +
-         oa.second * cos(2.0 * M_PI / (double)n) + t;
-    cout << rx << " " << ry << endl;
+    vc<int> ans(n + 1);
+    int now = 0;
+    int cnt = 0;
+    for (int i = 1; i <= n; i++) {
+        if (i == (1 << cnt)) {
+            now++;
+            cnt++;
+        }
+        ans[i] = now;
+    }
+    for (int i = 1; i <= n; i++) cout << ans[i] << " ";
+    cout << endl;
 }

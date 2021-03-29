@@ -27,22 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    int x, y;
-    cin >> x >> y;
-    int a, b;
-    cin >> a >> b;
-    double s, t;
-    s = (x + a) / 2.0;
-    t = (y + b) / 2.0;
-    pair<double, double> oa;
-    oa.first = (double)(x)-s;
-    oa.second = (double)(y)-t;
-    double rx, ry;
-    rx = cos(2.0 * M_PI / (double)n) * oa.first -
-         oa.second * sin(2.0 * M_PI / (double)n) + s;
-    ry = sin(2.0 * M_PI / (double)n) * oa.first +
-         oa.second * cos(2.0 * M_PI / (double)n) + t;
-    cout << rx << " " << ry << endl;
+    int n, m;
+    cin >> n >> m;
+    vc<string> s;
+    vc<int> cnt(2, 0);
+    rep(i, n) {
+        string g;
+        cin >> g;
+        int a = 0;
+        for (auto u : g) {
+            if (u == '1') a++;
+        }
+        cnt[a % 2]++;
+    }
+    cout << cnt[0] * cnt[1] << endl;
 }
