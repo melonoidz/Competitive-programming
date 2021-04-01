@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -22,41 +23,28 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+
+int max(int a, int b) { return std::max(a, b); }
+int zero() { return 0; }
+const int M = 300000;
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    multiset<int> a;
-    rep(i, n) {
-        int num;
-        cin >> num;
-        a.insert(num);
+    int N, K;
+    cin >> N >> K;
+    // dp[j] 1,2,...j までの列で末尾がxとなる個数
+    // dp[j+1]=dp[j] (IF abs(dp[j+1]-dp[j])>K)
+    // dp[j+1]=dp[j]+1 else
+    // 1点更新・要素allprodの取得
+    atcoder::segtree<int, max, zero> dp(M + 1);
+    while (N--) {
+        int a;
+        cin >> a;
+        int l = std::max(a - K, 0LL);
+        int r = std::min(a + K, M);
+        int len = dp.prod(l, r + 1);
+        dp.set(a, len + 1);
     }
-    int ans = 0;
-    vc<int> bek(45);
-    bek[0] = 1;
-    for (int i = 0; i < 40; i++) {
-        bek[i + 1] = bek[i] * 2;
-        // cout<<bek[i+1]<<endl;
-    }
-    while (!a.empty()) {
-        auto nu = *a.rbegin();
-        int tmp = 0;
-        for (int j = 0; j < 29; j++) {
-            if (bek[j] > nu) {
-                tmp = j;
-                break;
-            }
-        }
-        int res = bek[tmp] - nu;
-        a.erase(a.find(nu));
-        auto fi = a.find(res);
-        if (fi != a.end()) {
-            a.erase(a.find(res));
-            ans++;
-        }
-    }
-    cout << ans << endl;
+    cout << dp.all_prod() << endl;
 }

@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -28,35 +29,31 @@ signed main() {
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    multiset<int> a;
+    const int mod = 1000000007;
+    vc<int> t(n);
+    map<int, int> cnt;
     rep(i, n) {
-        int num;
-        cin >> num;
-        a.insert(num);
+        cin >> t[i];
+        cnt[t[i]]++;
     }
-    int ans = 0;
-    vc<int> bek(45);
-    bek[0] = 1;
-    for (int i = 0; i < 40; i++) {
-        bek[i + 1] = bek[i] * 2;
-        // cout<<bek[i+1]<<endl;
+    vc<int> fact(10110, 0);
+    fact[0] = 1;
+    for (int i = 1; i <= 10010; i++) {
+        fact[i] = fact[i - 1] * i;
+        fact[i] %= mod;
     }
-    while (!a.empty()) {
-        auto nu = *a.rbegin();
-        int tmp = 0;
-        for (int j = 0; j < 29; j++) {
-            if (bek[j] > nu) {
-                tmp = j;
-                break;
-            }
-        }
-        int res = bek[tmp] - nu;
-        a.erase(a.find(nu));
-        auto fi = a.find(res);
-        if (fi != a.end()) {
-            a.erase(a.find(res));
-            ans++;
-        }
+    int ans = 1;
+    sort(ALL(t), greater<int>());
+    int cal = 1;
+    int time = 0;
+    for (auto r : t) {
+        time += r * cal;
+        cal++;
     }
-    cout << ans << endl;
+    for (auto u : cnt) {
+        ans *= fact[u.second];
+        ans %= mod;
+    }
+    cout << time << endl;
+    cout << ans % mod << endl;
 }

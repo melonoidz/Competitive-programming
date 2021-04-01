@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -28,35 +29,23 @@ signed main() {
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    multiset<int> a;
-    rep(i, n) {
-        int num;
-        cin >> num;
-        a.insert(num);
-    }
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
     int ans = 0;
-    vc<int> bek(45);
-    bek[0] = 1;
-    for (int i = 0; i < 40; i++) {
-        bek[i + 1] = bek[i] * 2;
-        // cout<<bek[i+1]<<endl;
-    }
-    while (!a.empty()) {
-        auto nu = *a.rbegin();
-        int tmp = 0;
-        for (int j = 0; j < 29; j++) {
-            if (bek[j] > nu) {
-                tmp = j;
-                break;
+    sort(ALL(a));
+    vc<int> check(1000100, 0);
+    for (int i = 0; i < n; i++) {
+        int num = a[i];
+        if (check[num] != 0) {
+            check[num] = 2;
+        } else {
+            for (int j = num; j < 1000100; j += num) {
+                check[j]++;
             }
         }
-        int res = bek[tmp] - nu;
-        a.erase(a.find(nu));
-        auto fi = a.find(res);
-        if (fi != a.end()) {
-            a.erase(a.find(res));
-            ans++;
-        }
+    }
+    for (auto u : a) {
+        if (check[u] == 1) ans++;
     }
     cout << ans << endl;
 }

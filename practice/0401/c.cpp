@@ -5,6 +5,7 @@ using ll = long long;
 #define int ll
 #define rng(i, a, b) for (int i = int(a); i < int(b); i++)
 #define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
 template <class t, class u> void chmax(t& a, u b) {
     if (a < b) a = b;
 }
@@ -26,37 +27,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    multiset<int> a;
-    rep(i, n) {
-        int num;
-        cin >> num;
-        a.insert(num);
+    int n, m;
+    cin >> n >> m;
+    string s, t;
+    cin >> s >> t;
+    if (s[0] != t[0]) {
+        cout << -1 << endl;
+        return 0;
     }
-    int ans = 0;
-    vc<int> bek(45);
-    bek[0] = 1;
-    for (int i = 0; i < 40; i++) {
-        bek[i + 1] = bek[i] * 2;
-        // cout<<bek[i+1]<<endl;
+    int g = __gcd(n, m);
+    if (g == 1) {
+        cout << lcm(n, m) << endl;
+        return 0;
     }
-    while (!a.empty()) {
-        auto nu = *a.rbegin();
-        int tmp = 0;
-        for (int j = 0; j < 29; j++) {
-            if (bek[j] > nu) {
-                tmp = j;
-                break;
-            }
-        }
-        int res = bek[tmp] - nu;
-        a.erase(a.find(nu));
-        auto fi = a.find(res);
-        if (fi != a.end()) {
-            a.erase(a.find(res));
-            ans++;
+    int lm = lcm(n, m);
+    bool ok = true;
+    for (int i = 0; i < g; i++) {
+        if (s[i * (n / g)] != t[i * (m / g)]) {
+            ok = false;
         }
     }
-    cout << ans << endl;
+    if (ok) {
+        cout << lm << endl;
+    } else {
+        cout << -1 << endl;
+    }
 }
