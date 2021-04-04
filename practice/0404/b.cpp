@@ -27,32 +27,27 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    vc<vc<int>> color(n);
-    rep(i, n) {
-        int x, c;
-        cin >> x >> c;
-        c--;
-        color[c].push_back(x);
+    int n, m;
+    cin >> n >> m;
+    atcoder::dsu uf(200);
+    vc<int> ch(110, 0);
+    rep(i, m) {
+        int u, v;
+        cin >> u >> v;
+        if (uf.same(u, v)) {
+            ch[u] = 1;
+            ch[v] = 1;
+        }
+        uf.merge(u, v);
     }
-    int lhm = 0, rhm = 0;
-    int ln = 0, rn = 0;
-    for (int i = 0; i < n; i++) {
-        if (!color[i].empty()) {
-            auto cc = color[i];
-            sort(ALL(cc));
-            int dist = abs(cc.front() - cc.back());
-            int a = abs(cc.front() - rn) + dist;
-            int b = abs(cc.front() - ln) + dist;
-            int c = abs(cc.back() - rn) + dist;
-            int d = abs(cc.back() - ln) + dist;
-            int nlhm = min(rhm + c, lhm + d);
-            int nrhm = min(rhm + a, lhm + b);
-            ln = cc.front();
-            rn = cc.back();
-            lhm = nlhm, rhm = nrhm;
+    set<int> res;
+    set<int> dub;
+    for (int i = 1; i <= n; i++) {
+        res.insert(uf.leader(i));
+        if (ch[i] == 1) {
+            auto gr = uf.leader(i);
+            dub.insert(gr);
         }
     }
-    cout << min(lhm + abs(ln), rhm + abs(rn)) << endl;
+    cout << res.size() - dub.size() << endl;
 }

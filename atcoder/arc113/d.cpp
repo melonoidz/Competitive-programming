@@ -133,19 +133,14 @@ signed main() {
     cout << fixed << setprecision(20);
     int N, M, K;
     cin >> N >> M >> K;
-    BiCoef<mint> bc;
-    bc.init(110000);
     mint ans = 0;
-    if (N == 1 && M == 1) {
-      cout<<K<<endl;
-    } else if (N == 1) {
-    } else if (M == 1) {
+    if (N == 1 || M == 1) {
+        ans = modpow(mint(K), N + M - 1);
     } else {
         for (int x = 1; x <= K; x++) {
-            ans += ((mint)1 + (mint)N * modpow((mint)x - 1, N - 1)) *
-                   modpow((mint)K - x + 1, M);
+            ans += (modpow(mint(x), N) - modpow(mint(x - 1), N)) *
+                   modpow(mint(K - x + 1), M);
         }
     }
-
     cout << ans << endl;
 }

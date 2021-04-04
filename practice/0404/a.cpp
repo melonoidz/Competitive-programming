@@ -27,32 +27,42 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    vc<vc<int>> color(n);
-    rep(i, n) {
-        int x, c;
-        cin >> x >> c;
-        c--;
-        color[c].push_back(x);
+    int n, r;
+    cin >> n >> r;
+    string s;
+    cin >> s;
+    int ans = 0;
+    vc<int> t;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == '.') t.push_back(i);
     }
-    int lhm = 0, rhm = 0;
-    int ln = 0, rn = 0;
+    if (t.empty()) {
+        cout << 0 << endl;
+        return 0;
+    }
+    int gl = max(0LL, t.back() - r + 1);
     for (int i = 0; i < n; i++) {
-        if (!color[i].empty()) {
-            auto cc = color[i];
-            sort(ALL(cc));
-            int dist = abs(cc.front() - cc.back());
-            int a = abs(cc.front() - rn) + dist;
-            int b = abs(cc.front() - ln) + dist;
-            int c = abs(cc.back() - rn) + dist;
-            int d = abs(cc.back() - ln) + dist;
-            int nlhm = min(rhm + c, lhm + d);
-            int nrhm = min(rhm + a, lhm + b);
-            ln = cc.front();
-            rn = cc.back();
-            lhm = nlhm, rhm = nrhm;
+        if (s[i] == '.') {
+            if (i == gl) {
+                cout << ans + 1 << endl;
+                return 0;
+            }
+            ans++;
+            for (int j = i; j < i + r; j++) {
+                s[j] = 'o';
+                if (j == gl) {
+                    ans += j - i + 1;
+                    cout << ans << endl;
+                    return 0;
+                }
+            }
+            ans++;
+        } else {
+            if (i == gl) {
+                cout << ans + 1 << endl;
+                return 0;
+            }
+            ans++;
         }
     }
-    cout << min(lhm + abs(ln), rhm + abs(rn)) << endl;
 }

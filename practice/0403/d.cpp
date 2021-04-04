@@ -29,30 +29,17 @@ signed main() {
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    vc<vc<int>> color(n);
-    rep(i, n) {
-        int x, c;
-        cin >> x >> c;
-        c--;
-        color[c].push_back(x);
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    int ans = 0;
+    int dist = 0;
+    int md = 0;
+    int tmp = 0;
+    for (auto d : a) {
+        dist += d;
+        md = max(md, dist);
+        ans = max(ans, tmp + md);
+        tmp += dist;
     }
-    int lhm = 0, rhm = 0;
-    int ln = 0, rn = 0;
-    for (int i = 0; i < n; i++) {
-        if (!color[i].empty()) {
-            auto cc = color[i];
-            sort(ALL(cc));
-            int dist = abs(cc.front() - cc.back());
-            int a = abs(cc.front() - rn) + dist;
-            int b = abs(cc.front() - ln) + dist;
-            int c = abs(cc.back() - rn) + dist;
-            int d = abs(cc.back() - ln) + dist;
-            int nlhm = min(rhm + c, lhm + d);
-            int nrhm = min(rhm + a, lhm + b);
-            ln = cc.front();
-            rn = cc.back();
-            lhm = nlhm, rhm = nrhm;
-        }
-    }
-    cout << min(lhm + abs(ln), rhm + abs(rn)) << endl;
+    cout << ans << endl;
 }

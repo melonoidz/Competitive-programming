@@ -27,32 +27,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    vc<vc<int>> color(n);
+    int n, m;
+    cin >> n >> m;
+    vc<vc<int>> a(n, vc<int>(m, 0)), b(n, vc<int>(m, 0));
     rep(i, n) {
-        int x, c;
-        cin >> x >> c;
-        c--;
-        color[c].push_back(x);
-    }
-    int lhm = 0, rhm = 0;
-    int ln = 0, rn = 0;
-    for (int i = 0; i < n; i++) {
-        if (!color[i].empty()) {
-            auto cc = color[i];
-            sort(ALL(cc));
-            int dist = abs(cc.front() - cc.back());
-            int a = abs(cc.front() - rn) + dist;
-            int b = abs(cc.front() - ln) + dist;
-            int c = abs(cc.back() - rn) + dist;
-            int d = abs(cc.back() - ln) + dist;
-            int nlhm = min(rhm + c, lhm + d);
-            int nrhm = min(rhm + a, lhm + b);
-            ln = cc.front();
-            rn = cc.back();
-            lhm = nlhm, rhm = nrhm;
+        string g;
+        cin >> g;
+        for (int j = 0; j < m; j++) {
+            a[i][j] = g[j] - '0';
         }
     }
-    cout << min(lhm + abs(ln), rhm + abs(rn)) << endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (a[i][j] != 0) {
+                if (i + 1 < n) b[i + 1][j] = a[i][j];
+                if (i + 1 < n && j - 1 >= 0) a[i + 1][j - 1] -= a[i][j];
+                if (i + 1 < n && j + 1 < m) a[i + 1][j + 1] -= a[i][j];
+                if (i + 2 < n) a[i + 2][j] -= a[i][j];
+                a[i][j] = 0;
+            }
+        }
+    }
+    rep(i, n) {
+        rep(j, m) cout << max(0LL, b[i][j]);
+        cout << endl;
+    }
 }
