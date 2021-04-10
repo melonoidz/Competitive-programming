@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+#include <atcoder/all>
+using namespace std;
+using ll = long long;
+#define int ll
+#define rng(i, a, b) for (int i = int(a); i < int(b); i++)
+#define rep(i, b) rng(i, 0, b)
+#define ALL(a) (a).begin(), (a).end()
+template <class t, class u> void chmax(t& a, u b) {
+    if (a < b) a = b;
+}
+template <class t, class u> void chmin(t& a, u b) {
+    if (b < a) a = b;
+}
+template <class t> using vc = vector<t>;
+template <class t> using vvc = vc<vc<t>>;
+using pi = pair<int, int>;
+using vi = vc<int>;
+using uint = unsigned;
+using ull = unsigned long long;
+int popcount(signed t) { return __builtin_popcount(t); }
+int popcount(ll t) { return __builtin_popcountll(t); }
+bool ispow2(int i) { return i && (i & -i) == i; }
+ll mask(int i) { return (ll(1) << i) - 1; }
+int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+signed main() {
+    cin.tie(0);
+    ios::sync_with_stdio(0);
+    cout << fixed << setprecision(20);
+    int n;
+    cin >> n;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    int mi = 1LL << 60, mx = -mi;
+    int mcnt = 0, mmax = 0;
+    rep(i, n) {
+        if (mi > a[i]) {
+            mi = a[i];
+            mcnt = i;
+        }
+        if (mx < a[i]) {
+            mx = a[i];
+            mmax = i;
+        }
+    }
+    vc<pi> ans;
+    if (mi < 0 && mx > 0) {
+      //all Plus OR all Minusの状態を作っている
+        if (abs(mi) > abs(mx)) {
+            for (int i = 0; i < n; i++) {
+                if (a[i] >= 0) ans.emplace_back(mcnt + 1, i + 1);
+            }
+        } else {
+            mi = 1;
+            for (int i = 0; i < n; i++) {
+                if (a[i] <= 0) ans.emplace_back(mmax + 1, i + 1);
+            }
+        }
+    }
+    if (mi >= 0) {
+        rep(i, n - 1) { ans.emplace_back(i + 1, i + 2); }
+    } else {
+        for (int i = n; i > 1; i--) ans.emplace_back(i, i - 1);
+    }
+    cout << ans.size() << endl;
+    rep(i, ans.size()) cout << ans[i].first << " " << ans[i].second << endl;
+}
