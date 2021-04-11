@@ -23,42 +23,32 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-using mint = atcoder::modint998244353;
-vector<pair<long long, long long>> prime_factorize(long long N) {
-    // 12=({2,2},{3,1})
-    vector<pair<long long, long long>> res;
-    for (long long a = 2; a * a <= N; ++a) {
-        if (N % a != 0) continue;
-        long long ex = 0;  // 指数
-        while (N % a == 0) {
-            ++ex;
-            N /= a;
-        }
-        res.push_back({a, ex});
-    }
-    if (N != 1) res.push_back({N, 1});
-    return res;
-}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    mint ans = 0;
-    vc<mint> cnt(200200, 0);
-    vc<vc<pi>> nums(200200);
-    for (int i = 1; i <= m; i++) {
-        auto tmp = prime_factorize(i);
-        nums[i] = tmp;
-        mint res = 1;
-        for (auto p : tmp) {
-            res *= p.second + 1;
+    string n;
+    cin >> n;
+    string t = n;
+    int ind = 0;
+    reverse(ALL(t));
+    for (int i = 0; i < t.length(); i++) {
+        if (t[i] != '0') {
+            ind = i;
+            break;
         }
-        cnt[i] = res;
     }
-    mint ans = 0;
-    for (int i = 1; i <= m; i++) {
-        mint now = cnt[i];
+    t = t.substr(ind);
+    bool ok = true;
+    for (int i = 0; i < t.size(); i++) {
+        if (t[i] != t[t.size() - i-1]) {
+            ok = false;
+            break;
+        }
+    }
+    if (ok) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
     }
 }
