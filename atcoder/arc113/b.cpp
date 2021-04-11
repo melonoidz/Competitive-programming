@@ -22,13 +22,25 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+ll modpow(ll a, ll n, ll mod) {
+    if (mod <= 0) return 0;
+    ll res = 1;
+    while (n > 0) {
+        if (n & 1) res = res * a % mod;
+        a = a * a % mod;
+        n >>= 1;
+    }
+    return res;
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
     int a, b, c;
     cin >> a >> b >> c;
-    b%=10;
-    
-
+    // b**c mod4 が周期
+    int up = modpow(b, c, 4LL);
+    if (up == 0) up += 4;
+    int ans = modpow(a, up, 10LL);
+    cout << ans << endl;
 }

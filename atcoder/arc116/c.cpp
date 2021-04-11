@@ -23,36 +23,42 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+using mint = atcoder::modint998244353;
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int t;
-    cin >> t;
-    string V = "atcoder";
-    rep(i, t) {
-        string s;
-        cin >> s;
-        bool is_a = true;
-        for (auto u : s) {
-            if (u != 'a') is_a = false;
-        }
-        if (s > V) {
-            cout << 0 << endl;
-        } else if (is_a) {
-            cout << -1 << endl;
-        } else {
-            int ans = 1LL << 60;
-            for (int i = 0; i < V.length(); i++) {
-                for (int j = 0; j < s.length(); j++) {
-                    string tmp = s;
-                    swap(tmp[i], tmp[j]);
-                    if (V < tmp) {
-                        ans = min(ans, abs(j - i));
-                    }
-                }
+    int n, m;
+    cin >> n >> m;
+    mint ans = 0;
+
+    const int MAX = 2000010;
+    vc<int> sieve;
+    rep(i, MAX) sieve.emplace_back(i);
+    int p = 2;
+    while (p * p <= MAX) {
+        if (sieve[p] == p) {
+            for (int i = 2 * p; i <= MAX; i += p) {
+                if (sieve[i] == i) sieve[i] = p;
             }
-            cout << ans << endl;
         }
+        p++;
+    }
+    vc<int> cnt(MAX + 1, 0);
+    for (int i = 1; i <= m; i++) {
+        // iを素因数分解(高速素因数分解(logN)ぽい)
+        // a[i]<=a[i+1]となるように配置する時の個数を足していく
+        // 階段状に配置?
+        int num = i;
+        // mapにする？
+        vc<int> tmp;
+        while (num > 1) {
+            tmp.push_back(sieve[num]);
+            num /= sieve[num];
+        }
+        for (auto u : tmp) {
+            cout << u << " ";
+        }
+        cout << endl;
     }
 }

@@ -27,32 +27,24 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int t;
-    cin >> t;
-    string V = "atcoder";
-    rep(i, t) {
-        string s;
-        cin >> s;
-        bool is_a = true;
-        for (auto u : s) {
-            if (u != 'a') is_a = false;
+    int n;
+    cin >> n;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    int ans = 0;
+    int right = 0;
+    int sum = 0;
+    for (int left = 0; left < n; left++) {
+        while (right < n && (sum ^ a[right]) == (sum + a[right])) {
+            sum += a[right];
+            right++;
         }
-        if (s > V) {
-            cout << 0 << endl;
-        } else if (is_a) {
-            cout << -1 << endl;
+        ans += right - left;
+        if (left == right) {
+            right++;
         } else {
-            int ans = 1LL << 60;
-            for (int i = 0; i < V.length(); i++) {
-                for (int j = 0; j < s.length(); j++) {
-                    string tmp = s;
-                    swap(tmp[i], tmp[j]);
-                    if (V < tmp) {
-                        ans = min(ans, abs(j - i));
-                    }
-                }
-            }
-            cout << ans << endl;
+            sum -= a[left];
         }
     }
+    cout << ans << endl;
 }
