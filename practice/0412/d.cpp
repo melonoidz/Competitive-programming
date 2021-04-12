@@ -23,42 +23,25 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-vc<int> cnt(100100, 0);
-vc<int> ok;
-vc<vc<int>> t;
-vc<int> c;
-void dfs(int cu, int pa = -1) {
-    if (cnt[c[cu]] == 0) ok[cu] = 1;
-    cnt[c[cu]]++;
-    for (auto to : t[cu]) {
-        if (to != pa) {
-            dfs(to, cu);
-        }
-    }
-    cnt[c[cu]]--;
-}
-// BFSだと，分岐の時にダメ
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
     int n;
     cin >> n;
-    c.resize(100100);
-    ok.resize(100100, 0);
-    rep(i, n) cin >> c[i];
-    t.resize(100100);
-    rep(i, n - 1) {
-        int a, b;
-        cin >> a >> b;
-        a--, b--;
-        t[a].push_back(b);
-        t[b].push_back(a);
+    vc<int> a(n);
+    map<int, int> cnt;
+    rep(i, n) {
+        cin >> a[i];
+        cnt[a[i]]++;
     }
-    dfs(0);
-    for (int i = 0; i < n; i++) {
-        if (ok[i] == 1) {
-            cout << i + 1 << endl;
-        }
+    int col = 0;
+    for (auto u : cnt) {
+        if (u.second > 0) col++;
     }
+    int ans = n;
+    while (col < ans) {
+        ans -= 2;
+    }
+    cout << ans << endl;
 }

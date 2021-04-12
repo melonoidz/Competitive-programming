@@ -23,42 +23,51 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-vc<int> cnt(100100, 0);
-vc<int> ok;
-vc<vc<int>> t;
-vc<int> c;
-void dfs(int cu, int pa = -1) {
-    if (cnt[c[cu]] == 0) ok[cu] = 1;
-    cnt[c[cu]]++;
-    for (auto to : t[cu]) {
-        if (to != pa) {
-            dfs(to, cu);
+int n, m;
+int cnt = 0;
+vc<vc<pi>> G;
+int bfs(int w, int st = 0, int dist = 0) {
+    vc<int> ch(100100, 1e9);
+    ch[st] = dist;
+    queue<pi> pq;
+    pq.push(pi(st, dist));
+    while (!pq.empty()) {
+        auto p = pq.front();
+        pq.pop();
+        auto now = p.first;
+        auto d = p.second;
+        for (auto u : G[now]) {
+            if (ch[u.first] > d + 1 && u.second >= w) {
+                ch[u.first] = d + 1;
+                pq.push(pi(u.first, d + 1));
+            }
         }
     }
-    cnt[c[cu]]--;
+    return cnt = ch[n - 1];
 }
-// BFSだと，分岐の時にダメ
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    c.resize(100100);
-    ok.resize(100100, 0);
-    rep(i, n) cin >> c[i];
-    t.resize(100100);
-    rep(i, n - 1) {
-        int a, b;
-        cin >> a >> b;
-        a--, b--;
-        t[a].push_back(b);
-        t[b].push_back(a);
+    cin >> n >> m;
+    G.resize(n);
+    rep(i, m) {
+        int s, t, d;
+        cin >> s >> t >> d;
+        s--, t--;
+        G[s].emplace_back(t, d);
+        G[t].emplace_back(s, d);
     }
-    dfs(0);
-    for (int i = 0; i < n; i++) {
-        if (ok[i] == 1) {
-            cout << i + 1 << endl;
+    int ng = 0LL;
+    int ok = 1e9 + 1;
+    while (abs(ok - ng) > 1) {
+        int mid = (ok + ng) / 2;
+        if (bfs(mid) == 1e9) {
+            ok = mid;
+        } else {
+            ng = mid;
         }
     }
+    cout << ng << " " << cnt << endl;
 }
