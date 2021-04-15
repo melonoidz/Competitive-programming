@@ -14,5 +14,6 @@
     "C_Cpp.clang_format_path": "/usr/bin/clang-format-6.0",
     "C_Cpp.clang_format_style": "file",
     "editor.defaultFormatter": "xaver.clang-format",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.fontSize": 16
 }
