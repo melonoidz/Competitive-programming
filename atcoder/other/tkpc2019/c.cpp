@@ -54,6 +54,10 @@ signed main() {
         }
     } else {
         int cg = x ^ cur;
+        if ((1LL << topbit(cg)) > x) {
+            cout << -1 << endl;
+            return 0;
+        }
         rep(i, n) {
             if (a[i] == -1) {
                 a[i] = 0;
@@ -61,8 +65,10 @@ signed main() {
                     a[i] += cg;
                 } else {
                     int tb = topbit(cg);
-                    a[i] += (1LL << tb);
-                    cg -= (1LL << tb);
+                    if (tb >= 0 && cg > 0) {
+                        a[i] |= (1LL << tb);
+                        cg ^= (1LL << tb);
+                    }
                     cnt--;
                 }
             }
