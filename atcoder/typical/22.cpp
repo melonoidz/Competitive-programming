@@ -27,24 +27,9 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    int a, b, c;
+    cin >> a >> b >> c;
+    int r = __gcd(a, b);
+    int x = __gcd(r, c);
+    cout << ((a / x) - 1) + ((b / x) - 1) + ((c / x) - 1) << endl;
 }

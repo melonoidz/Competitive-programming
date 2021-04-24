@@ -27,24 +27,26 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
+    int n;
+    cin >> n;
+    vc<int> A(n + 1, 0), B(n + 1, 0);
     rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+        int c, p;
+        cin >> c >> p;
+        c--;
+        if (c == 0) {
+            A[i + 1] = A[i] + p;
+            B[i + 1] = B[i];
+        } else {
+            A[i + 1] = A[i];
+            B[i + 1] = B[i] + p;
+        }
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int q;
+    cin >> q;
+    rep(i, q) {
+        int l, r;
+        cin >> l >> r;
+        cout << A[r] - A[l - 1] << " " << B[r] - B[l - 1] << endl;
     }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
 }

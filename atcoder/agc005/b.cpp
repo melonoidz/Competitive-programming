@@ -27,24 +27,28 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int n;
+    cin >> n;
+    vc<int> iter(n + 1);
+    for (int i = 1; i <= n; i++) {
+        int x;
+        cin >> x;
+        iter[x] = i;
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int ans = 0;
+    set<int> used;
+    used.insert(0);
+    used.insert(n + 1);
+    for (int i = 1; i <= n; i++) {
+        int l, r;
+        auto itr = used.lower_bound(iter[i]);
+        r = *itr;
+        // r-1がlになる(i-1)
+        //
+        l = *(--itr);
+        cout << i << " " << iter[i] << " " << l << " " << r << endl;
+        ans += i * (iter[i] - l) * (r - iter[i]);
+        used.insert(iter[i]);
     }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << ans << endl;
 }

@@ -23,28 +23,37 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int n, l;
+int k;
+vc<int> a(100100);
+int ch(int x) {
+    int cnt = 0;
+    int cut = 0;
+    for (int i = 0; i < n; i++) {
+        if (a[i] - cut >= x && l - a[i] >= x) {
+            cut = a[i];
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    cin >> n >> l;
+    cin >> k;
+    rep(i, n) cin >> a[i];
+    int ng = 0;
+    int ok = 1e9;
+    while (abs(ok - ng) > 1) {
+        int mid = (ok + ng) / 2;
+        if (ch(mid) >= k) {
+            ng = mid;
+        } else {
+            ok = mid;
+        }
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << ng << endl;
 }

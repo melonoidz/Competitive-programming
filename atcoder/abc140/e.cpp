@@ -27,24 +27,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int n;
+    cin >> n;
+    vc<int> poi(n + 1);
+    for (int i = 1; i <= n; i++) {
+        int x;
+        cin >> x;
+        poi[x] = i;
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int ans = 0;
+    multiset<int> used;
+    used.insert(0);
+    used.insert(0);
+    used.insert(n + 1);
+    used.insert(n + 1);
+    for (int i = n; i > 0; i--) {
+        used.insert(poi[i]);
+        auto itr = used.lower_bound(poi[i]);
+        auto l1 = prev(itr);
+        auto l2 = prev(l1);
+        auto r1 = next(itr);
+        auto r2 = next(r1);
+        auto cnt = (*l1 - *l2) * (*r1 - poi[i]) + (poi[i] - *l1) * (*r2 - *r1);
+        ans += i * cnt;
     }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << ans << endl;
 }

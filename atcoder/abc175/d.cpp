@@ -13,251 +13,82 @@ using ll = long long;
 #define bg begin()
 #define ed end()
 #define all(x) x.bg, x.ed
-#define si(x) int(x.size())
-#ifdef LOCAL
-#else
-#define dmp(x) void(0)
-#endif
-template <class t, class u>
-void chmax(t &a, u b)
-{
-  if (a < b)
-    a = b;
+
+template <class t, class u> void chmax(t& a, u b) {
+    if (a < b) a = b;
 }
-template <class t, class u>
-void chmin(t &a, u b)
-{
-  if (b < a)
-    a = b;
+template <class t, class u> void chmin(t& a, u b) {
+    if (b < a) a = b;
 }
-template <class t>
-using vc = vector<t>;
-template <class t>
-using vvc = vc<vc<t>>;
+template <class t> using vc = vector<t>;
+template <class t> using vvc = vc<vc<t>>;
 using pi = pair<int, int>;
 using vi = vc<int>;
-#define mp make_pair
-#define mt make_tuple
-#define one(x) memset(x, -1, sizeof(x))
-#define zero(x) memset(x, 0, sizeof(x))
-#ifdef LOCAL
-void dmpr(ostream &os)
-{
-  os << endl;
-}
-template <class T, class... Args>
-void dmpr(ostream &os, const T &t, const Args &... args)
-{
-  os << t << ;
-  dmpr(os, args...);
-}
-#define dmp2(...) dmpr(cerr, __LINE__, ##__VA_ARGS__)
-#else
-#define dmp2(...) void(0)
-#endif
-using uint = unsigned;
-using ull = unsigned long long;
-template <class t, size_t n>
-ostream &operator<<(ostream &os, const array<t, n> &a)
-{
-  return os << vc<t>(all(a));
-}
-ll read()
-{
-  ll i;
-  cin >> i;
-  return i;
-}
-vi readvi(int n, int off = 0)
-{
-  vi v(n);
-  rep(i, n) v[i] = read() + off;
-  return v;
-}
-pi readpi(int off = 0)
-{
-  int a, b;
-  cin >> a >> b;
-  return pi(a + off, b + off);
-}
-template <class T>
-void print(const vector<T> &v, int suc = 1)
-{
-  rep(i, v.size())
-      print(v[i], i == int(v.size()) - 1 ? suc : 2);
-}
-string readString()
-{
-  string s;
-  cin >> s;
-  return s;
-}
-template <class T>
-T sq(const T &t)
-{
-  return t * t;
-}
-constexpr ll ten(int n)
-{
-  return n == 0 ? 1 : ten(n - 1) * 10;
-}
-const ll infLL = LLONG_MAX / 3;
-#ifdef int
-const int inf = infLL;
-#else
-const int inf = INT_MAX / 2 - 100;
-#endif
-int topbit(signed t)
-{
-  return t == 0 ? -1 : 31 - __builtin_clz(t);
-}
-int topbit(ll t)
-{
-  return t == 0 ? -1 : 63 - __builtin_clzll(t);
-}
-int botbit(signed a)
-{
-  return a == 0 ? 32 : __builtin_ctz(a);
-}
-int botbit(ll a)
-{
-  return a == 0 ? 64 : __builtin_ctzll(a);
-}
-int popcount(signed t)
-{
-  return __builtin_popcount(t);
-}
-int popcount(ll t)
-{
-  return __builtin_popcountll(t);
-}
-bool ispow2(int i)
-{
-  return i && (i & -i) == i;
-}
-ll mask(int i)
-{
-  return (ll(1) << i) - 1;
-}
-bool inc(int a, int b, int c)
-{
-  return a <= b && b <= c;
-}
-template <class t>
-void mkuni(vc<t> &v)
-{
-  sort(all(v));
-  v.erase(unique(all(v)), v.ed);
-}
-ll rand_int(ll l, ll r)
-{ //[l, r]
-#ifdef LOCAL
-  static mt19937_64 gen;
-#else
-  static mt19937_64 gen(chrono::steady_clock::now().time_since_epoch().count());
-#endif
-  return uniform_int_distribution<ll>(l, r)(gen);
-}
-template <class t>
-void myshuffle(vc<t> &a)
-{
-  rep(i, si(a)) swap(a[i], a[rand_int(0, i)]);
-}
-template <class t>
-int lwb(const vc<t> &v, const t &a)
-{
-  return lower_bound(all(v), a) - v.bg;
-}
-int lcm(int a, int b)
-{
-  return a / __gcd(a, b) * b;
-}
 
-signed main()
-{
-  cin.tie(0);
-  ios::sync_with_stdio(0);
-  cout << fixed << setprecision(20);
-  int INF = 1LL << 60;
-  int ans = -INF;
-  int n, k;
-  cin >> n >> k;
-  vector<int> p(n, 0);
-  vector<int> c(n, 0);
-  rep(i, n)
-  {
-    int o;
-    cin >> o;
-    o--;
-    p[i] = o;
-  }
-  rep(i, n)
-  {
-    cin >> c[i];
-  }
-  vector<vector<int>> cost;
-  for (int i = 0; i < n; i++)
-  {
-    int start = i;
-    int tmp = 0;
-    vector<int> roop;
-    vector<bool> ch(n, false);
-    while (!ch[start])
-    {
-      ch[start] = true;
-      tmp += c[p[start]];
-      roop.emplace_back(tmp);
-      start = p[start];
+signed main() {
+    cin.tie(0);
+    ios::sync_with_stdio(0);
+    cout << fixed << setprecision(20);
+    int INF = 1LL << 60;
+    int ans = -INF;
+    int n, k;
+    cin >> n >> k;
+    vector<int> p(n, 0);
+    vector<int> c(n, 0);
+    rep(i, n) {
+        int o;
+        cin >> o;
+        p[i] = o - 1;
     }
-    cost.emplace_back(roop);
-  }
-  if (k <= n)
-  {
-    for (int i = 0; i < n; i++)
-    {
-      for (int j = 0; j < k; j++)
-      {
-        ans = max(ans, cost[i][j]);
-      }
-    }
-    cout << ans << endl;
-  }
-  else
-  {
-    vector<bool> mi(n, false);
-    rep(i, n)
-    {
-      if (cost[i][n - 1] <= 0)
-      {
-        mi[i] = true;
-      }
-      for (int i = 0; i < n; i++)
-      {
-        if (mi[i])
-        {
-          for (int j = 0; j < n; j++)
-          {
-            ans = max(ans, cost[i][j]);
-          }
+    rep(i, n) { cin >> c[i]; }
+    vector<vector<int>> cost;
+    for (int i = 0; i < n; i++) {
+        int start = i;
+        int tmp = 0;
+        vector<int> roop;
+        vector<int> ch(n, 0);
+        while (ch[start] != 1) {
+            ch[start] = 1;
+            tmp += c[p[start]];
+            roop.push_back(tmp);
+            start = p[start];
         }
-        else
-        {
-          int mm = 0;
-          int mcnt = 0;
-          for (int j = 0; j < n; j++)
-          {
-            if (cost[i][j] > mm)
-            {
-              mm = cost[i][j];
-              mcnt = j;
+        cost.push_back(roop);
+    }
+    if (k < n) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < min(k, int(cost[i].size())); j++) {
+                ans = max(ans, cost[i][j]);
             }
-          }
-          int rop = (k - mcnt - 1) / (int)cost[i].size();
-          int nans = rop * cost[i][n - 1] + mm;
-          ans = max(ans, nans);
         }
-      }
+        cout << ans << endl;
+    } else {
+        vector<int> mi(n, 0);
+        rep(i, n) {
+            if (cost[i].back() <= 0) {
+                mi[i] = 1;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (mi[i]) {
+                // 1ループで十分な場合
+                for (int j = 0; j < cost[i].size(); j++) {
+                    ans = max(ans, cost[i][j]);
+                }
+            } else {
+                int mm = -INF;
+                int mcnt = 0;
+                for (int j = 0; j < cost[i].size(); j++) {
+                    if (cost[i][j] > mm) {
+                        mm = cost[i][j];
+                        mcnt = j;
+                        int rop = (k - mcnt - 1LL) / (int)cost[i].size();
+                        int nans = rop * cost[i].back() + mm;
+                        ans = max(ans, nans);
+                    }
+                }
+            }
+        }
+        cout << ans << endl;
     }
-    cout << ans << endl;
-  }
 }

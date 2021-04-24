@@ -27,24 +27,40 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
+    int n;
+    cin >> n;
+    map<string, int> cnt;
+    char fro, aft;
     rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+        string w;
+        cin >> w;
+        cnt[w]++;
+        if (cnt[w] > 1) {
+            if (i % 2 == 0) {
+                cout << "LOSE" << endl;
+                return 0;
+            } else {
+                cout << "WIN" << endl;
+                return 0;
+            }
+        }
+        if (i == 0) {
+            fro = w.front();
+            aft = w.back();
+        } else {
+            if (w.front() != aft) {
+                if (i % 2 == 0) {
+                    cout << "LOSE" << endl;
+                    return 0;
+                } else {
+                    cout << "WIN" << endl;
+                    return 0;
+                }
+            }
+            fro = w.front();
+            aft = w.back();
+        }
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << "DRAW" << endl;
+    return 0;
 }

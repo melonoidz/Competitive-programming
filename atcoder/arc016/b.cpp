@@ -27,24 +27,30 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int n;
+    cin >> n;
+    vc<int> ch(9, 0);
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        string s;
+        cin >> s;
+        for (int j = 0; j < 9; j++) {
+            if (s[j] == 'x')
+                ans++;
+            else if (s[j] == 'o') {
+                if (ch[j] == 0) {
+                    ans++;
+                    ch[j] = 1;
+                }
+            }
+        }
+        for (int j = 0; j < 9; j++) {
+            if (ch[j] == 1) {
+                if (s[j] != 'o') {
+                    ch[j] = 0;
+                }
+            }
+        }
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << ans << endl;
 }

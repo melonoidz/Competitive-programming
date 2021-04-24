@@ -27,24 +27,35 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    const int mod = 1000000007;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    map<char, int> cnt;
+    for (auto u : s) {
+        if (u == 'a') {
+            cnt[u]++;
+        }
+        if (u == 't') {
+            cnt[u] += cnt['a'];
+        }
+        if (u == 'c') {
+            cnt[u] += cnt['t'];
+        }
+        if (u == 'o') {
+            cnt[u] += cnt['c'];
+        }
+        if (u == 'd') {
+            cnt[u] += cnt['o'];
+        }
+        if (u == 'e') {
+            cnt[u] += cnt['d'];
+        }
+        if (u == 'r') {
+            cnt[u] += cnt['e'];
+        }
+        cnt[u] %= mod;
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << cnt['r'] << endl;
 }

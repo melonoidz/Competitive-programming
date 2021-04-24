@@ -27,24 +27,29 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
+    int n;
+    cin >> n;
+    vc<string> ans;
+    for (int bit = 0; bit < (1 << n); bit++) {
+        string tmp;
+        for (int i = 0; i < n; i++) {
+            if (bit & (1 << i))
+                tmp += "(";
+            else
+                tmp += ")";
+        }
+        bool ok = true;
+        int cnt = 0;
+        for (int j = 0; j < n; j++) {
+            if (tmp[j] == '(')
+                cnt++;
+            else
+                cnt--;
+            if (cnt < 0) ok = false;
+        }
+        if (cnt != 0) ok = false;
+        if (ok) ans.push_back(tmp);
     }
     sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    rep(i, ans.size()) cout << ans[i] << endl;
 }

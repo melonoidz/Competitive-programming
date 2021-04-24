@@ -27,24 +27,33 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    int n;
+    cin >> n;
+    int a, b, c;
+    cin >> a >> b >> c;
+    vc<int> coin = {a, b, c};
+    sort(ALL(coin), greater<int>());
+    int ans = 1LL << 60;
+    for (int i = 0; i <= 1 + n / coin[0]; i++) {
+        int tmp = n - i * coin[0];
+        if (tmp == 0) {
+            chmin(ans, i);
+        } else {
+            if (tmp > 0) {
+                for (int j = 0; j <= 1 + tmp / coin[1]; j++) {
+                    int nx = tmp - j * coin[1];
+                    if (nx == 0) {
+                        chmin(ans, i + j);
+                    } else {
+                        if (nx > 0) {
+                            if (nx % coin[2] == 0) {
+                                chmin(ans, i + j + nx / coin[2]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
+    cout << ans << endl;
 }

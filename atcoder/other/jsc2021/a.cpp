@@ -27,4 +27,13 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int x, y, z;
+    cin >> x >> y >> z;
+    int tmp = y * z;
+    int ans = 0;
+    if (tmp % x == 0)
+        ans = tmp / x - 1;
+    else
+        ans = tmp / x;
+    cout << ans << endl;
 }

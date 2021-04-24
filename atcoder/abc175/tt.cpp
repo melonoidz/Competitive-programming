@@ -29,22 +29,11 @@ signed main() {
     cout << fixed << setprecision(20);
     int n, m;
     cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    if (m >= 2 * n) {
+        int tmp = m - 2 * n;
+        cout << tmp / 4 + n << endl;
+    } else {
+        int tmp = min(n, m / 2);
+        cout << tmp << endl;
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
 }

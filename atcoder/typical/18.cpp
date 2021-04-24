@@ -27,24 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    map<int, int> cnt;
-    rep(i, n) {
-        int a;
-        cin >> a;
-        cnt[a]++;
+    double t, l, x, y;
+    cin >> t >> l >> x >> y;
+    int q;
+    cin >> q;
+    rep(i, q) {
+        int e;
+        cin >> e;
+        double tx, ty, tz;
+        tx = 0;
+        ty = -l / 2.0 * sin(360.0 * e / t * M_PI / 180.0);
+        tz = l / 2.0 - l / 2.0 * cos(360.0 * e / t * M_PI / 180.0);
+        double a = sqrt((ty - y) * (ty - y) + x * x);
+        cout << atan2(tz, a) * 180 / M_PI << endl;
     }
-    rep(i, m) {
-        int a;
-        cin >> a;
-        cnt[a]++;
-    }
-    vc<int> ans;
-    for (auto u : cnt) {
-        if (u.second == 1) ans.push_back(u.first);
-    }
-    sort(ALL(ans));
-    rep(i, ans.size()) cout << ans[i] << " ";
-    cout << endl;
 }
