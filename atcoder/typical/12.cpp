@@ -23,39 +23,23 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int h, w;
-int dx[] = {-1, 0, 0, 1};
-int dy[] = {0, 1, -1, 0};
-vc<vc<int>> F(2100, vc<int>(2100, 0));
-bool bfs(pi st, pi gl) {
-    if (st == gl) return true;
-    queue<pi> q;
-    q.push(st);
-    while (!q.empty()) {
-        auto p = q.front();
-        q.pop();
-        int x = p.first;
-        int y = p.second;
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-            if (F[ny][nx] == 0) continue;
-            if (nx == gl.first && ny == gl.second) {
-                return true;
-            }
-            q.push(pi(nx, ny));
-        }
-    }
-    return false;
-}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int h, w;
     cin >> h >> w;
     int q;
     cin >> q;
+    atcoder::dsu uf(4400000);
+    int dx[] = {0, 1, -1, 0};
+    int dy[] = {1, 0, 0, -1};
+    vc<vc<int>> f(h, vc<int>(w, 0)), num(h, vc<int>(w));
+    int cnt = 1;
+    rep(i, h) rep(j, w) {
+        num[i][j] = cnt;
+        cnt++;
+    }
     rep(i, q) {
         int x;
         cin >> x;
@@ -63,19 +47,27 @@ signed main() {
             int r, c;
             cin >> r >> c;
             r--, c--;
-            F[c][r] = 1;
+            f[c][r] = 1;
+            int now = num[c][r];
+            for (int j = 0; j < 4; j++) {
+                int nx = r + dx[j];
+                int ny = c + dy[j];
+                if (!(nx < 0 || ny < 0 || nx >= w || ny >= h)) {
+                    if (f[ny][nx] != 0) {
+                        int tmp = num[ny][nx];
+                        uf.merge(now, tmp);
+                    }
+                }
+            }
         } else {
             int a, b, c, d;
             cin >> a >> b >> c >> d;
             a--, b--, c--, d--;
-            if (F[b][a] != 1 || F[d][c] != 1) {
-                cout << "No" << endl;
+            if (uf.same(num[b][a], num[d][c]) &&
+                (f[b][a] == 1 && f[d][c] == 1)) {
+                cout << "Yes" << endl;
             } else {
-                if (bfs(pi(a, b), pi(c, d))) {
-                    cout << "Yes" << endl;
-                } else {
-                    cout << "No" << endl;
-                }
+                cout << "No" << endl;
             }
         }
     }
