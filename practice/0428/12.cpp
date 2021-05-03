@@ -29,14 +29,31 @@ signed main() {
     cout << fixed << setprecision(20);
     int n, c;
     cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    vc<vc<int>> D(c, vc<int>(c));
+    rep(i, c) rep(j, c) cin >> D[i][j];
+    vc<vc<int>> s(n, vc<int>(n));
+    rep(i, n) rep(j, n) cin >> s[i][j];
+    int ans = 1LL << 60;
+    vc<map<int, int>> cnt(3);
+    rep(i, n) rep(j, n) { cnt[(i + j) % 3][s[i][j] - 1]++; }
+    for (int x = 0; x < c; x++) {
+        for (int y = 0; y < c; y++) {
+            for (int z = 0; z < c; z++) {
+                if (x == y || y == z || z == x) continue;
+                int now = 0;
+                for (int i = 0; i < 3; i++) {
+                    for (auto u : cnt[i]) {
+                        if (i == 0)
+                            now += D[u.first][x] * u.second;
+                        else if (i == 1)
+                            now += D[u.first][y] * u.second;
+                        else
+                            now += D[u.first][z] * u.second;
+                    }
+                }
+                chmin(ans, now);
+            }
+        }
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    cout << ans << endl;
 }

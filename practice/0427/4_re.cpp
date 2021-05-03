@@ -30,13 +30,21 @@ signed main() {
     int n, c;
     cin >> n >> c;
     vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    rep(i, n) cin >> a[i];
+    int all = (n + 1) * n / 2;
+    map<int, vc<int>> cnt;
+    rep(i, n) { cnt[a[i]].push_back(i); }
+    for (int x = 1; x < c + 1; x++) {
+        cnt[x].push_back(-1);
+        cnt[x].push_back(n);
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    for (int x = 1; x < c + 1; x++) {
+        int ans = 0;
+        sort(ALL(cnt[x]));
+        for (int j = 0; j < cnt[x].size() - 1; j++) {
+            ans += (cnt[x][j + 1] - cnt[x][j]) *
+                   (cnt[x][j + 1] - cnt[x][j] - 1) / 2;
+        }
+        cout << all - ans << endl;
+    }
 }

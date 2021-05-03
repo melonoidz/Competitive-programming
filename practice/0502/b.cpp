@@ -27,16 +27,15 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
+    double n, d, h;
+    cin >> n >> d >> h;
+    double del = 100000.0;
     rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+        double dd, hh;
+        cin >> dd >> hh;
+        auto now = double((h - hh) / (d - dd));
+        del = min(del, now);
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    double ans = double(h) - double(d) * del;
+    cout << max(0.0, ans) << endl;
 }

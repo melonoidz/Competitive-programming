@@ -27,16 +27,34 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    bool rev = false;
+    deque<char> tmp;
+    string s;
+    cin >> s;
+    for (auto u : s) {
+        if (u == 'R') {
+            if (!rev)
+                rev = true;
+            else
+                rev = false;
+        } else {
+            if (!rev)
+                tmp.push_back(u);
+            else
+                tmp.push_front(u);
+        }
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    if (rev) {
+        reverse(ALL(tmp));
+    }
+    string ans;
+    for (int i = 0; i < tmp.size(); i++) {
+        if (ans.back() != tmp[i])
+            ans += tmp[i];
+        else {
+            int l = ans.length();
+            ans.erase(l - 1);
+        }
+    }
+    cout << ans << endl;
 }

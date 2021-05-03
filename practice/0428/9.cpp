@@ -27,16 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    int n;
+    cin >> n;
+    string c;
+    cin >> c;
+    map<char, int> color;
+    color['B'] = 0;
+    color['W'] = 1;
+    color['R'] = 2;
+    vc<vc<int>> comb(n + 1, vc<int>(n + 1, 1));
+    int ans = 0;
+    int tmp = n % 3;  // nC1
+    // nCk mod3が必要
+    for (int i = 0; i < n; i++) {
     }
-    rep(i, c) { cout << ans[i] << endl; }
 }

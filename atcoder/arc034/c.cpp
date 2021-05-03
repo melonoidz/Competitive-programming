@@ -23,20 +23,42 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+vector<pair<long long, long long>> prime_factorize(long long N) {
+    // 12=({2,2},{3,1})
+    vector<pair<long long, long long>> res;
+    for (long long a = 2; a * a <= N; ++a) {
+        if (N % a != 0) continue;
+        long long ex = 0;  // 指数
+        while (N % a == 0) {
+            ++ex;
+            N /= a;
+        }
+        res.push_back({a, ex});
+    }
+    if (N != 1) res.push_back({N, 1});
+    return res;
+}
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    int a, b;
+    cin >> a >> b;
+    const int mod = 1000000007;
+    int ans = 1;
+    map<int, int> cnt;
+    for (int i = b + 1; i <= a; i++) {
+        auto u = prime_factorize(i);
+        for (auto s : u) {
+            cnt[s.first] += s.second;
+        }
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    for (auto u : cnt) {
+        if (u.first > 1) {
+            ans *= (u.second + 1);
+            ans %= mod;
+        }
+    }
+    cout << ans << endl;
 }

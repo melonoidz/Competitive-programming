@@ -27,16 +27,14 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    string s;
+    cin >> s;
+    int ans = 0;
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] == 'Z') {
+            string t = s.substr(i, 4);
+            if (t == "ZONe") ans++;
+        }
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    cout << ans << endl;
 }

@@ -23,20 +23,36 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+
+int LCS(const string& a, const string& b) {
+    vc<vc<int>> dp(a.size() + 1, vc<int>(b.size() + 1, 0));
+    int ans = 0;
+    rep(i, a.size()) {
+        rep(j, b.size()) {
+            if (a[i] == b[j]) {
+                dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j] + 1);
+                ans = max(ans, dp[i + 1][j + 1]);
+            }
+            chmax(dp[i + 1][j], dp[i][j]);
+            chmax(dp[i][j + 1], dp[i][j]);
+        }
+    }
+    return ans;
+}
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int ans = 1LL << 60;
+    for (int i = 0; i < n; i++) {
+        string a = s.substr(0, i);
+        string b = s.substr(i);
+        chmin(ans, n - LCS(a, b) * 2);
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    cout << ans << endl;
 }

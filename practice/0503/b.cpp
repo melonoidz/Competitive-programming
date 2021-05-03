@@ -27,16 +27,26 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, c;
-    cin >> n >> c;
-    vc<int> a(n);
-    rep(i, n) { cin >> a[i]; }
-    vc<int> ans(c, 0);
-    vc<int> pr(c, -1);
-    rep(i, n) {
-        int num = a[i] - 1;
-        ans[num] += (i - pr[num]) * (n - i);
-        pr[num] = i;
+    int all = 10000000000LL;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    if (n < 3) {
+        if (s == "1") {
+            cout << all * 2 << endl;
+        }
+        if (s == "11") {
+            cout << all << endl;
+        }
+        if (s == "0") {
+            cout << all << endl;
+        }
+        return 0;
     }
-    rep(i, c) { cout << ans[i] << endl; }
+    if (s.size() > 1 && s[0] == '0')
+        s = s.substr(1), all--;
+    else if (s.size() > 2 && s.substr(0, 2) == "10")
+        s = s.substr(2), all--;
+    
 }
