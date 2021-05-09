@@ -8,7 +8,8 @@
         "iostream": "cpp",
         "tuple": "cpp",
         "functional": "cpp",
-        "decimal": "cpp"
+        "decimal": "cpp",
+        "all": "cpp"
     },
     "C_Cpp.dimInactiveRegions": false,
     "C_Cpp.clang_format_path": "/usr/bin/clang-format-6.0",
