@@ -23,37 +23,42 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+template <typename Func> int findMin(int L, int R, Func f) {  //[L, R)
+    int lo = L - 1, hi = R - 1;
+    while (lo + 1 != hi) {
+        int mi = (lo + hi) / 2;
+        if (f(mi) <= f(mi + 1))
+            hi = mi;
+        else
+            lo = mi;
+    }
+    return hi;
+}
+int st, sum;
+vc<int> a(401010);
+int f(int len) {
+    int x = a[st + len - 1];
+    if (st) x -= a[st - 1];
+    int y = sum - x;
+    return abs(x - y);
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    vc<string> s;
-    vc<pi> delta{pi(1, 0),   pi(-1, 0), pi(0, 1), pi(0, -1), pi(0, 0),
-                 pi(-1, -1), pi(-1, 1), pi(1, 1), pi(1, -1)};
-    rep(i, n) {
-        string g;
-        cin >> g;
-        s.push_back(g);
+    int n;
+    cin >> n;
+    rep(i, n) cin >> a[i];
+    sum = accumulate(ALL(a), 0LL);
+    rep(i, n) a[i + n] = a[i];
+    for (int i = 1; i < 2 * n; i++) {
+        a[i] += a[i - 1];
     }
-    vc<vc<int>> ans(n, vc<int>(m, 0));
+    int ans = 1LL << 60;
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            int x = i, y = j;
-            int cnt = 0;
-            for (auto d : delta) {
-                int nx = x + d.first;
-                int ny = y + d.second;
-                if (0 <= nx && nx < n && 0 <= ny && ny < m) {
-                    if (s[nx][ny] == '#') cnt++;
-                }
-            }
-            ans[i][j] = cnt;
-        }
+        st = i;
+        int opt = findMin(1, n + 1, f);
+        chmin(ans, f(opt));
     }
-    rep(i, n) {
-        rep(j, m) cout << ans[i][j];
-        cout << endl;
-    }
+    cout << ans << endl;
 }

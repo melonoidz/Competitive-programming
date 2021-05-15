@@ -23,37 +23,58 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int n, m;
+int ans = 0;
+vc<string> s;
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+bool check(int sx, int sy, vc<string> f) {
+    f[sx][sy] = '.';
+    int cnt = 0;
+    rep(i, n) rep(j, m) {
+        if (f[i][j] == '.') cnt++;
+    }
+    int ok = 0;
+    vc<vc<int>> check(11, vc<int>(11, 0));
+    queue<pi> q;
+    q.push(pi(sx, sy));
+    while (!q.empty()) {
+        auto p = q.front();
+        q.pop();
+        auto x = p.first;
+        auto y = p.second;
+        if (check[x][y] == 0) {
+            check[x][y] = 1;
+            ok++;
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if (0 > nx || 0 > ny || nx >= n || ny >= m) continue;
+                if (check[nx][ny] != 0 || f[nx][ny] == '#') continue;
+                q.push(pi(nx, ny));
+            }
+        }
+    }
+    return cnt == ok;
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
     cin >> n >> m;
-    vc<string> s;
-    vc<pi> delta{pi(1, 0),   pi(-1, 0), pi(0, 1), pi(0, -1), pi(0, 0),
-                 pi(-1, -1), pi(-1, 1), pi(1, 1), pi(1, -1)};
     rep(i, n) {
         string g;
         cin >> g;
         s.push_back(g);
     }
-    vc<vc<int>> ans(n, vc<int>(m, 0));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            int x = i, y = j;
-            int cnt = 0;
-            for (auto d : delta) {
-                int nx = x + d.first;
-                int ny = y + d.second;
-                if (0 <= nx && nx < n && 0 <= ny && ny < m) {
-                    if (s[nx][ny] == '#') cnt++;
+            if (s[i][j] == '#') {
+                if (check(i, j, s)) {
+                    ans++;
                 }
             }
-            ans[i][j] = cnt;
         }
     }
-    rep(i, n) {
-        rep(j, m) cout << ans[i][j];
-        cout << endl;
-    }
+    cout << ans << endl;
 }

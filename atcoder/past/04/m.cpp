@@ -23,37 +23,29 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int n, q;
+vc<vc<int>> t(100100);
+vc<tuple<int, int, int>> color;
+
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
-    vc<string> s;
-    vc<pi> delta{pi(1, 0),   pi(-1, 0), pi(0, 1), pi(0, -1), pi(0, 0),
-                 pi(-1, -1), pi(-1, 1), pi(1, 1), pi(1, -1)};
-    rep(i, n) {
-        string g;
-        cin >> g;
-        s.push_back(g);
+    cin >> n >> q;
+    rep(i, n - 1) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        t[a].push_back(b);
+        t[b].push_back(a);
     }
-    vc<vc<int>> ans(n, vc<int>(m, 0));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            int x = i, y = j;
-            int cnt = 0;
-            for (auto d : delta) {
-                int nx = x + d.first;
-                int ny = y + d.second;
-                if (0 <= nx && nx < n && 0 <= ny && ny < m) {
-                    if (s[nx][ny] == '#') cnt++;
-                }
-            }
-            ans[i][j] = cnt;
-        }
+    rep(i, q) {
+        int u, v, c;
+        cin >> u >> v >> c;
+        u--, v--;
+        color.emplace_back(u, v, c);
     }
-    rep(i, n) {
-        rep(j, m) cout << ans[i][j];
-        cout << endl;
-    }
+    reverse(ALL(color));
+    //経路探索
+    rep(i, q) { paint(color[i]); }
 }

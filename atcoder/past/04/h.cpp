@@ -27,33 +27,20 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, m;
-    cin >> n >> m;
+    int n, m, k;
+    cin >> n >> m >> k;
     vc<string> s;
-    vc<pi> delta{pi(1, 0),   pi(-1, 0), pi(0, 1), pi(0, -1), pi(0, 0),
-                 pi(-1, -1), pi(-1, 1), pi(1, 1), pi(1, -1)};
     rep(i, n) {
         string g;
         cin >> g;
         s.push_back(g);
     }
-    vc<vc<int>> ans(n, vc<int>(m, 0));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            int x = i, y = j;
-            int cnt = 0;
-            for (auto d : delta) {
-                int nx = x + d.first;
-                int ny = y + d.second;
-                if (0 <= nx && nx < n && 0 <= ny && ny < m) {
-                    if (s[nx][ny] == '#') cnt++;
-                }
-            }
-            ans[i][j] = cnt;
-        }
+    for(int i=0; i<n; i++){
+      for(int j=0; j<m; j++){
+          for(int size=1; size<=min(n,m); size++){
+            
+          }
+      }
     }
-    rep(i, n) {
-        rep(j, m) cout << ans[i][j];
-        cout << endl;
-    }
+    //累積和　縦と横
 }
