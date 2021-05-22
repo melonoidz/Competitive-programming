@@ -23,17 +23,20 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int k, n, m;
+vc<int> a(100100);
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    cin >> k >> n >> m;
+    rep(i,k) cin>>a[i];
+    int ng=0;
+    int ok=1000000000000;
+    while(abs(ok-ng)>1){
+      int mid=(ok+ng)/2;
+      if(mid){
+        
+      }
     }
 }

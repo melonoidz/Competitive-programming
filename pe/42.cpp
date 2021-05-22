@@ -27,13 +27,27 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    std::ifstream ifs("/home/melonoidz/kyop/pe/word.txt");
+    if (!ifs) {
+        std::cerr << "ファイルオープンに失敗" << std::endl;
+        std::exit(1);
+    }
+
+    std::string buf;
+    ifs >> buf;
+    if (!ifs) {
+        std::cerr << "読み込みに失敗" << std::endl;
+        std::exit(1);
+    }
+    vc<string> words;
+    map<int, int> wc;
+    int ml = 0;
+    vc<int> rect;
+    int cnt = 1;
+    int num = 0;
+    while (num < ml) {
+        num = cnt * (cnt + 1) / 2;
+        rect.push_back(num);
+        cnt++;
     }
 }

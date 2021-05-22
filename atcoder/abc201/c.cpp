@@ -27,4 +27,35 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    string s;
+    cin >> s;
+    int ans = 0;
+    rep(i, 10) {
+        rep(j, 10) {
+            rep(k, 10) {
+                rep(l, 10) {
+                    string now;
+                    now += to_string(i);
+                    now += to_string(j);
+                    now += to_string(k);
+                    now += to_string(l);
+                    bool ok = true;
+                    vc<int> cnt(10, 0);
+                    for (int x = 0; x < 4; x++) {
+                        cnt[now[x] - '0']++;
+                    }
+                    for (int u = 0; u < 10; u++) {
+                        if (s[u] == 'o') {
+                            if (cnt[u] == 0) ok = false;
+                        }
+                        if (s[u] == 'x') {
+                            if (cnt[u] != 0) ok = false;
+                        }
+                    }
+                    if (ok) ans++;
+                }
+            }
+        }
+    }
+    cout << ans << endl;
 }

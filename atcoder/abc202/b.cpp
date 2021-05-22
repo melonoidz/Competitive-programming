@@ -27,13 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    string s;
+    cin >> s;
+    reverse(ALL(s));
+    string ans;
+    for (auto u : s) {
+        if (u == '6')
+            ans += '9';
+        else if (u == '9')
+            ans += '6';
+        else {
+            ans += u;
+        }
     }
+    cout << ans << endl;
 }

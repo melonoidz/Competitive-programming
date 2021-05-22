@@ -27,13 +27,15 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
-    }
+    int n;
+    cin >> n;
+    vc<int> a(n), b(n), c(n);
+    map<int, int> cnt;
+    rep(i, n) cin >> a[i];
+    rep(i, n) cin >> b[i];
+    rep(i, n) cin >> c[i];
+    int ans = 0;
+    rep(i, n) { cnt[b[c[i]-1]]++; }
+    rep(i, n) { ans += cnt[a[i]]; }
+    cout << ans << endl;
 }

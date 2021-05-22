@@ -27,13 +27,33 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    string x;
+    cin >> x;
+    // 0にできる可能性があるならtrue
+    // AokiはTahakashiを妨害する
+    // AokiがどうやってもtakahashiがかつならOK
+    vc<vc<bool>> dp(n + 1, vc<bool>(7, false));
+    dp[n][0] = 1;
+    int digit = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        const int now = (s[i] - '0') * digit % 7;
+        digit *= 10;
+        digit %= 7;
+        for (int j = 0; j < 7; j++) {
+            if (x[i] == 'T') {
+                dp[i][j] = dp[i + 1][j] || dp[i + 1][(j + now) % 7];
+            } else {
+                dp[i][j] = dp[i + 1][j] && dp[i + 1][(j + now) % 7];
+            }
+        }
+    }
+    if (dp[0][0]) {
+        cout << "Takahashi" << endl;
     } else {
-        cout << "No" << endl;
+        cout << "Aoki" << endl;
     }
 }

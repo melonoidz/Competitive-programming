@@ -27,4 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n;
+    cin >> n;
+    vc<pair<int, string>> c;
+    rep(i, n) {
+        string g;
+        int t;
+        cin >> g;
+        cin >> t;
+        c.emplace_back(t, g);
+    }
+    sort(ALL(c));
+    reverse(ALL(c));
+    auto r = c[1];
+    cout << r.second << endl;
 }

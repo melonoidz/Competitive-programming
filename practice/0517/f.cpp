@@ -27,13 +27,37 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n;
+    cin >> n;
+    int ans = 0LL;
+    vc<pi> xdist, ydist;
+    atcoder::dsu uf(100100);
+    rep(i, n) {
+        int x, y;
+        cin >> x >> y;
+        xdist.emplace_back(x, i);
+        ydist.emplace_back(y, i);
     }
+    sort(ALL(xdist));
+    sort(ALL(ydist));
+    vc<pair<int, pi>> dist;
+    for (int i = 0; i < xdist.size() - 1; i++) {
+        int tmp = xdist[i + 1].first - xdist[i].first;
+        dist.emplace_back(tmp, make_pair(xdist[i + 1].second, xdist[i].second));
+    }
+    for (int i = 0; i < ydist.size() - 1; i++) {
+        int tmp = ydist[i + 1].first - ydist[i].first;
+        dist.emplace_back(tmp, make_pair(ydist[i + 1].second, ydist[i].second));
+    }
+    sort(ALL(dist));
+    for (auto u : dist) {
+        auto d = u.first;
+        auto p = u.second.first;
+        auto q = u.second.second;
+        if (!uf.same(p, q)) {
+            uf.merge(p, q);
+            ans += d;
+        }
+    }
+    cout << ans << endl;
 }

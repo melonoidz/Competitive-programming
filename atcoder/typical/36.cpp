@@ -27,13 +27,28 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n, q;
+    cin >> n >> q;
+    int mx = 1e18, my = 1e18, lx = 0, ly = 0;
+    vc<pi> points;
+    rep(i, n) {
+        int x, y;
+        cin >> x >> y;
+        int nx = x - y;
+        int ny = x + y;
+        points.emplace_back(nx, ny);
+        chmin(mx, nx);
+        chmin(my, ny);
+        chmax(lx, nx);
+        chmax(ly, ny);
+    }
+    rep(i, q) {
+        int j;
+        cin >> j;
+        j--;
+        auto p = points[j];
+        cout << max({abs(p.first - mx), abs(p.first - lx), abs(p.second - my),
+                     abs(p.second - ly)})
+             << endl;
     }
 }

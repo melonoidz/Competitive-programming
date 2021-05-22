@@ -27,13 +27,41 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    const int INF = 1LL << 30;
+    vc<set<int>> cnt(26, set<int>{INF});
+    for (int i = 0; i < n; i++) {
+        cnt[s[i] - 'a'].insert(i);
+    }
+    int q;
+    cin >> q;
+    rep(i, q) {
+        int num;
+        cin >> num;
+        if (num == 1) {
+            int x;
+            cin >> x;
+            x--;
+            char f;
+            cin >> f;
+            auto rep = s[x];
+            s[x] = f;
+            cnt[rep - 'a'].erase(x);
+            cnt[f - 'a'].insert(x);
+        } else {
+            int l, r;
+            cin >> l >> r;
+            l--;
+            int kind = 0;
+            for (int j = 0; j < 26; j++) {
+                auto ld = *cnt[j].lower_bound(l);
+                auto rd = *cnt[j].lower_bound(r);
+                if (ld < rd) kind++;
+            }
+            cout << kind << endl;
+        }
     }
 }

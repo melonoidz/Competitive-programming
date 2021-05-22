@@ -29,11 +29,5 @@ signed main() {
     cout << fixed << setprecision(20);
     int a, b, c;
     cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
-    }
+    cout << (7 - a) + (7 - b) + 7 - c << endl;
 }

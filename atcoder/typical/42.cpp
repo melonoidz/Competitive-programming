@@ -23,17 +23,26 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+using mint = atcoder::modint1000000007;
+mint ans = 0;
+int k;
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    cin >> k;
+    if (k % 9 != 0) {
+        cout << 0 << endl;
+        return 0;
     }
+    vc<mint> dp(100100, 0);
+    // dp[各桁の数字の和]
+    dp[0] = 1;
+    for (int i = 1; i <= k; i++) {
+        int dig = min(i, 9LL);
+        for (int j = 1; j <= dig; j++) {
+            dp[i] += dp[i - j];
+        }
+    }
+    cout << dp[k].val() << endl;
 }

@@ -23,17 +23,28 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+vector<int> enum_divisors(int N) {
+    vector<long long> res;
+    for (long long i = 1; i * i <= N; ++i) {
+        if (N % i == 0) {
+            res.push_back(i);
+            if (N / i != i) res.push_back(N / i);
+        }
+    }
+    sort(res.begin(), res.end());
+    return res;
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n;
+    cin >> n;
+    auto p = enum_divisors(n);
+    int ans = 1e18;
+    for (auto u : p) {
+        int tt = n / u;
+        chmin(ans, (u - 1LL) + (tt - 1LL));
     }
+    cout << ans << endl;
 }

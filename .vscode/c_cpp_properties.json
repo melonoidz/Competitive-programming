@@ -6,6 +6,7 @@
                 "/home/melonoidz/kyop/ac-library/",
                 "${workspaceFolder}/**",
                 "/usr/include/**"
+                //"D:/work/include/boost-1_76/boost/"
             ],
             "defines": [
                 "_DEBUG",

@@ -27,13 +27,23 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
-    }
+    int ans = 0;
+    vc<int> d{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    do {
+        int p = d[1] * 100 + d[2] * 10 + d[3];
+        int q = d[2] * 100 + d[3] * 10 + d[4];
+        int r = d[3] * 100 + d[4] * 10 + d[5];
+        int s = d[4] * 100 + d[5] * 10 + d[6];
+        int x = d[5] * 100 + d[6] * 10 + d[7];
+        int y = d[6] * 100 + d[7] * 10 + d[8];
+        int z = d[7] * 100 + d[8] * 10 + d[9];
+        if (p % 2 == 0 && q % 3 == 0 && r % 5 == 0 && s % 7 == 0 &&
+            x % 11 == 0 && y % 13 == 0 && z % 17 == 0) {
+            string now;
+            for (const auto& u : d) now += to_string(u);
+            int num = stol(now);
+            ans += num;
+        }
+    } while (next_permutation(ALL(d)));
+    cout << ans << endl;
 }

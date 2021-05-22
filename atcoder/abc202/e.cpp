@@ -23,17 +23,38 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+vc<vc<int>> tr(200200), vertexlist(200200);
+vc<int> in(200200), out(200200), depth(200200);
+int n, q, timer;
+void dfs(const int u) {
+    in[u] = timer++;
+    vertexlist[depth[u]].push_back(in[u]);
+    for (const int v : tr[u]) {
+        depth[v] = depth[u] + 1;
+        dfs(v);
+    }
+    out[u] = timer++;
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    cin >> n;
+    rep(i, n - 1) {
+        int p;
+        cin >> p;
+        p--;
+        tr[p].push_back(i + 1);
     }
+    dfs(0);
+    cin >> q;
+    rep(W, q) {
+        int u, d;
+        cin >> u >> d;
+        u--;
+        const auto& v = vertexlist[d];
+        int ans = lower_bound(ALL(v), out[u]) - lower_bound(ALL(v), in[u]);
+        cout << ans << endl;
+    }
+    return 0;
 }

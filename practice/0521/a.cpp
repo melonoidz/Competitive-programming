@@ -27,13 +27,21 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n;
+    cin >> n;
+    int ans = 1e18;
+    int now = 1;
+    int b = 0;
+    if (n == 1) {
+        cout << 1 << endl;
+        return 0;
     }
+    for (int i = 1; i <= 62; i++) {
+        now *= 2LL;
+        b++;
+        int a = n / now;
+        int c = n - a * now;
+        if (a >= 0 && c >= 0) ans = min(ans, a + b + c);
+    }
+    cout << ans << endl;
 }

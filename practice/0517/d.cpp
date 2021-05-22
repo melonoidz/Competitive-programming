@@ -27,13 +27,26 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n, m, k;
+    cin >> n >> m >> k;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    vc<int> b(m);
+    rep(i, m) cin >> b[i];
+    int ans = 0;
+    vc<int> sa(n + 1), sb(m + 1);
+    sa[0] = 0, sb[0] = 0;
+    for (int i = 0; i < n; i++) {
+        sa[i + 1] = sa[i] + a[i];
     }
+    for (int i = 0; i < m; i++) {
+        sb[i + 1] = sb[i] + b[i];
+    }
+    for (int i = 0; i <= n; i++) {
+        int remain = k - sa[i];
+        if (remain < 0) continue;
+        auto d = lower_bound(ALL(sb), remain + 1) - sb.begin();
+        chmax(ans, d + i - 1);
+    }
+    cout << ans << endl;
 }

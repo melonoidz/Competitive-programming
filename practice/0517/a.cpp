@@ -27,13 +27,13 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    int n;
+    cin >> n;
+    vc<int> a(n);
+    int ans = 0;
+    rep(i, n) {
+        cin >> a[i];
+        if (i % 2 == 0 && a[i] % 2 == 1) ans++;
     }
+    cout << ans << endl;
 }

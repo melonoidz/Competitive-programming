@@ -27,13 +27,12 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int a, b, c;
-    cin >> a >> b >> c;
-    vc<int> t{a, b, c};
-    sort(ALL(t));
-    if (t[1] - t[0] == t[2] - t[1]) {
-        cout << "Yes" << endl;
+    int a, b;
+    cin >> a >> b;
+    const auto r = b / __gcd(a, b);
+    if (r > 1000000000000000000LL / a) {
+        cout << "Large" << endl;
     } else {
-        cout << "No" << endl;
+        cout << a * r << endl;
     }
 }
