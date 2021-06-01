@@ -64,6 +64,7 @@ signed main() {
         b.push_back(res);
         sort(ALL(a));
         sort(ALL(b));
+        // a,b,cどれを使うか？
         for (int i = 0; i < a.size(); i++) {
             auto ld = lower_bound(ALL(b), a[i]) - b.begin();
             int ll = b[ld], lr = b[max(0LL, ld - 1LL)];
