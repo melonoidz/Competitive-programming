@@ -432,5 +432,18 @@
 		  "};"
 		],
 		"description": "2次元累積和"
+	  },"Print to console15": {
+		"prefix": "digitsum",
+		"body": [
+			"int digit_sum(int x) {",
+			"int ans = 0;",
+			"while (x > 0) {",
+			"ans += x % 10;",
+			"x /= 10;",
+			"}",
+			"return ans;",
+			"}"
+		],
+		"description": "桁和(int)"
 	  }
 }
