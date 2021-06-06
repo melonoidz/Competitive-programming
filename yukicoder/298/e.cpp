@@ -23,35 +23,16 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int n, ans = 0;
-vvc<int> t(100100);
-vc<int> dp(100100, 0);
-vc<pi> edge;
-void dfs(int x, int p = -1) {
-    dp[x] = 1;
-    for (auto u : t[x]) {
-        if (u != p) {
-            dfs(u, x);
-            dp[x] += dp[u];
-        }
-    }
-}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    //主客転倒
-    //部分木を考える．u*v
-    cin >> n;
-    rep(i, n - 1) {
-        int a, b;
-        cin >> a >> b;
-        a--, b--;
-        t[a].push_back(b);
-        t[b].push_back(a);
-        edge.emplace_back(a, b);
-    }
-    dfs(0);
-    rep(i, n) { ans += dp[i] * (n - dp[i]); }
-    cout << ans << endl;
+    int n, m;
+    cin >> n >> m;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    //マイナスのりょうわき　プラスにできる
+    //マイナスが足りないなら，最小プラスの両脇でおさえる
+    //敷居が足りないなら，でかマイナスからはさむ
+    
 }

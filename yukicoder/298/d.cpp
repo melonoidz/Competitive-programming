@@ -23,35 +23,31 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-int n, ans = 0;
-vvc<int> t(100100);
-vc<int> dp(100100, 0);
-vc<pi> edge;
-void dfs(int x, int p = -1) {
-    dp[x] = 1;
-    for (auto u : t[x]) {
-        if (u != p) {
-            dfs(u, x);
-            dp[x] += dp[u];
-        }
-    }
-}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    //主客転倒
-    //部分木を考える．u*v
+    int n;
     cin >> n;
-    rep(i, n - 1) {
-        int a, b;
-        cin >> a >> b;
-        a--, b--;
-        t[a].push_back(b);
-        t[b].push_back(a);
-        edge.emplace_back(a, b);
+    int a, b, c;
+    cin >> a >> b >> c;
+    vc<string> s(n);
+    vc<int> sl(n + 1);
+    rep(i, n) {
+        cin >> s[i];
+        sl[i + 1] = s[i].length();
     }
-    dfs(0);
-    rep(i, n) { ans += dp[i] * (n - dp[i]); }
+    rep(i, n) { sl[i + 1] += sl[i]; }
+    int ans = 0;
+    for (int j = 1; j < n - 1; j++) {
+        int mid = sl[j + 1];
+        int l = mid - b;
+        int lk = l - a;
+        int r = mid + c;
+        if (binary_search(ALL(sl), l) && binary_search(ALL(sl), r) &&
+            binary_search(ALL(sl), lk)) {
+            ans++;
+        }
+    }
     cout << ans << endl;
 }
