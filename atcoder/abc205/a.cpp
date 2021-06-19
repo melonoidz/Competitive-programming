@@ -27,4 +27,7 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    double a, b;
+    cin >> a >> b;
+    cout << double(b / 100.0) * a << endl;
 }

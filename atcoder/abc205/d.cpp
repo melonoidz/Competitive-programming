@@ -27,4 +27,39 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n, q;
+    cin >> n >> q;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    vc<int> t;
+    int st = 0;
+    rep(i, n) {
+        int now = a[i] - st - 1;
+        t.push_back(now);
+        st = a[i];
+    }
+    // rep(i, t.size()) cout << t[i] << " ^^ ";
+    vc<int> sn;
+    sn.push_back(0);
+    for (int i = 0; i < t.size(); i++) {
+        int now = sn.back() + t[i];
+        sn.push_back(now);
+    }
+    const int inf = 1LL << 60;
+    sn.push_back(inf);
+    // rep(i, sn.size()) cout << sn[i] << "-- ";
+
+    rep(i, q) {
+        int k;
+        cin >> k;
+        auto d = lower_bound(ALL(sn), k) - sn.begin();
+        // cout << d << endl;
+        if (d == 1) {
+            cout << k << endl;
+        } else {
+            int res = k - sn[d - 1];
+            int f = a[d - 2];
+            cout << f + res << endl;
+        }
+    }
 }

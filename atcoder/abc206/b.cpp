@@ -27,17 +27,4 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n;
-    cin >> n;
-    vc<int> a(n);
-    rep(i, n) cin >> a[i];
-    sort(ALL(a));
-    bool f = true;
-    for (int i = 0; i < n - 1; i++) {
-        if (a[i + 1] != a[i] + 1) f = false;
-    }
-    if (!f)
-        cout << "No" << endl;
-    else
-        cout << "Yes" << endl;
 }
