@@ -23,8 +23,37 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+bool is_prime(int x) {
+    for (int i = 2; i * i <= x; i++) {
+        if (x % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+bool jud(int l, int r) {
+    auto f = __gcd(l, r);
+    if (f != 1 && l != f && r != f) {
+        return true;
+    }
+    return false;
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int l, r;
+    cin >> l >> r;
+    // rまでの周期を足す
+    // l=primeならだめ
+    int ans = 0;
+    for (int x = l; x <= r; x++) {
+        if (is_prime(x)) continue;
+        int cur = 0;
+        for (int j = 2; j * 2 <= x; j++) {
+            if (is_prime(j) && x % j == 0) {
+            }
+        }
+    }
+    cout << ans * 2 << endl;
 }

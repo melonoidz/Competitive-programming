@@ -27,4 +27,13 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n;
+    cin >> n;
+    for (int i = 1; i <= 1000000; i++) {
+        int t = i * (i + 1) / 2;
+        if (t >= n) {
+            cout << i << endl;
+            return 0;
+        }
+    }
 }

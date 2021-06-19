@@ -27,4 +27,14 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    double n; cin>>n;
+    auto an=floor(n*1.08);
+    if(an<206){
+      cout<<"Yay!"<<endl;
+      return 0;
+    }else if(an>206){
+      cout<<":("<<endl;
+      return 0;
+    }
+    cout<<"so-so"<<endl;
 }
