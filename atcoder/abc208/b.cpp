@@ -27,4 +27,22 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int p;
+    cin >> p;
+    vc<int> frec(12);
+    frec[1] = 1;
+    for (int i = 1; i < 12; i++) {
+        frec[i + 1] = frec[i] * (i + 1);
+    }
+    int ans = 0;
+    for (int i = 10; i >= 1; i--) {
+        int tmp = p / frec[i];
+        int re = p % frec[i];
+        ans += tmp;
+        p = re;
+        if (p == 0) {
+            cout << ans << endl;
+            return 0;
+        }
+    }
 }

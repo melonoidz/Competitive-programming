@@ -27,4 +27,20 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n, k;
+    cin >> n >> k;
+    vc<int> a(n);
+    map<int, int> num;
+    rep(i, n) {
+        cin >> a[i];
+        num[a[i]] = i;
+    }
+    int r = k / n;
+    int tmp = k % n;
+    vc<int> res(n, r);
+    sort(ALL(a));
+    for (int i = 1; i <= tmp; i++) {
+        res[num[a[i - 1]]]++;
+    }
+    rep(i, n) cout << res[i] << endl;
 }

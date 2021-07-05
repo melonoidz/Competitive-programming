@@ -27,4 +27,11 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int a, b;
+    cin >> a >> b;
+    if (1 * a <= b && b <= 6 * a) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
 }
