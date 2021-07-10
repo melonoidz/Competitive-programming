@@ -345,7 +345,7 @@
 		],
 		"description": "combandmodint"
 	},"Print to console11": {
-		"prefix": "div_enum",
+		"prefix": "yakusuu",
 		"body": [
 			"vector<int> enum_divisors(int N) {",
 				"vector<long long> res;",
@@ -361,7 +361,7 @@
 		],
 		"description": "div_enum"
 	},"Print to console12": {
-		"prefix": "prime_factorize",
+		"prefix": "soinsuu",
 		"body": [
 			"vector<pair<long long, long long> > prime_factorize(long long N) {",
 				"//12=({2,2},{3,1})",
@@ -659,5 +659,16 @@
 
 		],
 		"description": "行列ライブラリ"
+	  },"Print to console18": {
+		"prefix": "ACLcomb",
+		"body": [
+		  "using mint = atcoder::modint1000000007;",
+		  "vc<mint> fact(1LL << 20), factinv(1LL << 20);",
+		  "mint ncr(int n, int r) { return (fact[n] * factinv[r]) * factinv[n - r]; }",
+		  "// fact[0] = 1;",
+		  "// for (int i = 1; i <= 100100; i++) fact[i] = fact[i - 1] * i;",
+		  "// for (int i = 0; i <= 100100; i++) factinv[i] = fact[i].inv();"
+		],
+		"description": "ACLcombination"
 	  }
 }

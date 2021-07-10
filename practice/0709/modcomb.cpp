@@ -23,29 +23,14 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+using mint = atcoder::modint1000000007;
+vc<mint> fact(1LL << 20), factinv(1LL << 20);
+mint ncr(int n, int r) { return (fact[n] * factinv[r]) * factinv[n - r]; }
+// fact[0] = 1;
+// for (int i = 1; i <= 100100; i++) fact[i] = fact[i - 1] * i;
+// for (int i = 0; i <= 100100; i++) factinv[i] = fact[i].inv();
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int p, q, r, k;
-    cin >> p >> q >> r >> k;
-    vc<int> a(1500), dig(1010, 0);
-    a[1] = p % 10;
-    a[2] = q % 10;
-    a[3] = r % 10;
-    int timestamp = 3;
-    dig[a[1] * 1 + a[2] * 10 + a[3] * 100] = timestamp;
-    int res = k;
-    for (int i = 4; i <= k; i++) {
-        a[i] = (a[i - 1] + a[i - 2] + a[i - 3]) % 10;
-        int nex = a[i - 2] * 1 + a[i - 1] * 10 + a[i] * 100;
-        if (dig[nex] != 0) {
-            int cycle = i - dig[nex];
-            res = (k - dig[nex]) % cycle + dig[nex];
-            break;
-        }
-        dig[nex] = i;
-    }
-    cout << a[res] << endl;
-    return 0;
 }

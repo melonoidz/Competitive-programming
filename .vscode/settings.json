@@ -13,7 +13,12 @@
         "random": "cpp",
         "deque": "cpp",
         "string": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "regex": "cpp"
     },
     "C_Cpp.dimInactiveRegions": false,
     "C_Cpp.clang_format_path": "/usr/bin/clang-format-6.0",

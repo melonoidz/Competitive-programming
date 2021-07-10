@@ -27,25 +27,30 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int p, q, r, k;
-    cin >> p >> q >> r >> k;
-    vc<int> a(1500), dig(1010, 0);
-    a[1] = p % 10;
-    a[2] = q % 10;
-    a[3] = r % 10;
-    int timestamp = 3;
-    dig[a[1] * 1 + a[2] * 10 + a[3] * 100] = timestamp;
-    int res = k;
-    for (int i = 4; i <= k; i++) {
-        a[i] = (a[i - 1] + a[i - 2] + a[i - 3]) % 10;
-        int nex = a[i - 2] * 1 + a[i - 1] * 10 + a[i] * 100;
-        if (dig[nex] != 0) {
-            int cycle = i - dig[nex];
-            res = (k - dig[nex]) % cycle + dig[nex];
-            break;
+    int n, q;
+    cin >> n >> q;
+    using mint = atcoder::modint1000000007;
+    mint ans = 1;
+    vc<int> x(q), y(q), z(q), w(q);
+    rep(i, q) cin >> x[i] >> y[i] >> z[i] >> w[i];
+    for (int dig = 0; dig < 60; dig++) {
+        vc<int> nw(q);
+        for (int j = 0; j < q; j++) {
+            nw[j] = (w[j] / (1LL << dig)) % 2LL;  //その桁のbit
         }
-        dig[nex] = i;
+        int ret = 0;
+        for (int i = 0; i < (1 << n); i++) {
+            vc<int> bit(15);
+            for (int j = 0; j < n; j++) {
+                bit[j + 1] = (i / (1 << j)) % 2;
+            }
+            bool f = true;
+            rep(j, q) {
+                if ((bit[x[j]] | bit[y[j]] | bit[z[j]]) != nw[j]) f = false;
+            }
+            if (f) ret++;
+        }
+        ans *= ret;
     }
-    cout << a[res] << endl;
-    return 0;
+    cout << ans.val() << endl;
 }
