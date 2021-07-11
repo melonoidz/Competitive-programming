@@ -27,23 +27,34 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    using mint = atcoder::modint1000000007;
-    int n;
-    cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
-    mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
-            }
+    int n, m;
+    cin >> n >> m;
+    vc<int> l(300300), r(300300), v1(300300), v2(300300), v3(300300),
+        cnt(300300);
+    vc<pi> cur;
+    rep(i, m) cin >> l[i] >> r[i];
+    int x = 0, y = 0, z = 0;
+    // x
+    rep(i, m) v3[l[i]]++, v3[r[i]]++;
+    rep(i, n + 1) { x += v3[i] * (v3[i] - 1LL) / 2LL; }
+    // y
+    rep(i, m) { v1[r[i]]++, v2[l[i] - 1LL]++; }
+    rep(i, n + 1) v1[i + 1] += v1[i];
+    rep(i, n + 1) y += v1[i] * v2[i];
+
+    rep(i, m) cur.emplace_back(r[i], l[i]);
+    sort(ALL(cur));
+    // z
+    rep(i, cur.size()) {
+        auto cl = cur[i].second, cr = cur[i].first;
+        int ret = 0;
+        for (int j = cl + 1; j <= cr; j++) {
+            ret += cnt[j];
         }
+        z += ret;
+        cnt[cl]++;
     }
-    cout << ans.val() << endl;
+
+    int ans = m * (m - 1LL) / 2LL;
+    cout << ans - (x + y + z) << endl;
 }

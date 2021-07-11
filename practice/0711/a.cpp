@@ -23,27 +23,30 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int n, m, q;
+vc<int> color(2002000, 1);
+vvc<int> g(2002000);
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    using mint = atcoder::modint1000000007;
-    int n;
-    cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
-    mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
-            }
+    cin >> n >> m;
+    rep(i, m) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        g[a].push_back(b);
+        g[b].push_back(a);
+    }
+    cin >> q;
+    rep(i, q) {
+        int x, y;
+        cin >> x >> y;
+        x--;
+        cout << color[x] << endl;
+        color[x] = y;
+        for (auto u : g[x]) {
+            color[u] = y;
         }
     }
-    cout << ans.val() << endl;
 }

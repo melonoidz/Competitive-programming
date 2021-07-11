@@ -27,4 +27,8 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+
+    int a, b;
+    cin >> a >> b;
+    cout << max(0LL, b - a + 1) << endl;
 }

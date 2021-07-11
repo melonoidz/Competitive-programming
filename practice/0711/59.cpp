@@ -23,27 +23,37 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int n, m, q;
+vvc<int> g(2010);
+void dfs(int x, vc<bool>& used) {
+    used[x] = true;
+    for (auto u : g[x]) {
+        if (!used[u]) {
+            dfs(u, used);
+        }
+    }
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    using mint = atcoder::modint1000000007;
-    int n;
-    cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
-    mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
-            }
+    cin >> n >> m >> q;
+    rep(i, m) {
+        int x, y;
+        cin >> x >> y;
+        x--, y--;
+        g[x].push_back(y);
+    }
+    rep(i, q) {
+        int a, b;
+        cin >> a >> b;
+        a--, b--;
+        vc<bool> used(2010, false);
+        dfs(a, used);
+        if (used[b]) {
+            cout << "Yes" << endl;
+        } else {
+            cout << "No" << endl;
         }
     }
-    cout << ans.val() << endl;
 }

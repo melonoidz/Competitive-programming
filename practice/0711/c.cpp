@@ -27,22 +27,15 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n, k;
+    cin >> n >> k;
     using mint = atcoder::modint1000000007;
-    int n;
-    cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
     mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
-            }
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i] <= a[i + 1]) {
+            ans *= mint(2);
         }
     }
     cout << ans.val() << endl;

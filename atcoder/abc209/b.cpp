@@ -27,4 +27,17 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n, x;
+    cin >> n >> x;
+    vc<int> a(n);
+    rep(i, n) {
+        cin >> a[i];
+        if (i % 2 == 1) a[i]--;
+    }
+    int sum = accumulate(ALL(a), 0LL);
+    if (sum <= x) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
 }

@@ -27,23 +27,38 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    using mint = atcoder::modint1000000007;
     int n;
     cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
-    mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
-            }
+    vc<int> a(n), b(n);
+    vvc<int> g(n);
+    vc<bool> used(n, false);
+    queue<int> que;
+    rep(i, n) {
+        cin >> a[i] >> b[i];
+        a[i]--, b[i]--;
+        g[a[i]].push_back(i);
+        g[b[i]].push_back(i);
+        if (i == a[i] || i == b[i]) {
+            que.push(i);
+            used[i] = true;
         }
     }
-    cout << ans.val() << endl;
+    vc<int> res;
+    while (!que.empty()) {
+        auto p = que.front();
+        que.pop();
+        res.push_back(p);
+        //段々進んでいくイメージ　これでよい
+        for (auto u : g[p]) {
+            if (used[u]) continue;
+            que.push(u);
+            used[u] = true;
+        }
+    }
+    reverse(ALL(res));
+    if (res.size() != n) {
+        cout << -1 << endl;
+        return 0;
+    }
+    for (const auto& u : res) cout << u + 1 << endl;
 }

@@ -27,23 +27,34 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    using mint = atcoder::modint1000000007;
-    int n;
-    cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
-    mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
+    using mint = atcoder::modint998244353;
+    int r, g, b, k;
+    cin >> r >> g >> b >> k;
+    int x, y, z;
+    cin >> x >> y >> z;
+    mint ans = 0;
+    for (int bit = 0; bit < (1 << (r + g + b)); bit++) {
+        int X = 0, Y = 0, Z = 0;
+        if (popcount(bit) != k) continue;
+        for (int i = 0; i < r; i++) {
+            if (bit & (1 << i)) {
+                X++;
+                Z++;
             }
         }
+        for (int i = r; i < r + g; i++) {
+            if (bit & (1 << i)) {
+                X++;
+                Y++;
+            }
+        }
+        for (int i = r + g; i < r + g + b; i++) {
+            if (bit & (1 << i)) {
+                Z++;
+                Y++;
+            }
+        }
+        if (X <= x && Y <= y && Z <= z) ans++;
     }
     cout << ans.val() << endl;
 }

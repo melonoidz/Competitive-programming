@@ -27,23 +27,19 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int h, w;
+    cin >> h >> w;
     using mint = atcoder::modint1000000007;
-    int n;
-    cin >> n;
-    vc<int> c(n);
-    rep(i, n) cin >> c[i];
-    sort(ALL(c));
-    mint ans = 1;
-    for (int i = 0; i < n; i++) {
-        if (i == 0)
-            ans *= c[i];
-        else {
-            if (c[i] - i <= 0)
-                ans *= 0;
-            else {
-                ans *= c[i] - i;
+    vvc<char> C(h, vc<char>(w));
+    rep(i, h) rep(j, w) cin >> C[i][j];
+    for (int bit = 0; bit < (1 << (h * w)); bit++) {
+        bool alw = true;
+        for (int i = 0; i < h * w; i++) {
+            if (bit & (1 << i)) {
+                int nh = i / w;
+                int nw = i % w;
+                if(C[nh][nw]=='#') alw=false;
             }
         }
     }
-    cout << ans.val() << endl;
 }
