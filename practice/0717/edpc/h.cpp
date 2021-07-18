@@ -27,14 +27,24 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    int h, w;
+    cin >> h >> w;
+    using mint = atcoder::modint1000000007;
+    vc<string> a;
+    rep(i, h) {
+        string s;
+        cin >> s;
+        a.push_back(s);
     }
-    cout << ans << endl;
+    vvc<mint> dp(h + 1, vc<mint>(w + 1));
+    dp[0][0] = 1;
+    for (int i = 0; i < h; i++) {
+        rep(j, w) {
+            if (a[i][j] != '#') {
+                dp[i + 1][j] += dp[i][j];
+                dp[i][j + 1] += dp[i][j];
+            }
+        }
+    }
+    cout << dp[h - 1][w - 1].val() << endl;
 }

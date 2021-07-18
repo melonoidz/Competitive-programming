@@ -27,14 +27,21 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
+    string s;
+    cin >> s;
     int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    int cnt = 0;
+    for (auto u : s) {
+        if (u == 'A') cnt++;
+    }
+    for (int i = 0; i < cnt; i++) {
+        if (s[i] == 'A') continue;
+        for (int j = cnt; j < s.length(); j++) {
+            if (s[j] == 'A') {
+                ans += j - i;
+                break;
+            }
+        }
     }
     cout << ans << endl;
 }

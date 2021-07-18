@@ -27,14 +27,23 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
+    map<string, int> cnt;
+    int n;
+    cin >> n;
     rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+        string s;
+        cin >> s;
+        cnt[s]++;
     }
-    cout << ans << endl;
+    rep(i, n - 1) {
+        string s;
+        cin >> s;
+        cnt[s]--;
+    }
+    for (auto u : cnt) {
+        if (u.second == 1) {
+            cout << u.first << endl;
+            return 0;
+        }
+    }
 }

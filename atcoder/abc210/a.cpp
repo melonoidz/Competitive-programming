@@ -27,4 +27,12 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+
+    int n, a, x, y;
+    cin >> n >> a >> x >> y;
+    int ans = 0;
+    ans = x * min(a, n);
+    if (n>a) ans += (n - a) * y;
+
+    cout << ans << endl;
 }

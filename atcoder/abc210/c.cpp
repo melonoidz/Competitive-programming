@@ -27,4 +27,27 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n, k;
+    cin >> n >> k;
+    vc<int> c(n);
+    rep(i, n) cin >> c[i];
+    map<int, int> cnt;
+    int ans = 0;
+    for (int i = 0; i < k; i++) {
+        cnt[c[i]]++;
+        if (cnt[c[i]] == 1) ans++;
+    }
+    int kind = ans;
+    for (int i = 1; i < n - k + 1; i++) {
+        int tmp = kind;
+        cnt[c[i + k - 1]]++;
+        if (cnt[c[i + k - 1]] == 1) {
+            tmp++;
+        }
+        cnt[c[i - 1]]--;
+        if (cnt[c[i - 1]] == 0) tmp--;
+        chmax(ans, tmp);
+        kind = tmp;
+    }
+    cout << ans << endl;
 }

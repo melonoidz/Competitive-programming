@@ -27,14 +27,21 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
+    int n;
+    cin >> n;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
     int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    int now = a[0];
+    int l = 0;
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i] > a[i + 1]) {
+            l++;
+        } else {
+            ans += (l + 1) / 2;
+            l = 0;
+        }
     }
-    cout << ans << endl;
+    ans += (l + 1) / 2;
+    cout << n - ans << endl;
 }

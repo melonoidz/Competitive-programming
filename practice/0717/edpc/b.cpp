@@ -27,14 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    int n;
+    cin >> n;
+    vc<int> a(n), b(n), c(n);
+    rep(i, n) cin >> a[i] >> b[i] >> c[i];
+    vvc<int> dp(100100, vc<int>(3, 0));
+    for (int i = 1; i <= n; i++) {
+        dp[i][0] =
+            max({dp[i][0], dp[i - 1][1] + a[i - 1], dp[i - 1][2] + a[i - 1]});
+        dp[i][1] =
+            max({dp[i][1], dp[i - 1][0] + b[i - 1], dp[i - 1][2] + b[i - 1]});
+        dp[i][2] =
+            max({dp[i][2], dp[i - 1][0] + c[i - 1], dp[i - 1][1] + c[i - 1]});
     }
-    cout << ans << endl;
+    cout << max({dp[n][0], dp[n][1], dp[n][2]}) << endl;
 }

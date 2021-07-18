@@ -27,14 +27,31 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    string s, t;
+    cin >> s >> t;
+    vvc<int> dp(s.length() + 1, vc<int>(t.length() + 1, 0));
+    for (int i = 0; i < s.length(); i++) {
+        for (int j = 0; j < t.length(); j++) {
+            if (s[i] == t[j]) {
+                dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j] + 1);
+            } else {
+                dp[i + 1][j + 1] =
+                    max({dp[i + 1][j + 1], dp[i + 1][j], dp[i][j + 1]});
+            }
+        }
     }
+    string ans;
+    int sl = s.length(), tl = t.length();
+    while (sl > 0 && tl > 0) {
+        if (dp[sl][tl] == dp[sl - 1][tl]) {
+            sl--;
+        } else if (dp[sl][tl] == dp[sl][tl - 1]) {
+            tl--;
+        } else {
+            ans += s[sl - 1];
+            sl--, tl--;
+        }
+    }
+    reverse(ALL(ans));
     cout << ans << endl;
 }

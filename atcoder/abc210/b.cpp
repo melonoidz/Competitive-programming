@@ -27,4 +27,18 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] == '1') {
+            if (i % 2 == 0) {
+                cout << "Takahashi" << endl;
+            } else {
+                cout << "Aoki" << endl;
+            }
+            return 0;
+        }
+    }
 }

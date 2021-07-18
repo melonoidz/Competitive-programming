@@ -23,14 +23,16 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
-signed main() {
-    cin.tie(0);
-    ios::sync_with_stdio(0);
-    cout << fixed << setprecision(20);
-    int h, w, c;
-    cin >> h >> w >> c;
-    vvc<int> a(h, vc<int>(w));
-    rep(i, h) rep(j, w) cin >> a[i][j];
+
+template <typename T> vector<vector<T>> rotateClockwise(vector<vector<T>> g) {
+    int n = g.size();
+    int m = g[0].size();
+    vector<vector<T>> res(m, vector<T>(n));
+    rep(i, n) rep(j, m) res[j][n - i - 1] = g[i][j];
+    return res;
+}
+int h, w, c;
+int solve(vvc<int>& a, int h, int w) {
     auto p = a;
     auto q = a;
     rep(i, h) {
@@ -39,16 +41,7 @@ signed main() {
             q[i][j] -= c * (i + j);
         }
     }
-    // cout << "--" << endl;
-    // rep(i, h) {
-    //     rep(j, w) { cout << p[i][j] << " "; }
-    //     cout << endl;
-    // }
-    // cout << "##" << endl;
-    // rep(i, h) {
-    //     rep(j, w) { cout << q[i][j] << " "; }
-    //     cout << endl;
-    // }
+
     auto ma = p;
     for (int i = h - 1; i >= 0; i--) {
         for (int j = w - 1; j >= 0; j--) {
@@ -56,33 +49,28 @@ signed main() {
             if (j + 1 < w) ma[i][j] = min(ma[i][j], ma[i][j + 1]);
         }
     }
-    auto mma = q;
-    for (int i = 0; i < h - 1; i++) {
-        for (int j = 0; j < w - 1; j++) {
-            if (i + 1 < h) mma[i + 1][j] = min(mma[i + 1][j], mma[i][j]);
-            if (j + 1 < w) mma[i][j + 1] = min(mma[i][j + 1], mma[i][j]);
-        }
-    }
-    // cout << "$$" << endl;
-    // rep(i, h) {
-    //     rep(j, w) { cout << ma[i][j] << " "; }
-    //     cout << endl;
-    // }
-    // cout << "))" << endl;
-    // rep(i, h) {
-    //     rep(j, w) { cout << mma[i][j] << " "; }
-    //     cout << endl;
-    // }
-    int res = 1LL << 60;
+    int res = 1e18;
     rep(i, h) rep(j, w) {
-        int cur = 1LL << 60;
+        int tmp = q[i][j];
+        int cur = 1e18;
         if (i + 1 < h) chmin(cur, ma[i + 1][j]);
         if (j + 1 < w) chmin(cur, ma[i][j + 1]);
-        int bef = 1LL << 60;
-        if (i - 1 >= 0) chmin(bef, mma[i - 1][j]);
-        if (j - 1 >= 0) chmin(bef, mma[i][j - 1]);
-        chmin(res, q[i][j] + cur);
-        chmin(res, p[i][j] + bef);
+
+        chmin(res, tmp + cur);
     }
-    cout << res << endl;
+    return res;
+}
+
+signed main() {
+    cin.tie(0);
+    ios::sync_with_stdio(0);
+    cout << fixed << setprecision(20);
+    cin >> h >> w >> c;
+    vvc<int> a(h, vc<int>(w));
+    rep(i, h) rep(j, w) cin >> a[i][j];
+    int ans = 1LL << 60;
+    chmin(ans, solve(a, h, w));
+    auto b = rotateClockwise(a);
+    chmin(ans, solve(b, w, h));
+    cout << ans << endl;
 }

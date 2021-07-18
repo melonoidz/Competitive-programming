@@ -27,14 +27,27 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    int n, m;
+    cin >> n >> m;
+    vc<pi> p(m);
+    rep(i, m) {
+        int a, c;
+        cin >> a >> c;
+        p[i] = pi(c, a);
     }
-    cout << ans << endl;
+    int ans = 0;
+    sort(ALL(p));
+    int v = n;
+    rep(i, m) {
+        auto cost = p[i].first;
+        auto u = p[i].second;
+        int now = __gcd(v, u);
+        ans += (v - now) * cost;
+        v = now;
+    }
+    if (v != 1) {
+        cout << -1 << endl;
+    } else {
+        cout << ans << endl;
+    }
 }

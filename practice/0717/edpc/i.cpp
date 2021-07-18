@@ -27,14 +27,21 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    //表がj枚の確率を求めて，足す．
+    int n;
+    cin >> n;
+    vc<double> p(n);
+    rep(i, n) cin >> p[i];
+    vvc<double> dp(n + 1, vc<double>(n + 1, 0.0));
+    dp[0][0] = 1.0;
+    rep(i, n) { dp[i + 1][0] = dp[i][0] * (1.0 - p[i]); }
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= i; j++) {
+            dp[i][j] =
+                dp[i - 1][j - 1] * p[i - 1] + dp[i - 1][j] * (1.0 - p[i - 1]);
+        }
     }
+    auto ans = 0.0;
+    for (int i = (n + 1) / 2; i <= n; i++) ans += dp[n][i];
     cout << ans << endl;
 }

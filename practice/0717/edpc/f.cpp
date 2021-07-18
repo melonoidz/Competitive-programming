@@ -23,18 +23,29 @@ int popcount(ll t) { return __builtin_popcountll(t); }
 bool ispow2(int i) { return i && (i & -i) == i; }
 ll mask(int i) { return (ll(1) << i) - 1; }
 int lcm(int a, int b) { return a / __gcd(a, b) * b; }
+int n, m;
+vvc<int> g(100100);
+vc<int> dp(100100, -1);
+int dfs(int x) {
+    if (dp[x] != -1) return dp[x];
+    int cur = 0;
+    for (auto u : g[x]) {
+        chmax(cur, dfs(u) + 1);
+    }
+    return dp[x] = cur;
+}
 signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    cin >> n >> m;
+    rep(i, m) {
+        int x, y;
+        cin >> x >> y;
+        x--, y--;
+        g[x].push_back(y);
     }
+    int ans = 0;
+    rep(i, n) { chmax(ans, dfs(i)); }
     cout << ans << endl;
 }

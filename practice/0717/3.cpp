@@ -27,14 +27,23 @@ signed main() {
     cin.tie(0);
     ios::sync_with_stdio(0);
     cout << fixed << setprecision(20);
-    int n, a, x, y;
-    cin >> n >> a >> x >> y;
-    int ans = 0;
-    rep(i, n) {
-        if (a - 1 < i)
-            ans += y;
-        else
-            ans += x;
+    int n, k;
+    cin >> n >> k;
+    set<int> num;
+    vc<int> a(n);
+    rep(i, n) cin >> a[i];
+    for (int bit = 0; bit < (1 << n); bit++) {
+        int cnt = popcount(bit);
+        if (cnt < k) continue;
+        vc<int> now;
+        for (int i = 0; i < n; i++) {
+            if (bit & (1 << i)) now.push_back(a[i]);
+        }
+        int kanetsu = accumulate(ALL(now), 0LL);
+        int kaatsu = 1;
+        rep(j, now.size()) kaatsu *= now[j];
+        num.insert(kaatsu);
+        num.insert(kanetsu);
     }
-    cout << ans << endl;
+    cout << num.size() << endl;
 }
